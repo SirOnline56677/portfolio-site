@@ -1,0 +1,102 @@
+import type { Contributions, Day } from "../lib/github";
+
+// Green intensity scale (levels 0–4). Level 0 is a warm light gray; 1–4 ramp
+// through the green accent already present in the palette.
+const LEVELS = ["#E7E3DC", "#C6E8B0", "#9BD97A", "#6FBF4A", "#4A9E2A"];
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Deterministic sample calendar so the graph renders in dev without a token.
+function sampleData(): Contributions {
+  const weeks: Day[][] = [];
+  let total = 0;
+  // 53 weeks ending today, seeded pseudo-randomly (no Math.random — SSR-safe).
+  const start = new Date();
+  start.setDate(start.getDate() - 53 * 7);
+  for (let w = 0; w < 53; w++) {
+    const days: Day[] = [];
+    for (let d = 0; d < 7; d++) {
+      const seed = (w * 7 + d) * 2654435761;
+      const count = Math.floor((Math.abs(Math.sin(seed)) * 12));
+      const level = (count <= 0 ? 0 : count < 3 ? 1 : count < 6 ? 2 : count < 10 ? 3 : 4) as Day["level"];
+      total += count;
+      const date = new Date(start);
+      date.setDate(start.getDate() + w * 7 + d);
+      days.push({ date: date.toISOString().slice(0, 10), count, level });
+    }
+    weeks.push(days);
+  }
+  return { total, weeks };
+}
+
+export default function ContributionsHeatmap({
+  data,
+}: {
+  data: Contributions | null;
+}) {
+  const cal = data ?? sampleData();
+
+  // Determine month label positions (first week where the month changes).
+  const monthLabels: { index: number; label: string }[] = [];
+  let lastMonth = -1;
+  cal.weeks.forEach((week, i) => {
+    const firstDay = week[0];
+    if (!firstDay) return;
+    const m = new Date(firstDay.date).getMonth();
+    if (m !== lastMonth) {
+      monthLabels.push({ index: i, label: MONTHS[m] });
+      lastMonth = m;
+    }
+  });
+
+  return (
+    <div className="w-full rounded-[10px] border border-divider/25 bg-white/50 p-4">
+      <div className="mb-2 font-[family-name:var(--font-label)] text-[12px] uppercase tracking-wide text-muted">
+        {cal.total.toLocaleString()} contributions in the last year
+      </div>
+
+      {/* Scrollable on narrow screens */}
+      <div className="overflow-x-auto">
+        <div className="inline-flex flex-col gap-1">
+          {/* Month labels */}
+          <div className="relative h-3" style={{ width: cal.weeks.length * 14 }}>
+            {monthLabels.map(({ index, label }) => (
+              <span
+                key={`${label}-${index}`}
+                className="absolute font-[family-name:var(--font-label)] text-[9px] uppercase text-muted"
+                style={{ left: index * 14 }}
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+
+          {/* Week columns */}
+          <div className="flex gap-[3px]">
+            {cal.weeks.map((week, wi) => (
+              <div key={wi} className="flex flex-col gap-[3px]">
+                {week.map((day, di) => (
+                  <span
+                    key={di}
+                    title={`${day.count} contribution${day.count === 1 ? "" : "s"} on ${day.date}`}
+                    className="h-[11px] w-[11px] rounded-[2px]"
+                    style={{ backgroundColor: LEVELS[day.level] }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Legend */}
+          <div className="mt-1 flex items-center gap-1 self-end font-[family-name:var(--font-label)] text-[9px] uppercase text-muted">
+            <span className="mr-1">Less</span>
+            {LEVELS.map((c) => (
+              <span key={c} className="h-[11px] w-[11px] rounded-[2px]" style={{ backgroundColor: c }} />
+            ))}
+            <span className="ml-1">More</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
