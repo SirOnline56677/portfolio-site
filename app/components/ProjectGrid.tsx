@@ -12,12 +12,12 @@ export default function ProjectGrid() {
 
   return (
     <div className="grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2">
-      <ParallaxColumn speed={0.035} className="flex flex-col gap-12">
+      <ParallaxColumn speed={0.09} className="flex flex-col gap-12">
         {left.map((p, i) => (
           <ProjectCard key={`l-${i}`} project={p} />
         ))}
       </ParallaxColumn>
-      <ParallaxColumn speed={-0.045} className="flex flex-col gap-12 sm:pt-16">
+      <ParallaxColumn speed={-0.11} className="flex flex-col gap-12 sm:pt-16">
         {right.map((p, i) => (
           <ProjectCard key={`r-${i}`} project={p} />
         ))}

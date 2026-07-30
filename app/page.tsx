@@ -1,5 +1,5 @@
 import LeftColumn from "./components/LeftColumn";
-import ProjectGrid from "./components/ProjectGrid";
+import ProjectsSwitcher from "./components/ProjectsSwitcher";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
           {/* Vertical divider + right column */}
           <div className="relative lg:pl-10 lg:before:absolute lg:before:left-0 lg:before:top-0 lg:before:h-full lg:before:w-px lg:before:bg-divider/40">
             <div className="lg:pt-14">
-              <ProjectGrid />
+              <ProjectsSwitcher />
             </div>
           </div>
         </div>

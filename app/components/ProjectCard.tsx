@@ -17,7 +17,13 @@ function ExpandIcon() {
   );
 }
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({
+  project,
+  square = false,
+}: {
+  project: Project;
+  square?: boolean;
+}) {
   return (
     <a href={project.href} className="group flex flex-col gap-[10px]">
       {/* Title */}
@@ -25,8 +31,12 @@ export default function ProjectCard({ project }: { project: Project }) {
         {project.title}
       </h3>
 
-      {/* Image well */}
-      <div className="relative h-[360px] w-full overflow-clip rounded-[24px] bg-well">
+      {/* Image well — fixed-height (A) or square (B, lolo-style) */}
+      <div
+        className={`relative w-full overflow-clip rounded-[24px] bg-well ${
+          square ? "aspect-square" : "h-[360px]"
+        }`}
+      >
         <Image
           src={project.image}
           alt={project.title}
