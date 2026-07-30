@@ -48,3 +48,15 @@ body {
   width: 100%;
   background: var(--color-divider);
 }
+
+/* CRT scanline vertical roll (one period = 4px) */
+@keyframes scanline-roll {
+  to {
+    background-position-y: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanlines {
+    animation: none !important;
+  }
+}

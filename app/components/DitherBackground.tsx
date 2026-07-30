@@ -7,11 +7,11 @@ import { useEffect, useRef } from "react";
 // Raw WebGL, no three.js.
 
 // --- tunables (mapped from the Paper parameters) ---
-const FOREGROUND: [number, number, number] = [1.0, 0.847, 0.847]; // #FFD8D8
-const ALPHA = 0.35; // Foreground 35%
-const CELL_PX = 5; // dot cell size (Scale / Dither size)
-const DOT_RADIUS = 0.34; // dot radius as fraction of the cell
-const DENSITY = 0.55; // share of cells lit at any moment
+const FOREGROUND: [number, number, number] = [1.0, 0.976, 0.976]; // #FFF9F9
+const ALPHA = 0.24; // Foreground 24%
+const CELL_PX = 3; // dot cell size (Scale / Dither size)
+const DOT_RADIUS = 0.05; // dot radius as fraction of the cell
+const DENSITY = 0.5; // share of cells lit at any moment
 const SPEED = 2.0; // re-randomization steps / second (Speed 200%)
 
 const VERT = `
