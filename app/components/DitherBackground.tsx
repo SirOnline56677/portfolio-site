@@ -12,7 +12,7 @@ const ALPHA = 0.35; // Foreground 35%
 const CELL_PX = 5; // dot cell size (Scale / Dither size)
 const DOT_RADIUS = 0.34; // dot radius as fraction of the cell
 const DENSITY = 0.55; // share of cells lit at any moment
-const SPEED = 4.0; // re-randomization steps / second (Speed 200%)
+const SPEED = 2.0; // re-randomization steps / second (Speed 200%)
 
 const VERT = `
 attribute vec2 a;

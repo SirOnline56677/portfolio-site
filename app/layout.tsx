@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import DitherBackground from "./components/DitherBackground";
+import Scanlines from "./components/Scanlines";
 
 // Display + section labels
 const koulen = Koulen({
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <DitherBackground />
         <SmoothScroll>{children}</SmoothScroll>
+        <Scanlines />
       </body>
     </html>
   );
