@@ -2,15 +2,8 @@ import Image from "next/image";
 import { stack, currentlyWorkingOn } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
+import SectionLabel from "./SectionLabel";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="font-[family-name:var(--font-display)] text-[20px] leading-[23px] tracking-[0.03em] uppercase text-ink">
-      {children}
-    </span>
-  );
-}
 
 function StackItem({ name, icon }: { name: string; icon: string }) {
   return (
@@ -83,11 +76,9 @@ export default function LeftColumn() {
         </div>
       </div>
 
-      {/* GitHub contributions */}
-      <div className="flex flex-col gap-[13px]">
-        <SectionLabel>GitHub repo contributions</SectionLabel>
-        <ContributionsGraph />
-      </div>
+      {/* GitHub contributions — renders nothing (heading included) when the
+          contribution data is unavailable. */}
+      <ContributionsGraph />
 
       {/* Get in touch */}
       <div className="flex flex-col gap-[11px]">

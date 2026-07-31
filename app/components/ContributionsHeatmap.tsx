@@ -1,4 +1,4 @@
-import type { Contributions, Day } from "../lib/github";
+import type { Contributions } from "../lib/github";
 
 // Green intensity scale (levels 0–4). Level 0 is a warm light gray; 1–4 ramp
 // through the green accent already present in the palette.
@@ -6,35 +6,12 @@ const LEVELS = ["#E7E3DC", "#C6E8B0", "#9BD97A", "#6FBF4A", "#4A9E2A"];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-// Deterministic sample calendar so the graph renders in dev without a token.
-function sampleData(): Contributions {
-  const weeks: Day[][] = [];
-  let total = 0;
-  // 53 weeks ending today, seeded pseudo-randomly (no Math.random — SSR-safe).
-  const start = new Date();
-  start.setDate(start.getDate() - 53 * 7);
-  for (let w = 0; w < 53; w++) {
-    const days: Day[] = [];
-    for (let d = 0; d < 7; d++) {
-      const seed = (w * 7 + d) * 2654435761;
-      const count = Math.floor((Math.abs(Math.sin(seed)) * 12));
-      const level = (count <= 0 ? 0 : count < 3 ? 1 : count < 6 ? 2 : count < 10 ? 3 : 4) as Day["level"];
-      total += count;
-      const date = new Date(start);
-      date.setDate(start.getDate() + w * 7 + d);
-      days.push({ date: date.toISOString().slice(0, 10), count, level });
-    }
-    weeks.push(days);
-  }
-  return { total, weeks };
-}
-
 export default function ContributionsHeatmap({
   data,
 }: {
-  data: Contributions | null;
+  data: Contributions;
 }) {
-  const cal = data ?? sampleData();
+  const cal = data;
 
   // Determine month label positions (first week where the month changes).
   const monthLabels: { index: number; label: string }[] = [];
