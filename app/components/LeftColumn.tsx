@@ -2,6 +2,7 @@ import Image from "next/image";
 import { stack, currentlyWorkingOn } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
+import ThinkingOrbIcon from "./ThinkingOrbIcon";
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -19,18 +20,6 @@ function StackItem({ name, icon }: { name: string; icon: string }) {
         {name.toUpperCase()}
       </span>
     </div>
-  );
-}
-
-function GlobeIcon() {
-  return (
-    <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden className="shrink-0">
-      <circle cx="16" cy="16" r="13.5" fill="none" stroke="var(--color-ink)" strokeWidth="1.6" />
-      <ellipse cx="16" cy="16" rx="6" ry="13.5" fill="none" stroke="var(--color-ink)" strokeWidth="1.6" />
-      <line x1="2.7" y1="16" x2="29.3" y2="16" stroke="var(--color-ink)" strokeWidth="1.6" />
-      <line x1="4.5" y1="9.5" x2="27.5" y2="9.5" stroke="var(--color-ink)" strokeWidth="1.6" />
-      <line x1="4.5" y1="22.5" x2="27.5" y2="22.5" stroke="var(--color-ink)" strokeWidth="1.6" />
-    </svg>
   );
 }
 
@@ -105,8 +94,14 @@ export default function LeftColumn() {
         <div className="flex items-center justify-between gap-3">
           <SectionLabel>Get in touch</SectionLabel>
           <div className="flex items-center gap-3">
-            <GlobeIcon />
-            <span className="font-[family-name:var(--font-label)] text-[16px] leading-[20px] uppercase text-ink">
+            <ThinkingOrbIcon />
+            {/* Tabular figures keep the clock a fixed width, so the orb beside
+                it doesn't shuffle sideways every second. IvyStyle Sans ships
+                `tnum`; without it the string swings ~24px across digit combos. */}
+            <span
+              className="font-[family-name:var(--font-label)] text-[16px] leading-[20px] uppercase text-ink"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            >
               <Clock />
             </span>
           </div>
