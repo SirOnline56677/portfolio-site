@@ -20,12 +20,25 @@ function ExpandIcon() {
 export default function ProjectCard({
   project,
   square = false,
+  decorative = false,
 }: {
   project: Project;
   square?: boolean;
+  /** A loop duplicate: visually present, but invisible to AT and the tab order. */
+  decorative?: boolean;
 }) {
   return (
-    <a href={project.href} className="group flex flex-col gap-[10px]">
+    <a
+      href={project.href}
+      // `inert` removes the subtree from the a11y tree, the tab order and
+      // pointer activation in one go; tabIndex/aria-hidden cover older Safari.
+      // Duplicates only exist for the lg carousel, so they don't render at all
+      // below it — no triple-listed portfolio, and no extra image requests.
+      {...(decorative
+        ? { inert: true, tabIndex: -1, "aria-hidden": true as const }
+        : {})}
+      className={`group flex-col gap-[10px] ${decorative ? "hidden lg:flex" : "flex"}`}
+    >
       {/* Title */}
       <h3 className="font-[family-name:var(--font-project)] text-[20px] leading-[24px] uppercase text-black">
         {project.title}

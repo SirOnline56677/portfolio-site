@@ -12,11 +12,17 @@ export default function Home() {
             <LeftColumn />
           </div>
 
-          {/* Vertical divider + right column */}
-          <div className="relative lg:pl-8 lg:before:absolute lg:before:left-0 lg:before:top-0 lg:before:h-full lg:before:w-px lg:before:bg-divider/40">
-            <div className="lg:pt-14">
-              <ProjectGrid />
-            </div>
+          {/* Vertical divider + right column.
+              At lg the pane pins beside the scrolling left column and clips the
+              looping tracks. `overflow-clip` rather than `hidden` on purpose:
+              `hidden` makes a scroll container, and a focused off-screen card
+              would set scrollTop and permanently desync the transform math.
+              `self-start` because a stretched grid item has no sticky travel. */}
+          <div
+            data-carousel-pane
+            className="relative lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:self-start lg:overflow-clip lg:pl-8 lg:before:absolute lg:before:left-0 lg:before:top-0 lg:before:h-full lg:before:w-px lg:before:bg-divider/40"
+          >
+            <ProjectGrid />
           </div>
         </div>
       </div>
