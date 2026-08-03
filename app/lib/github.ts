@@ -2,7 +2,7 @@
 // Requires a Personal Access Token in GITHUB_TOKEN (classic or fine-grained,
 // no special scopes needed for public contribution data).
 
-export type Day = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
+type Day = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
 export type Contributions = { total: number; weeks: Day[][] };
 
 const QUERY = `

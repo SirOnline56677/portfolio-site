@@ -19,11 +19,9 @@ function ExpandIcon() {
 
 export default function ProjectCard({
   project,
-  square = false,
   decorative = false,
 }: {
   project: Project;
-  square?: boolean;
   /** A loop duplicate: visually present, but invisible to AT and the tab order. */
   decorative?: boolean;
 }) {
@@ -45,12 +43,8 @@ export default function ProjectCard({
         {project.title}
       </h3>
 
-      {/* Image well — fixed-height (A) or square (B, lolo-style) */}
-      <div
-        className={`relative w-full overflow-clip rounded-[24px] bg-well ${
-          square ? "aspect-square" : "h-[360px]"
-        }`}
-      >
+      {/* Image well — square, lolo-style */}
+      <div className="relative aspect-square w-full overflow-clip rounded-[24px] bg-well">
         <Image
           src={project.image}
           alt={project.title}
