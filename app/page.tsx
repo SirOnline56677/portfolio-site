@@ -17,10 +17,19 @@ export default function Home() {
               looping tracks. `overflow-clip` rather than `hidden` on purpose:
               `hidden` makes a scroll container, and a focused off-screen card
               would set scrollTop and permanently desync the transform math.
-              `self-start` because a stretched grid item has no sticky travel. */}
+              `self-start` because a stretched grid item has no sticky travel.
+
+              Full-bleed vertically so the columns read as passing *through* the
+              viewport: `-my-6` pulls the pane out of the wrapper's 24px vertical
+              padding so it's already flush at scrollY 0 (top-0 alone wouldn't
+              be — sticky hasn't engaged yet), then h-screen reaches the bottom
+              edge exactly. The negative BOTTOM margin is load-bearing too: it
+              gives back the 24px of sticky travel the negative top margin costs,
+              otherwise the pane un-pins early and opens a gap at the foot of the
+              page. */}
           <div
             data-carousel-pane
-            className="relative lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:self-start lg:overflow-clip lg:pl-8 lg:before:absolute lg:before:left-0 lg:before:top-0 lg:before:h-full lg:before:w-px lg:before:bg-divider/40"
+            className="relative lg:sticky lg:top-0 lg:-my-6 lg:h-screen lg:self-start lg:overflow-clip lg:pl-8 lg:before:absolute lg:before:left-0 lg:before:top-0 lg:before:h-full lg:before:w-px lg:before:bg-divider/40"
           >
             <ProjectGrid />
           </div>
