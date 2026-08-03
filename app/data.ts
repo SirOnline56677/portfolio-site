@@ -8,62 +8,54 @@ export type Project = {
   kind: "CASE STUDY" | "WEBSITE";
 };
 
-// Case studies shown in the right-hand grid.
-// Placeholder imagery/copy carried over from the Paper design — swap per project.
+// The five real case studies, migrated from the Webflow site into
+// content/work/*.mdx. `href` points at the v1 design while the three candidate
+// treatments are being compared; it collapses to /work/<slug> once one wins.
 export const projects: Project[] = [
   {
-    title: "bingo ai",
+    title: "wynnbet (free spins)",
     tag: "Mobile / Web",
     description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
+      "Redesigned the Free Spins experience so players could find, track and use spins from anywhere on the platform.",
+    image: "/work/wb-free-spins/cover.jpg",
+    href: "/work/v1/wb-free-spins",
     kind: "CASE STUDY",
   },
   {
-    title: "bingo ai",
+    title: "wynnbet (leaderboards)",
     tag: "Mobile / Web",
     description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
-    kind: "WEBSITE",
+      "Brought leaderboards out of the promotions tab onto their own page, with direct opt-in and visible expiry.",
+    image: "/work/wb-leaderboards/cover.jpg",
+    href: "/work/v1/wb-leaderboards",
+    kind: "CASE STUDY",
   },
   {
     title: "wynnbet (sportsbook)",
     tag: "Mobile / Web",
     description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
+      "A modular sportsbook and casino platform serving 11 states, each with its own legal restrictions.",
+    image: "/work/wb-sportsbook/cover.jpg",
+    href: "/work/v1/wb-sportsbook",
     kind: "CASE STUDY",
   },
   {
     title: "bingo ai",
-    tag: "Mobile / Web",
+    tag: "Mobile",
     description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
-    kind: "WEBSITE",
-  },
-  {
-    title: "wynnbet (sportsbook)",
-    tag: "Mobile / Web",
-    description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
+      "A voice-supported job matching platform for older adults. First-ever Innovation Jam Hackathon winner at Go Studio, InComm Payments.",
+    image: "/work/bingo-ai-job-matching-platform-for-seniors/cover.jpg",
+    href: "/work/v1/bingo-ai-job-matching-platform-for-seniors",
     kind: "CASE STUDY",
   },
   {
-    title: "bingo ai",
-    tag: "Mobile / Web",
+    title: "wrist check",
+    tag: "Mobile",
     description:
-      "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
-    image: "/assets/wynnbet.png",
-    href: "#",
-    kind: "WEBSITE",
+      "A peer-to-peer marketplace for luxury watches, built around authenticity, seller reputation and buyer education.",
+    image: "/work/wrist-check-a-peer-to-peer-market-place/cover.jpg",
+    href: "/work/v1/wrist-check-a-peer-to-peer-market-place",
+    kind: "CASE STUDY",
   },
 ];
 

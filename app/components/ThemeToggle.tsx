@@ -1,6 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
+
+// The data-theme attribute on <html> IS the theme state — the blocking script in
+// layout.tsx sets it before first paint, the CSS reads it, and DitherBackground
+// and thinking-orbs both observe it directly. So this subscribes to the DOM
+// rather than keeping a duplicate copy in React state, which would have to be
+// synced back and forth and can't be read during SSR.
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  return () => observer.disconnect();
+}
+
+const isDark = () => document.documentElement.dataset.theme === "dark";
+// The server always renders light; the script may correct it before paint.
+const serverIsDark = () => false;
 
 // Inverted ("negative") theme toggle.
 //
@@ -9,17 +27,23 @@ import { useState } from "react";
 // other component. The dither canvas and thinking-orbs both observe the same
 // attribute directly rather than subscribing to React state.
 //
-// Deliberately not persisted and deliberately not following prefers-color-scheme:
-// the page always opens light and only a click changes it.
+// Persisted in localStorage so the choice survives navigation — case studies are
+// real routes, and without this every click would snap back to light. Still does
+// NOT follow prefers-color-scheme: the OS is never consulted.
+//
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
+  const dark = useSyncExternalStore(subscribe, isDark, serverIsDark);
 
   const toggle = () => {
     const next = !dark;
-    setDark(next);
-    // Imperative on purpose: <html> is server-rendered and React never
-    // re-renders it, so there's nothing to fight over.
+    // Write the attribute only — the store above picks the change straight back
+    // up, so there's no second copy of this state to keep in sync.
     document.documentElement.dataset.theme = next ? "dark" : "light";
+    try {
+      localStorage.setItem("theme", next ? "dark" : "light");
+    } catch {
+      // Private mode / storage disabled — the theme just won't persist.
+    }
   };
 
   return (
