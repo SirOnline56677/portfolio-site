@@ -15,20 +15,91 @@
   --font-label: var(--ff-label); /* IvyStyle Sans */
 }
 
+/* ---- Theme ------------------------------------------------------------
+   Dark mode is the photographic negative of light mode: every chrome colour
+   below is the exact inverse (255 − c) of its light counterpart. Images are
+   deliberately NOT inverted — the work has to still read as the work.
+
+   The dark block MUST stay unlayered. Tailwind v4 compiles @theme into
+   `@layer theme { :root }`, which has identical specificity to
+   [data-theme="dark"] — unlayered CSS is what wins, not specificity. Wrapping
+   this in @layer would silently stop it overriding anything.
+
+   <html> always carries data-theme, including "light". That's what keeps
+   thinking-orbs (theme="auto") from falling through to prefers-color-scheme
+   and painting light dots onto a light page on an OS-dark machine. */
 :root {
   --background: var(--color-paper);
   --foreground: var(--color-ink);
+
+  /* non-token chrome that also has to invert */
+  --wash: rgba(182, 255, 137, 0.05); /* faint green artboard overlay */
+  --scan-rgb: 255, 216, 216; /* #FFD8D8 CRT scanlines */
+  --card: rgba(255, 255, 255, 0.5); /* heatmap panel */
+  --heat-0: #e7e3dc;
+  --heat-1: #c6e8b0;
+  --heat-2: #9bd97a;
+  --heat-3: #6fbf4a;
+  --heat-4: #4a9e2a;
+
+  /* Read by DitherBackground's WebGL uniform. Derived, never redeclared below —
+     [data-theme="dark"] and :root are the same element, so this resolves against
+     whichever --color-paper wins. */
+  --dither-fg: var(--color-paper);
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --color-ink: #f8fafa;
+  --color-muted: #9d9d9d;
+  --color-divider: #8f8f8f;
+  --color-paper: #000606;
+  --color-well: #000000;
+
+  --wash: rgba(73, 0, 118, 0.05); /* the green wash inverts to violet */
+  --scan-rgb: 0, 39, 39;
+  --card: rgba(0, 0, 0, 0.5);
+  /* the green ramp inverts to purple, which is on-cast with the violet wash */
+  --heat-0: #181c23;
+  --heat-1: #39174f;
+  --heat-2: #642685;
+  --heat-3: #9040b5;
+  --heat-4: #b561d5;
+
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
+  /* Longhand, not the `background` shorthand: the shorthand resets
+     background-image, so it only worked because it happened to come first. */
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--ff-body), system-ui, sans-serif;
-  /* faint green wash from the Paper artboard overlay */
-  background-image: linear-gradient(
-    rgba(182, 255, 137, 0.05),
-    rgba(182, 255, 137, 0.05)
-  );
+  background-image: linear-gradient(var(--wash), var(--wash));
+}
+
+/* Stack logos invert with the rest of the page in dark mode.
+   Measured contrast against the #000606 ground, before → after inverting:
+     figma  1.5:1 → 13.4:1   (an opaque black tile; inverting rescues it)
+     paper 10.4:1 →  2.3:1
+     claude ~8:1  →  ~3:1
+     codex 10.6:1 →  2.2:1
+   So this fixes Figma and dims the other three, which are light marks that
+   already read well on black. The hairline ring keeps the dimmer ones legible
+   and holds the four together as a set. */
+[data-theme="dark"] .stack-icon {
+  filter: invert(1);
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--color-divider);
+}
+
+/* Custom cursor: hide the native one only once the replacement is mounted and
+   only where there's a real pointer, so touch and keyboard users are untouched.
+   The class is set by Cursor.tsx — if the JS never runs, the real cursor stays. */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none;
 }
 
 /* dashed divider used across the left column */

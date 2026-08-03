@@ -4,6 +4,8 @@ export type Project = {
   description: string;
   image: string;
   href: string;
+  /** Shown inside the cursor pill on hover — the kind of piece this is. */
+  kind: "CASE STUDY" | "WEBSITE";
 };
 
 // Case studies shown in the right-hand grid.
@@ -16,6 +18,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "CASE STUDY",
   },
   {
     title: "bingo ai",
@@ -24,6 +27,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "WEBSITE",
   },
   {
     title: "wynnbet (sportsbook)",
@@ -32,6 +36,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "CASE STUDY",
   },
   {
     title: "bingo ai",
@@ -40,6 +45,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "WEBSITE",
   },
   {
     title: "wynnbet (sportsbook)",
@@ -48,6 +54,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "CASE STUDY",
   },
   {
     title: "bingo ai",
@@ -56,6 +63,7 @@ export const projects: Project[] = [
       "Led WynnBET's flexible, seamless sportsbook and casino redesign across 11 states with varying regulations.",
     image: "/assets/wynnbet.png",
     href: "#",
+    kind: "WEBSITE",
   },
 ];
 

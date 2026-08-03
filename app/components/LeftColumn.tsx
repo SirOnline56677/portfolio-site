@@ -3,12 +3,13 @@ import { stack, currentlyWorkingOn } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
 import SectionLabel from "./SectionLabel";
+import ThemeToggle from "./ThemeToggle";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
 
 function StackItem({ name, icon }: { name: string; icon: string }) {
   return (
     <div className="flex items-center gap-3">
-      <Image src={icon} alt={name} width={28} height={28} className="h-7 w-7 object-contain" />
+      <Image src={icon} alt={name} width={28} height={28} className="stack-icon h-7 w-7 object-contain" />
       <span className="font-[family-name:var(--font-body)] font-medium text-[20px] leading-[32px] text-muted">
         {name.toUpperCase()}
       </span>
@@ -24,6 +25,7 @@ export default function LeftColumn() {
         <div className="flex flex-col gap-[33px]">
           {/* Name + bio */}
           <div className="flex flex-col gap-[27px]">
+            <ThemeToggle />
             <h1 className="font-[family-name:var(--font-display)] text-[64px] leading-[1.05] capitalize text-ink sm:text-[96px] sm:leading-[116px]">
               Stephen Aguila
             </h1>
