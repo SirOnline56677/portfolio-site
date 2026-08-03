@@ -45,25 +45,43 @@ export default function Cursor() {
     let seen = false;
     let running = false;
     let current = "";
+    // While set, the cursor snaps to this element's centre instead of following
+    // the pointer, so the pill sits squarely over it and the element inverts
+    // inside it. Only `fit` targets snap — snapping to a project card's centre
+    // would drag the cursor halfway across the screen.
+    let fitEl: HTMLElement | null = null;
 
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, MAX_DT);
       last = now;
+
+      // Re-read the rect every frame rather than caching it on hover: these are
+      // viewport coordinates, and the page (or a carousel column) can move
+      // underneath a stationary pointer.
+      let gx = tx;
+      let gy = ty;
+      if (fitEl) {
+        const r = fitEl.getBoundingClientRect();
+        gx = r.left + r.width / 2;
+        gy = r.top + r.height / 2;
+      }
+
       const k = reduce.matches ? 1 : 1 - Math.exp(-dt / TAU_S);
-      x += (tx - x) * k;
-      y += (ty - y) * k;
+      x += (gx - x) * k;
+      y += (gy - y) * k;
       dot.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) translate(-50%, -50%)`;
       raf = requestAnimationFrame(frame);
     };
 
-    const setLabel = (text: string) => {
-      if (text === current) return;
-      current = text;
-      if (text) {
+    // `key` identifies the current target so repeated moves over the same
+    // element don't re-measure or restart the width transition. `text` is the
+    // pill copy; `width` is an explicit px target, because `auto` can't animate.
+    const setTarget = (key: string, text: string, width: number) => {
+      if (key === current) return;
+      current = key;
+      if (key) {
         label.textContent = text;
-        // Width has to be an explicit number for the transition to animate;
-        // `auto` would snap. scrollWidth is exact because the label is nowrap.
-        dot.style.width = `${label.scrollWidth + PAD_X * 2}px`;
+        dot.style.width = `${width}px`;
         dot.dataset.labelled = "true";
       } else {
         dot.style.width = `${SIZE}px`;
@@ -85,13 +103,32 @@ export default function Cursor() {
         dot.style.opacity = "1";
       }
       const el = e.target instanceof Element ? e.target : null;
-      const hit = el?.closest<HTMLElement>("[data-cursor-label]");
-      setLabel(hit?.dataset.cursorLabel ?? "");
+
+      // Two ways to grow the cursor:
+      //   data-cursor-label → a labelled pill, sized to its own text (projects)
+      //   data-cursor-fit   → a blank pill sized to the element itself, so the
+      //                       element inverts through it rather than being
+      //                       covered by a competing word (the theme toggle)
+      const hit = el?.closest<HTMLElement>("[data-cursor-label], [data-cursor-fit]");
+      fitEl = hit?.dataset.cursorFit !== undefined ? hit : null;
+      if (!hit) {
+        setTarget("", "", SIZE);
+      } else if (hit.dataset.cursorFit !== undefined) {
+        // scrollWidth, not getBoundingClientRect: the toggle stacks both words
+        // in one grid cell, so the layout box is already the wider of the two
+        // and the pill won't resize as the label swaps underneath it.
+        setTarget(`fit:${hit.scrollWidth}`, "", hit.scrollWidth + PAD_X);
+      } else {
+        const text = hit.dataset.cursorLabel ?? "";
+        label.textContent = text;
+        setTarget(`label:${text}`, text, label.scrollWidth + PAD_X * 2);
+      }
     };
 
     const onLeave = () => {
       dot.style.opacity = "0";
-      setLabel("");
+      fitEl = null;
+      setTarget("", "", SIZE);
     };
     const onEnter = () => {
       if (seen) dot.style.opacity = "1";

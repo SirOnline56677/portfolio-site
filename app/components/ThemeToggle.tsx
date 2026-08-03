@@ -30,12 +30,9 @@ export default function ThemeToggle() {
         aria-checked={dark}
         onClick={toggle}
         // The accessible name stays constant — a name that changed with state
-        // would announce a moving target.
+        // would announce a moving target. role="switch" + aria-checked already
+        // carries the on/off, and the visible label is aria-hidden.
         aria-label="Negative"
-        // `.has-custom-cursor *` sets cursor: none, so hover can't come from the
-        // pointer. Reuse the site's own mechanism instead: the custom cursor
-        // expands into a labelled pill over this, same as a project card.
-        data-cursor-label={dark ? "REVERT" : "INVERT"}
         className="group flex w-fit items-center gap-3 outline-offset-4 focus-visible:outline focus-visible:outline-1 focus-visible:outline-current"
       >
         {/* 32px circle — the same motif as the custom cursor. */}
@@ -49,11 +46,28 @@ export default function ThemeToggle() {
             }`}
           />
         </span>
+        {/* Reads the current mode; on hover (or keyboard focus) it swaps to the
+            mode you'd switch to. Both words are stacked in one grid cell so the
+            box is always as wide as the longer of the two — otherwise the label
+            would resize under the pointer as LIGHT became NEGATIVE.
+
+            data-cursor-fit sits here rather than on the button on purpose:
+            `.has-custom-cursor *` sets cursor: none, so the custom cursor is the
+            hover affordance, and it should only grow over the word — on the
+            button it fired across the circle too. `fit` rather than `label`
+            because a pill carrying its own word would sit on top of this one;
+            blank, it simply inverts the word underneath. */}
         <span
           aria-hidden
-          className="font-[family-name:var(--font-display)] text-[20px] leading-[23px] tracking-[0.03em] uppercase text-ink"
+          data-cursor-fit=""
+          className="grid justify-items-start font-[family-name:var(--font-display)] text-[20px] leading-[23px] tracking-[0.03em] uppercase text-ink"
         >
-          Negative
+          <span className="col-start-1 row-start-1 transition-opacity duration-150 group-hover:opacity-0 group-focus-visible:opacity-0 motion-reduce:transition-none">
+            {dark ? "Negative" : "Light"}
+          </span>
+          <span className="col-start-1 row-start-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+            {dark ? "Light" : "Negative"}
+          </span>
         </span>
       </button>
       <div className="rule-dashed" />
