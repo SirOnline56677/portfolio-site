@@ -14,6 +14,25 @@ const DOT_RADIUS = 0.05; // dot radius as fraction of the cell
 const DENSITY = 0.5; // share of cells lit at any moment
 const SPEED = 2.0; // re-randomization steps / second (Speed 200%)
 
+// Parses --dither-fg (#rgb, #rrggbb, or rgb(...)) into 0..1 shader units.
+function parseRgb(v: string): [number, number, number] | null {
+  const s = v.trim();
+  const hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(s);
+  if (hex) {
+    const h =
+      hex[1].length === 3 ? hex[1].replace(/./g, (c) => c + c) : hex[1];
+    return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as [
+      number,
+      number,
+      number,
+    ];
+  }
+  const m = s.match(/[\d.]+/g);
+  return m && m.length >= 3
+    ? [+m[0] / 255, +m[1] / 255, +m[2] / 255]
+    : null;
+}
+
 const VERT = `
 attribute vec2 a;
 void main() { gl_Position = vec4(a, 0.0, 1.0); }
@@ -97,7 +116,7 @@ export default function DitherBackground() {
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    gl.uniform3fv(u("uColor"), FOREGROUND);
+    const uColor = u("uColor");
     gl.uniform1f(u("uAlpha"), ALPHA);
     gl.uniform1f(u("uCell"), CELL_PX);
     gl.uniform1f(u("uDot"), DOT_RADIUS);
@@ -127,6 +146,30 @@ export default function DitherBackground() {
     };
     draw(start);
 
+    // The dot colour lives in CSS (--dither-fg) so it follows [data-theme] with
+    // the rest of the palette. The attribute IS the theme state — the CSS reads
+    // it and thinking-orbs already observes it the same way — so watching it is
+    // the cheapest correct subscription: no context, no event bus, nothing to
+    // drift. Only the uniform is re-uploaded; program, buffer and rAF loop are
+    // untouched, so WebGL never re-initialises.
+    const root = document.documentElement;
+    const applyTheme = () => {
+      const c = parseRgb(getComputedStyle(root).getPropertyValue("--dither-fg"));
+      // Writes to the currently bound program. There's only one and it's never
+      // unbound, so no re-bind is needed — don't "optimise" the useProgram away.
+      gl.uniform3fv(uColor, c ?? FOREGROUND);
+      // Under reduced motion the loop already stopped after one frame, so the
+      // new colour would never reach the screen. Repaint by hand.
+      if (reduce) gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+    applyTheme();
+
+    const themeObserver = new MutationObserver(applyTheme);
+    themeObserver.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     const onVisibility = () => {
       cancelAnimationFrame(raf);
       if (!reduce && !document.hidden) raf = requestAnimationFrame(draw);
@@ -135,6 +178,7 @@ export default function DitherBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
+      themeObserver.disconnect();
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
     };

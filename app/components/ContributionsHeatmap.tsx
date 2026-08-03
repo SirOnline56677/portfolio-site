@@ -1,8 +1,17 @@
 import type { Contributions } from "../lib/github";
 
-// Green intensity scale (levels 0–4). Level 0 is a warm light gray; 1–4 ramp
-// through the green accent already present in the palette.
-const LEVELS = ["#E7E3DC", "#C6E8B0", "#9BD97A", "#6FBF4A", "#4A9E2A"];
+// Intensity scale (levels 0–4), as CSS variables so the ramp follows
+// [data-theme] — see globals.css. React passes var(…) through to the style
+// attribute verbatim, so this stays a Server Component. Green in light mode;
+// in dark it inverts to purple, which sits on the same violet cast as the
+// inverted body wash.
+const LEVELS = [
+  "var(--heat-0)",
+  "var(--heat-1)",
+  "var(--heat-2)",
+  "var(--heat-3)",
+  "var(--heat-4)",
+];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -27,7 +36,7 @@ export default function ContributionsHeatmap({
   });
 
   return (
-    <div className="w-full rounded-[10px] border border-divider/25 bg-white/50 p-4">
+    <div className="w-full rounded-[10px] border border-divider/25 bg-[var(--card)] p-4">
       <div className="mb-2 font-[family-name:var(--font-label)] text-[12px] uppercase tracking-wide text-muted">
         {cal.total.toLocaleString()} contributions in the last year
       </div>

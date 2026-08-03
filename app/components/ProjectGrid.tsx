@@ -19,12 +19,7 @@ export default function ProjectGrid() {
   const track = (items: typeof projects, key: string) =>
     Array.from({ length: COPIES }, (_, c) =>
       items.map((p, i) => (
-        <ProjectCard
-          key={`${key}-${c}-${i}`}
-          project={p}
-          square
-          decorative={c > 0}
-        />
+        <ProjectCard key={`${key}-${c}-${i}`} project={p} decorative={c > 0} />
       )),
     );
 

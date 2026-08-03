@@ -2,7 +2,10 @@
 // glass of a CRT. Values tuned in the Dither Lab against the Figma design.
 // Rolls vertically; the animation is disabled under prefers-reduced-motion.
 
-const SCAN_COLOR = "255, 216, 216"; // #FFD8D8
+// Themed in globals.css so it inverts with the rest of the palette. The rolling
+// keyframe animates background-position-y, which is orthogonal to
+// background-image — swapping the gradient can't restart or drop the roll.
+const SCAN_COLOR = "var(--scan-rgb)"; // #FFD8D8 light / #002727 dark
 const SCAN_OPACITY = 0.4;
 const SCAN_THICK = 1; // px
 const SCAN_PERIOD = 4; // px (line height)

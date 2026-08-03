@@ -19,37 +19,32 @@ function ExpandIcon() {
 
 export default function ProjectCard({
   project,
-  square = false,
   decorative = false,
 }: {
   project: Project;
-  square?: boolean;
   /** A loop duplicate: visually present, but invisible to AT and the tab order. */
   decorative?: boolean;
 }) {
   return (
     <a
       href={project.href}
-      // `inert` removes the subtree from the a11y tree, the tab order and
-      // pointer activation in one go; tabIndex/aria-hidden cover older Safari.
-      // Duplicates only exist for the lg carousel, so they don't render at all
-      // below it — no triple-listed portfolio, and no extra image requests.
-      {...(decorative
-        ? { inert: true, tabIndex: -1, "aria-hidden": true as const }
-        : {})}
+      data-cursor-label={project.kind}
+      // Duplicates are hidden from AT and the tab order, but deliberately NOT
+      // `inert`: inert kills pointer events, and two thirds of the cards on
+      // screen are duplicates — the cursor pill would go dead over most of the
+      // carousel, and they'd stop being clickable. tabIndex -1 keeps them out
+      // of the tab order, which is what avoids the hidden-but-focusable trap.
+      // They don't render at all below lg, so mobile fetches no extra images.
+      {...(decorative ? { tabIndex: -1, "aria-hidden": true as const } : {})}
       className={`group flex-col gap-[10px] ${decorative ? "hidden lg:flex" : "flex"}`}
     >
       {/* Title */}
-      <h3 className="font-[family-name:var(--font-project)] text-[20px] leading-[24px] uppercase text-black">
+      <h3 className="font-[family-name:var(--font-project)] text-[20px] leading-[24px] uppercase text-ink">
         {project.title}
       </h3>
 
-      {/* Image well — fixed-height (A) or square (B, lolo-style) */}
-      <div
-        className={`relative w-full overflow-clip rounded-[24px] bg-well ${
-          square ? "aspect-square" : "h-[360px]"
-        }`}
-      >
+      {/* Image well — square, lolo-style */}
+      <div className="relative aspect-square w-full overflow-clip rounded-[24px] bg-well">
         <Image
           src={project.image}
           alt={project.title}
@@ -62,12 +57,12 @@ export default function ProjectCard({
       {/* Footer: tag + expand icon + description */}
       <div className="flex items-start gap-[15px] px-[10px] pt-[8px] pb-[19px]">
         <div className="flex flex-col items-start gap-[15px]">
-          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-black underline decoration-1 underline-offset-2">
+          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink underline decoration-1 underline-offset-2">
             {project.tag}
           </span>
           <ExpandIcon />
         </div>
-        <p className="w-[197px] font-[family-name:var(--font-label)] text-[10px] leading-[12px] uppercase text-black">
+        <p className="w-[197px] font-[family-name:var(--font-label)] text-[10px] leading-[12px] uppercase text-ink">
           {project.description}
         </p>
       </div>
