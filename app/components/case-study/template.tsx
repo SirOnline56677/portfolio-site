@@ -2,10 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FigureProps, ShellProps, Template } from "./types";
 
-// Variant 3 — the mix.
-// v1's palette and typography (so it inverts with dark mode and belongs to the
-// portfolio) combined with v2's structural furniture: the sticky section nav and
-// the sense of each section sitting on its own raised surface.
+// The case study template.
+//
+// Chosen from three candidates (in-system / Webflow-alike / mix) that were built
+// and compared on real content; this was the mix, and the other two are gone.
+// Palette and typography are the portfolio's own tokens, so pages inherit dark
+// mode and the custom cursor for free; the sticky section nav came from the
+// Webflow-alike candidate.
 
 function Figure({ src, w, h, alt = "", caption }: FigureProps) {
   return (
@@ -67,12 +70,17 @@ function Shell({ meta, sections, children }: ShellProps) {
         <div className="mt-12">{children}</div>
       </article>
 
+      {/* Active item is --color-ink (#070505); inactive is --nav-dim (#bbbbbb),
+          which has its own dark-mode inverse. The first item stands in as active
+          until scroll-spy exists. */}
       <nav className="hidden w-[220px] shrink-0 lg:block">
         <ul className="sticky top-12 flex flex-col gap-4">
-          {sections.map((s) => (
+          {sections.map((s, i) => (
             <li
               key={s}
-              className="font-[family-name:var(--font-display)] text-[16px] leading-[20px] uppercase tracking-[0.03em] text-muted transition-colors hover:text-ink"
+              className={`font-[family-name:var(--font-display)] text-[16px] leading-[20px] uppercase tracking-[0.03em] transition-colors hover:text-ink ${
+                i === 0 ? "text-ink" : "text-[var(--nav-dim)]"
+              }`}
             >
               {s}
             </li>
@@ -83,30 +91,32 @@ function Shell({ meta, sections, children }: ShellProps) {
   );
 }
 
-export const v3: Template = {
+export const caseStudyTemplate: Template = {
   Shell,
   components: {
-    // Sections sit on the raised paper surface — v2's card idea, but drawn with
-    // the portfolio's own tones so it still inverts in dark mode.
+    // Sections sit directly on the page ground — no raised surface. The 32px
+    // horizontal inset and top radius went with it: both existed only to hold
+    // text off the edge of a card, so keeping them would leave the copy
+    // indented for no visible reason.
     h2: (p) => (
       <h2
         {...p}
-        className="mt-14 mb-5 rounded-t-[16px] bg-well/60 px-8 pt-8 font-[family-name:var(--font-display)] text-[20px] leading-[23px] uppercase tracking-[0.03em] text-muted"
+        className="mt-14 mb-5 font-[family-name:var(--font-display)] text-[20px] leading-[23px] uppercase tracking-[0.03em] text-muted"
       />
     ),
     h3: (p) => (
       <h3
         {...p}
-        className="mb-4 bg-well/60 px-8 font-[family-name:var(--font-project)] text-[24px] leading-[30px] uppercase text-ink"
+        className="mb-4 font-[family-name:var(--font-project)] text-[24px] leading-[30px] uppercase text-ink"
       />
     ),
     p: (p) => (
       <p
         {...p}
-        className="bg-well/60 px-8 pb-6 font-[family-name:var(--font-body)] text-[18px] font-light leading-[32px] tracking-[0.03em] text-ink"
+        className="pb-6 font-[family-name:var(--font-body)] text-[18px] font-light leading-[32px] tracking-[0.03em] text-ink"
       />
     ),
-    ul: (p) => <ul {...p} className="list-disc bg-well/60 px-8 pb-6 pl-14" />,
+    ul: (p) => <ul {...p} className="list-disc pb-6 pl-6" />,
     li: (p) => (
       <li
         {...p}

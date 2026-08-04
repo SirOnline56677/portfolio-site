@@ -9,8 +9,7 @@ export type Project = {
 };
 
 // The five real case studies, migrated from the Webflow site into
-// content/work/*.mdx. `href` points at the v1 design while the three candidate
-// treatments are being compared; it collapses to /work/<slug> once one wins.
+// content/work/*.mdx and rendered by app/work/[slug].
 export const projects: Project[] = [
   {
     title: "wynnbet (free spins)",
@@ -18,7 +17,7 @@ export const projects: Project[] = [
     description:
       "Redesigned the Free Spins experience so players could find, track and use spins from anywhere on the platform.",
     image: "/work/wb-free-spins/cover.jpg",
-    href: "/work/v1/wb-free-spins",
+    href: "/work/wb-free-spins",
     kind: "CASE STUDY",
   },
   {
@@ -27,7 +26,7 @@ export const projects: Project[] = [
     description:
       "Brought leaderboards out of the promotions tab onto their own page, with direct opt-in and visible expiry.",
     image: "/work/wb-leaderboards/cover.jpg",
-    href: "/work/v1/wb-leaderboards",
+    href: "/work/wb-leaderboards",
     kind: "CASE STUDY",
   },
   {
@@ -36,7 +35,7 @@ export const projects: Project[] = [
     description:
       "A modular sportsbook and casino platform serving 11 states, each with its own legal restrictions.",
     image: "/work/wb-sportsbook/cover.jpg",
-    href: "/work/v1/wb-sportsbook",
+    href: "/work/wb-sportsbook",
     kind: "CASE STUDY",
   },
   {
@@ -45,7 +44,7 @@ export const projects: Project[] = [
     description:
       "A voice-supported job matching platform for older adults. First-ever Innovation Jam Hackathon winner at Go Studio, InComm Payments.",
     image: "/work/bingo-ai-job-matching-platform-for-seniors/cover.jpg",
-    href: "/work/v1/bingo-ai-job-matching-platform-for-seniors",
+    href: "/work/bingo-ai-job-matching-platform-for-seniors",
     kind: "CASE STUDY",
   },
   {
@@ -54,7 +53,7 @@ export const projects: Project[] = [
     description:
       "A peer-to-peer marketplace for luxury watches, built around authenticity, seller reputation and buyer education.",
     image: "/work/wrist-check-a-peer-to-peer-market-place/cover.jpg",
-    href: "/work/v1/wrist-check-a-peer-to-peer-market-place",
+    href: "/work/wrist-check-a-peer-to-peer-market-place",
     kind: "CASE STUDY",
   },
 ];

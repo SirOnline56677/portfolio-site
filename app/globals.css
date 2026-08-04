@@ -42,6 +42,11 @@
   --heat-3: #6fbf4a;
   --heat-4: #4a9e2a;
 
+  /* Inactive item in the case study section nav. Its own token because it sits
+     well lighter than --color-muted, and hardcoding it would leave the nav pale
+     grey on a near-black ground in dark mode. */
+  --nav-dim: #bbbbbb;
+
   /* Read by DitherBackground's WebGL uniform. Derived, never redeclared below —
      [data-theme="dark"] and :root are the same element, so this resolves against
      whichever --color-paper wins. */
@@ -66,6 +71,8 @@
   --heat-2: #642685;
   --heat-3: #9040b5;
   --heat-4: #b561d5;
+
+  --nav-dim: #444444; /* inverse of #bbbbbb */
 
   color-scheme: dark;
 }
