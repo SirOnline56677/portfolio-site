@@ -1,0 +1,151 @@
+export const meta = {
+  title: "From Hidden Frustration to Front-Page Action",
+  client: "WynnBet",
+  role: "Product Design",
+  duration: "2 Months",
+  tools: ["Figma", "JIRA"],
+  team: "Casino PM, Vice President of Creative, and Developers",
+  responsibilities: "User Flows, Research, Wireframes, Prototyping",
+  cover: "/work/wb-leaderboards/cover.jpg",
+};
+
+export const sections = [
+  "Overview",
+  { label: "Problem / Solution", id: "problem" },
+  "Research & Insights",
+  "Competitor Analysis",
+  "User Challenge",
+  "Technical Challenge",
+  "Business Challenge",
+  "Design Solution",
+  "Results",
+  "Next Steps / Learnings",
+];
+
+<Figure src="/work/wb-leaderboards/cover.jpg" w={939} h={606} alt="WynnBet Leaderboards" />
+
+## Overview
+
+The old leaderboard system was hard to find, buried within the promotions tab, and lacked essential features like a live expiration countdown. This led to user frustration, increased support tickets, and disengagement.
+
+In response, the redesign created a dedicated page, simplified the opt-in process, added real-time match expiration, and removed custom usernames for consistency, setting the stage for future personalized competitions.
+
+<Figure src="/work/wb-leaderboards/homepage.avif" w={939} h={638} alt="Leaderboards on the WynnBet homepage" />
+
+## Problem
+
+Previously, our UI featured a 'Leaderboards' tab showing ongoing games but lacked a direct opt-in option, displaying only a list of ranked names, scores, and games.
+
+Users either had to contact customer support for an opt-in link located under the 'Promotions' tab or navigate the site to find it, leading to confusion and inefficiency.
+
+The original design lacked a visible countdown or indication of the match's end date, causing confusion among players about the duration of leaderboard matches. This often resulted in customer service inquiries and dissatisfaction from players unaware of imminent match conclusions. The information existed, but only unhighlighted at the top of the screen or buried in the Terms and Conditions in small 9pt type.
+
+After opting in, players struggled to find their names among a lengthy list without any visual aid, often missing their own rankings.
+
+Previously, allowing players to create a unique username for each match resulted in inconsistent, untrackable data, complicating user participation analysis.
+
+## Solution
+
+We developed a dedicated page for all ongoing leaderboard matches, allowing users to opt-in directly or view the current status. This dual access point has a dedicated page and an option within the promotions section for users to opt-in. Eliminated the need for customer support intervention, enhancing user experience.
+
+Now, each match on the 'Leaderboards' main page displays its expiration date. Additionally, detailed start and end dates are prominent within each match's page. Expired matches remain accessible under a 'Results' tab, allowing users to review past outcomes if they participated. This transparency can significantly reduce confusion and customer service inquiries.
+
+Opted-in players now see their names, ranks, scores, and potential prizes at the top of the screen, with their entry highlighted in the list for easy identification. This adjustment has streamlined the process of tracking one's position on the leaderboard.
+
+We discontinued the custom username option, standardizing display names to the player's first name and the initial of their last name. This change ensures consistent, trackable data across matches, simplifying analysis and enhancing leaderboard clarity for players.
+
+## Research & Insights
+
+### Findings
+
+Our research was based on an analysis of support tickets and conversations with the casino product manager responsible for managing the leaderboard. A key insight was that users struggled to locate the leaderboard, as it was hidden within the promotions tab.
+
+This design choice led to confusion and frustration, with many users unable to participate in or track their ranks in leaderboard matches. This feedback highlighted the need for a more prominent and easily accessible leaderboard feature.
+
+## Competitor Analysis
+
+### Observations
+
+At the time of our redesign, none of our competitors were offering leaderboard functionality. This created a unique opportunity for WynnBET to innovate and differentiate itself in the market. By introducing leaderboards, we provided a new layer of engagement that didn't exist on competing platforms, giving users more incentive to participate in ongoing matches and track their progress.
+
+## User Challenge
+
+### Challenge
+
+The biggest problem users faced with the leaderboard system was the lack of clarity around where to opt-in to a leaderboard match and when the match would expire. This led to confusion, as users were unsure if they were participating in ongoing matches, and they often missed out on opportunities to compete due to unclear expiration timelines.
+
+### Approach
+
+To address this, we developed a dedicated leaderboard page that prominently displayed an opt-in option, making it easy for users to join matches. Each leaderboard also clearly showed its expiration time on the main leaderboard page, giving users full transparency about how much time they had left to participate.
+
+## Technical Challenge
+
+### Challenge
+
+In addition to making leaderboard opt-ins more visible, we faced the challenge of finding a prominent location on the screen to dedicate to the leaderboards. The goal was to ensure that users could easily locate and participate in leaderboard matches without disrupting the existing UI layout.
+
+Another challenge was managing user identification for leaderboard matches. Previously, users could create custom usernames, which often led to inappropriate names being used, causing issues for moderation.
+
+### Approach
+
+To solve this, we added a dedicated leaderboard section in the app and web UI, making it easier for users to find and join matches. We also removed the ability for users to create custom usernames and instead displayed the first name and first initial of the last name, ensuring consistency and preventing inappropriate usernames.
+
+This helped us better track recurring participants and maintain the integrity of the leaderboard system without the need for frequent user moderation.
+
+## Business Challenge
+
+### Challenge
+
+The old leaderboard system lacked a live expiration countdown, which led to frequent user complaints about not being aware of when leaderboard matches were expiring.
+
+This confusion resulted in an increase in customer support requests and operational costs. From a business perspective, the goal was to increase user engagement with leaderboard matches, make them easier to find, and reduce the support burden caused by user confusion.
+
+### Approach
+
+We addressed this by introducing a live expiration countdown on the leaderboard page, making it clear when a competition was set to end. Additionally, we improved the visibility of leaderboards on the main UI, ensuring that new users could easily find and participate in matches.
+
+These changes helped reduce the number of support tickets related to match visibility and expiration while boosting overall user engagement.
+
+## Design Solution
+
+### Desktop & mobile UI
+
+In the previous system, users struggled to find their rank within the leaderboard, leading to frustration and disengagement. With the new redesign, whenever users are opted into a leaderboard match, their name and rank are displayed at the very top of the leaderboard, ensuring immediate visibility. This design decision improves user satisfaction by removing the need for users to search for their position.
+
+The redesign was consistent across both desktop and mobile platforms, offering the same easy-to-navigate interface. Users could access leaderboards with a single tap or click, view match details, and monitor their rank in real-time, all within a clean and straightforward layout.
+
+The consistent UI across both desktop and mobile ensures that users can enjoy the same seamless experience no matter which device they use, further reducing confusion and making the leaderboard feature more intuitive and accessible.
+
+<Figure src="/work/wb-leaderboards/leaderboard-desktop.jpg" w={939} h={1012} alt="Leaderboard on desktop" caption="Desktop" />
+
+<Figure src="/work/wb-leaderboards/leaderboard-mobile.jpg" w={428} h={926} alt="Leaderboard on mobile" caption="Mobile" />
+
+<Figure src="/work/wb-leaderboards/opted-in-desktop.jpg" w={939} h={1012} alt="Opted-in leaderboard detail on desktop" caption="Opted in — desktop" />
+
+<Figure src="/work/wb-leaderboards/opted-in-mobile.jpg" w={428} h={926} alt="Opted-in leaderboard detail on mobile" caption="Opted in — mobile" />
+
+## Results
+
+{/* TODO(Stephen): if any signal exists from before the shutdown — support-ticket
+    trend, opt-in counts after launch, stakeholder feedback — add it here so this
+    section isn't purely anticipated. */}
+
+Although I was unable to access the final results due to the company shutting down, the redesign of the leaderboard system was expected to yield significant improvements.
+
+### Anticipated outcomes
+
+By making leaderboard matches easier to find and ensuring users' ranks were always visible, we anticipated a reduction in customer support tickets related to rank tracking and opt-in confusion.
+
+By providing users with clear, real-time information on match expiration, we anticipated that users would be more likely to participate in matches they knew were closing soon, driving higher engagement toward the end of each competition.
+
+## Next Steps / Learnings
+
+Plans include notifying users via email 72 hours before a match concludes, enhancing awareness of their progress and the remaining time for any opted-in user.
+
+Development constraints initially prevented the implementation of a live countdown, but we have prioritized clear communication of match durations for immediate improvement.
+
+### Tailored leaderboard
+
+Moving forward, our team planned to expand the leaderboard competitions by personalizing the experience for users. This would involve targeting users based on the games they enjoyed playing, making the competitions more relevant and engaging.
+
+By tailoring the leaderboard matches to user preferences, we aimed to further increase participation and retention, providing users with a more customized experience that aligned with their interests.

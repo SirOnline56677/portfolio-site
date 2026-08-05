@@ -37,14 +37,20 @@ export default function ContributionsHeatmap({
 
   return (
     <div className="w-full rounded-[10px] border border-divider/25 bg-[var(--card)] p-4">
-      <div className="mb-2 font-[family-name:var(--font-label)] text-[12px] uppercase tracking-wide text-muted">
+      <div className="mb-2 font-[family-name:var(--font-label)] text-label uppercase tracking-wide text-muted">
         {cal.total.toLocaleString()} contributions in the last year
       </div>
 
       {/* Scrollable on narrow screens */}
       <div className="overflow-x-auto">
         <div className="inline-flex flex-col gap-1">
-          {/* Month labels */}
+          {/* Month labels.
+              These two 9px labels stay in px while the rest of the site moved
+              to a rem scale, and that's on purpose: they're absolutely
+              positioned against a hardcoded px grid (14px per week, 11px
+              cells). In rem they'd grow with the reader's font size while the
+              grid underneath didn't, and the month names would collide. The
+              whole widget is px-locked or nothing. */}
           <div className="relative h-3" style={{ width: cal.weeks.length * 14 }}>
             {monthLabels.map(({ index, label }) => (
               <span

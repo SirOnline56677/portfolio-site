@@ -65,8 +65,24 @@ export default function RootLayout({
       // Always stamped, including "light" — see globals.css. Static here, so
       // there is no theme flash and nothing for hydration to disagree about.
       data-theme="light"
+      // The blocking script below rewrites data-theme from localStorage before
+      // React hydrates, so the server's "light" and the client's actual value
+      // legitimately differ. Scoped to this attribute on this element only.
+      suppressHydrationWarning
       className={`${koulen.variable} ${istokWeb.variable} ${paralucent.variable} ${ivyStyleSans.variable} h-full antialiased`}
     >
+      <head>
+        {/* Blocking on purpose: this must run before first paint, or a stored
+            dark theme shows a frame of light first on every page load. It only
+            reads localStorage — the OS preference is deliberately never
+            consulted. Wrapped in try/catch because storage throws in some
+            private-browsing modes, where the default light theme is fine. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-full">
         <DitherBackground />
         <SmoothScroll>{children}</SmoothScroll>

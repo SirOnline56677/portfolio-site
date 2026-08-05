@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 import path from "node:path";
 
 const nextConfig: NextConfig = {
@@ -9,4 +10,8 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Case studies are MDX in content/work/, pulled in by dynamic import from the
+// route rather than being pages themselves — so `pageExtensions` stays alone.
+const withMDX = createMDX();
+
+export default withMDX(nextConfig);
