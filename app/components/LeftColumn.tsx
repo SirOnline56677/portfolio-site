@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { stack, currentlyWorkingOn } from "../data";
+import { stack } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
 import SectionLabel from "./SectionLabel";
 import ThemeToggle from "./ThemeToggle";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
+import WorkingOnList from "./WorkingOnList";
 
 function StackItem({ name, icon }: { name: string; icon: string }) {
   return (
@@ -63,19 +64,30 @@ export default function LeftColumn() {
         {/* Currently working on */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-[11px]">
-            <SectionLabel>Currently working on</SectionLabel>
+            <div className="flex flex-wrap items-baseline justify-between gap-4">
+              <SectionLabel>Current Projects</SectionLabel>
+              <div className="flex items-center gap-6">
+                {(
+                  [
+                    ["Working", "#34a06f"],
+                    ["Unfinished", "#e8a33d"],
+                  ] as const
+                ).map(([label, color]) => (
+                  <span key={label} className="flex items-center gap-[8px]">
+                    <span
+                      className="h-[9px] w-[9px] rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="font-[family-name:var(--font-body)] font-light text-[16px] leading-[22px] text-muted">
+                      {label}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            </div>
             <div className="rule-solid" />
           </div>
-          <div className="flex flex-col gap-[15px]">
-            {currentlyWorkingOn.map((item, i) => (
-              <span
-                key={i}
-                className="font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+          <WorkingOnList />
         </div>
       </div>
 

@@ -120,6 +120,25 @@ body {
   background: var(--color-divider);
 }
 
+/* Breathing fade for the "currently working on" status dots. */
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.status-dot {
+  animation: status-pulse 3.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none;
+  }
+}
+
 /* Idle drift for pieces on the /exploration floating canvas. Duration/delay
    are staggered per piece inline so the field never moves in lockstep. */
 @keyframes floaty {

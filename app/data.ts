@@ -200,4 +200,30 @@ export const stack = {
   ],
 };
 
-export const currentlyWorkingOn = ["Palleta —", "Palleta —"];
+export type WorkingOn = {
+  name: string;
+  description: string;
+  /** Freeform range, e.g. "2026 — Now". */
+  dates: string;
+  /** active = green dot, simmering = amber dot. */
+  status: "active" | "simmering";
+  /** Thumbnail that floats beside the cursor on hover. */
+  thumb?: string;
+};
+
+export const currentlyWorkingOn: WorkingOn[] = [
+  {
+    name: "Palleta",
+    description: "Placeholder — a line on what Palleta is.",
+    dates: "2026 — Now",
+    status: "active",
+    thumb: "/assets/wynnbet.png",
+  },
+  {
+    name: "This site",
+    description: "The portfolio you're looking at, designed and built in the open.",
+    dates: "2026 — Now",
+    status: "active",
+    thumb: "/assets/paper.png",
+  },
+];
