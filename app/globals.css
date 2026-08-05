@@ -120,6 +120,69 @@ body {
   background: var(--color-divider);
 }
 
+/* Animated underline, replacing static `underline` everywhere: hidden at
+   rest, slides in from the left on hover/focus, and retracts back the way it
+   came on leave (the left anchor never moves, so the transition reverses
+   along the same path). Also fires when a wrapping .group is hovered, which
+   is how the project-card tags light up from anywhere on the card. */
+.u-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0% 100%;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-line:hover,
+.u-line:focus-visible,
+.group:hover .u-line {
+  background-size: 100% 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-line {
+    transition: none;
+  }
+}
+
+/* Breathing fade for the "currently working on" status dots. */
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.status-dot {
+  animation: status-pulse 3.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none;
+  }
+}
+
+/* Idle drift for pieces on the /exploration floating canvas. Duration/delay
+   are staggered per piece inline so the field never moves in lockstep. */
+@keyframes floaty {
+  from {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+.floaty {
+  position: relative;
+  animation: floaty 6s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .floaty {
+    animation: none;
+  }
+}
+
 /* CRT scanline vertical roll (one period = 4px) */
 @keyframes scanline-roll {
   to {
