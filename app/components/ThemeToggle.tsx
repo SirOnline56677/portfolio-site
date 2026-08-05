@@ -84,7 +84,7 @@ export default function ThemeToggle() {
         <span
           aria-hidden
           data-cursor-fit=""
-          className="grid justify-items-start font-[family-name:var(--font-display)] text-[20px] leading-[23px] tracking-[0.03em] uppercase text-ink"
+          className="grid justify-items-start font-[family-name:var(--font-display)] text-section uppercase text-ink"
         >
           <span className="col-start-1 row-start-1 transition-opacity duration-150 group-hover:opacity-0 group-focus-visible:opacity-0 motion-reduce:transition-none">
             {dark ? "Negative" : "Light"}

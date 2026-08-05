@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CASE_STUDY_SLUGS, type CaseStudyMeta } from "../caseStudies";
+import { CASE_STUDY_SLUGS, type CaseStudyMeta, type Section } from "../caseStudies";
 import { caseStudyTemplate } from "../../components/case-study/template";
 import type { Template } from "../../components/case-study/types";
 
@@ -23,7 +23,7 @@ export default async function CaseStudyPage({
   const mod = (await import(`../../../content/work/${slug}.mdx`)) as {
     default: (props: { components: Template["components"] }) => React.ReactElement;
     meta: CaseStudyMeta;
-    sections: string[];
+    sections: Section[];
   };
 
   const { Shell, components } = caseStudyTemplate;

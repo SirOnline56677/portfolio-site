@@ -39,7 +39,7 @@ export default function ProjectCard({
       className={`group flex-col gap-[10px] ${decorative ? "hidden lg:flex" : "flex"}`}
     >
       {/* Title */}
-      <h3 className="font-[family-name:var(--font-project)] text-[20px] leading-[24px] uppercase text-ink">
+      <h3 className="font-[family-name:var(--font-project)] text-project uppercase text-ink">
         {project.title}
       </h3>
 
@@ -57,12 +57,12 @@ export default function ProjectCard({
       {/* Footer: tag + expand icon + description */}
       <div className="flex items-start gap-[15px] px-[10px] pt-[8px] pb-[19px]">
         <div className="flex flex-col items-start gap-[15px]">
-          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink underline decoration-1 underline-offset-2">
+          <span className="font-[family-name:var(--font-label)] text-label uppercase text-ink underline decoration-1 underline-offset-2">
             {project.tag}
           </span>
           <ExpandIcon />
         </div>
-        <p className="w-[197px] font-[family-name:var(--font-label)] text-[10px] leading-[12px] uppercase text-ink">
+        <p className="w-[197px] font-[family-name:var(--font-label)] text-micro uppercase text-ink">
           {project.description}
         </p>
       </div>

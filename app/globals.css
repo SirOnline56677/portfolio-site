@@ -15,6 +15,94 @@
   --font-label: var(--ff-label); /* IvyStyle Sans */
 }
 
+/* ---- Type scale --------------------------------------------------------
+   Sizes in rem, line-heights unitless. Both halves matter: nothing sets a
+   root font-size, so 1rem is the reader's own browser preference, and a rem
+   size paired with a px line-height would grow the text inside a line box
+   that never grew — overlapping lines at large defaults. Browser *zoom*
+   already scaled the old px type fine; this is for people who raise their
+   default font size instead.
+
+   Named by role, not size, so a resize is a one-line edit here rather than a
+   hunt across eight components. calc(28 / 24) is kept as a visible ratio so
+   the design intent (28px leading on 24px type) survives the conversion.
+
+   Tailwind reads the --text-*--line-height / --letter-spacing / --font-weight
+   sub-modifiers and folds them into the one `text-<role>` utility. */
+@theme {
+  /* Display */
+  --text-hero: 4rem; /* 64px — name, mobile */
+  --text-hero--line-height: 1.05;
+  --text-hero-lg: 6rem; /* 96px — name, sm+ */
+  --text-hero-lg--line-height: calc(116 / 96);
+
+  --text-title: 3rem; /* 48px — case study h1, mobile */
+  --text-title--line-height: 1.05;
+  --text-title-lg: 4rem; /* 64px — case study h1, sm+ */
+  --text-title-lg--line-height: calc(72 / 64);
+
+  --text-lede: 1.375rem; /* 22px — bio, mobile */
+  --text-lede--line-height: calc(32 / 22);
+  --text-lede-lg: 1.5rem; /* 24px — bio, sm+ */
+  --text-lede-lg--line-height: calc(32 / 24);
+
+  /* Case study headings. h3 (Koulen) and h4 (smaller sans) are two distinct
+     levels, not one style mid-edit — see the MDX, which splits ### and ####. */
+  --text-h2: 1.5rem; /* 24px — section header. Was 20px; raised in Paper. */
+  --text-h2--line-height: calc(28 / 24);
+  --text-h2--letter-spacing: 0.03em;
+
+  --text-h3: 1.25rem; /* 20px — Koulen sub-head */
+  --text-h3--line-height: calc(24 / 20);
+
+  --text-h4: 1rem; /* 16px — sans sub-sub-head */
+  --text-h4--line-height: calc(20 / 16);
+  --text-h4--letter-spacing: 0.03em;
+  --text-h4--font-weight: 500;
+
+  /* Deliberately NOT --text-h2, though both were 20px Koulen before. These are
+     the homepage's own section labels; the 24px change was to the case study
+     only, and folding them together would have resized the homepage silently. */
+  --text-section: 1.25rem; /* 20px — "Designing in", "Get in touch", theme toggle */
+  --text-section--line-height: calc(23 / 20);
+  --text-section--letter-spacing: 0.03em;
+
+  /* Body */
+  --text-body: 1.125rem; /* 18px — case study prose */
+  --text-body--line-height: calc(32 / 18);
+  --text-body--letter-spacing: 0.03em;
+
+  --text-body-lg: 1.25rem; /* 20px — left column prose */
+  --text-body-lg--line-height: calc(36 / 20);
+  --text-body-lg--letter-spacing: 0.03em;
+
+  --text-stack: 1.25rem; /* 20px — stack item names (no tracking) */
+  --text-stack--line-height: calc(32 / 20);
+
+  --text-project: 1.25rem; /* 20px — project card titles */
+  --text-project--line-height: calc(24 / 20);
+
+  /* Small */
+  --text-meta: 0.9375rem; /* 15px — metadata values */
+  --text-meta--line-height: calc(22 / 15);
+
+  /* No letter-spacing: the clock uses this bare, and the case study nav opts
+     into tracking itself. Baking 0.03em in here would widen the clock, which
+     is deliberately width-stable so the orb beside it doesn't shuffle. */
+  --text-nav: 1rem; /* 16px — section nav, clock */
+  --text-nav--line-height: calc(20 / 16);
+
+  --text-label: 0.75rem; /* 12px — tags, captions, heatmap heading */
+  --text-label--line-height: calc(16 / 12);
+
+  --text-label-sm: 0.6875rem; /* 11px — metadata labels */
+  --text-label-sm--line-height: calc(16 / 11);
+  --text-label-sm--letter-spacing: 0.12em;
+
+  --text-micro: 0.625rem; /* 10px — project card description */
+  --text-micro--line-height: calc(12 / 10);
+}
+
 /* ---- Theme ------------------------------------------------------------
    Dark mode is the photographic negative of light mode: every chrome colour
    below is the exact inverse (255 − c) of its light counterpart. Images are

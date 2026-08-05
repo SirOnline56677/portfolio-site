@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import SectionNav from "./SectionNav";
+import { slugify } from "../../work/caseStudies";
 import type { FigureProps, ShellProps, Template } from "./types";
 
 // The case study template.
@@ -22,7 +24,7 @@ function Figure({ src, w, h, alt = "", caption }: FigureProps) {
         <Image src={src} width={w} height={h} alt={alt} className="h-auto w-full" />
       </div>
       {caption ? (
-        <figcaption className="mt-3 font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase tracking-[0.03em] text-muted">
+        <figcaption className="mt-3 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">
           {caption}
         </figcaption>
       ) : null}
@@ -36,15 +38,15 @@ function Shell({ meta, sections, children }: ShellProps) {
       <article className="min-w-0 flex-1">
         <Link
           href="/"
-          className="font-[family-name:var(--font-display)] text-[20px] leading-[23px] uppercase tracking-[0.03em] text-muted hover:text-ink"
+          className="font-[family-name:var(--font-display)] text-section uppercase text-muted hover:text-ink"
         >
           ← Back
         </Link>
 
-        <p className="mt-10 font-[family-name:var(--font-display)] text-[20px] leading-[23px] uppercase tracking-[0.03em] text-muted">
+        <p className="mt-10 font-[family-name:var(--font-display)] text-section uppercase text-muted">
           {meta.client}
         </p>
-        <h1 className="mt-3 font-[family-name:var(--font-display)] text-[48px] leading-[1.05] capitalize text-ink sm:text-[64px] sm:leading-[72px]">
+        <h1 className="mt-3 font-[family-name:var(--font-display)] text-title capitalize text-ink sm:text-title-lg">
           {meta.title}
         </h1>
 
@@ -57,10 +59,10 @@ function Shell({ meta, sections, children }: ShellProps) {
             ["Responsibilities", meta.responsibilities],
           ].map(([label, value]) => (
             <div key={label}>
-              <dt className="font-[family-name:var(--font-label)] text-[11px] uppercase tracking-[0.12em] text-muted">
+              <dt className="font-[family-name:var(--font-label)] text-label-sm uppercase text-muted">
                 {label}
               </dt>
-              <dd className="mt-1 font-[family-name:var(--font-body)] text-[15px] font-light leading-[22px] text-ink">
+              <dd className="mt-1 font-[family-name:var(--font-body)] text-meta font-light text-ink">
                 {value}
               </dd>
             </div>
@@ -70,23 +72,7 @@ function Shell({ meta, sections, children }: ShellProps) {
         <div className="mt-12">{children}</div>
       </article>
 
-      {/* Active item is --color-ink (#070505); inactive is --nav-dim (#bbbbbb),
-          which has its own dark-mode inverse. The first item stands in as active
-          until scroll-spy exists. */}
-      <nav className="hidden w-[220px] shrink-0 lg:block">
-        <ul className="sticky top-12 flex flex-col gap-4">
-          {sections.map((s, i) => (
-            <li
-              key={s}
-              className={`font-[family-name:var(--font-display)] text-[16px] leading-[20px] uppercase tracking-[0.03em] transition-colors hover:text-ink ${
-                i === 0 ? "text-ink" : "text-[var(--nav-dim)]"
-              }`}
-            >
-              {s}
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <SectionNav sections={sections} />
     </div>
   );
 }
@@ -98,29 +84,44 @@ export const caseStudyTemplate: Template = {
     // horizontal inset and top radius went with it: both existed only to hold
     // text off the edge of a card, so keeping them would leave the copy
     // indented for no visible reason.
+    // Only h2 gets an id — these are the section nav's scroll targets, and
+    // `scroll-mt` keeps a heading clear of the viewport edge when linked to.
+    // Sub-heads are deliberately skipped: they're never nav targets, and
+    // several repeat verbatim ("Challenge", "Approach", "Dedicated page"),
+    // so slugging them would mint duplicate ids.
     h2: (p) => (
       <h2
         {...p}
-        className="mt-14 mb-5 font-[family-name:var(--font-display)] text-[20px] leading-[23px] uppercase tracking-[0.03em] text-muted"
+        id={typeof p.children === "string" ? slugify(p.children) : undefined}
+        className="mt-14 mb-5 scroll-mt-12 font-[family-name:var(--font-display)] text-h2 uppercase text-ink"
       />
     ),
+    // Two sub-head levels, not one. `###` is the Koulen sub-head that opens a
+    // topic; `####` is the smaller sans label used for the recurring
+    // Challenge / Approach pairs that repeat inside several sections.
     h3: (p) => (
       <h3
         {...p}
-        className="mb-4 font-[family-name:var(--font-project)] text-[24px] leading-[30px] uppercase text-ink"
+        className="mb-4 font-[family-name:var(--font-display)] text-h3 uppercase text-ink"
+      />
+    ),
+    h4: (p) => (
+      <h4
+        {...p}
+        className="mb-3 font-[family-name:var(--font-body)] text-h4 uppercase text-ink"
       />
     ),
     p: (p) => (
       <p
         {...p}
-        className="pb-6 font-[family-name:var(--font-body)] text-[18px] font-light leading-[32px] tracking-[0.03em] text-ink"
+        className="pb-6 font-[family-name:var(--font-body)] text-body font-light text-ink"
       />
     ),
     ul: (p) => <ul {...p} className="list-disc pb-6 pl-6" />,
     li: (p) => (
       <li
         {...p}
-        className="font-[family-name:var(--font-body)] text-[18px] font-light leading-[30px] text-ink"
+        className="font-[family-name:var(--font-body)] text-body font-light text-ink"
       />
     ),
     strong: (p) => <strong {...p} className="font-medium" />,

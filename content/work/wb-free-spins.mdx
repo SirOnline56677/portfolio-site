@@ -12,7 +12,7 @@ export const meta = {
 
 export const sections = [
   "Overview",
-  "Problem / Solution",
+  { label: "Problem / Solution", id: "problem" },
   "Research & Insights",
   "User Challenge",
   "Technical Challenge",
@@ -34,7 +34,7 @@ Users were frustrated by the lack of visibility and awareness regarding their fr
 
 This led to confusion, reduced engagement, and frequent requests for compensation from customer support. Our legacy platform struggled with user retention due to poor transparency around spin availability and expiration.
 
-### Solutions
+## Solutions
 
 I streamlined the user experience by introducing a dedicated Free Spins page, enhancing visibility and ease of navigation across both desktop and mobile platforms. By leveraging intuitive layouts and clear visual cues, I ensured users could locate their free spins efficiently, reducing user confusion and increasing engagement.
 
@@ -42,17 +42,17 @@ I streamlined the user experience by introducing a dedicated Free Spins page, en
 
 ## Research & Insights
 
-### User research findings
+#### User research findings
 
 Through customer service interactions and user feedback, we discovered that users were not only unaware of their available free spins, but they also felt it was unfair when spins expired without their knowledge. Many users requested compensation for lost spins, which pointed to a significant gap in visibility and communication.
 
 ## User Challenge
 
-### Challenge
+#### Challenge
 
 Users were frustrated because they could not track their free spins unless they were in the exact game that awarded them. This lack of a centralized system resulted in missed opportunities and lowered engagement.
 
-### Approach
+#### Approach
 
 We restructured the Free Spins experience to centralize visibility and ensure users could always track their spins. This included designing dedicated sections for free spins, which could be accessed from any part of the platform, providing clarity and boosting engagement.
 
@@ -60,7 +60,7 @@ We restructured the Free Spins experience to centralize visibility and ensure us
 
 ## Technical Challenge
 
-### Challenge
+#### Challenge
 
 The system only notified users about their free spins if they were actively playing the specific game that awarded the spin. Outside of this game, there was no way for users to see or track their free spins, leading to confusion and missed opportunities to engage with the feature. Additionally, navigating between multiple sections of the platform to track free spins wasn't user-friendly.
 
@@ -68,7 +68,7 @@ A major constraints was the limited space available for displaying the Free Spin
 
 In addition to the visibility issue and location, the backend needed to seamlessly integrate with the casino's CMS to determine which games could offer free spins. Casino management wanted the ability to easily switch games in and out of the free spins feature, which added another layer of complexity. Ensuring that this system worked flawlessly across both the website and app platforms was crucial.
 
-### Approach
+#### Approach
 
 We solved this issue by creating a universal notification system that would alert users to available spins, even when they weren't in the game that awarded them. Additionally, we placed prominent navigation cues in the user profile and the main menu to make spins accessible from any part of the platform.
 
@@ -76,23 +76,23 @@ We collaborated closely with the backend team to ensure the CMS integration allo
 
 ## Business Challenge
 
-### Challenge
+#### Challenge
 
 The customer service team frequently offered users free bonuses or additional spins to compensate for missed opportunities. This was primarily due to users being unaware of expiring spins. By improving visibility, we aimed to reduce the amount of customer service intervention and unnecessary bonus spin giveaways, leading to a more sustainable and efficient rewards system.
 
-### Approach
+#### Approach
 
 We prioritized giving users better visibility of their free spins and reducing the need for customer service to compensate them with additional rewards. This solution helped cut costs related to issuing free spins or bonuses while ensuring users didn't miss their available spins.
 
 ## Design Solution
 
-### Home page visibility
+#### Home page visibility
 
 Given the limited space available for the Free Spins banner, we strategically placed it on the homepage of the casino section where users spent the most time. This ensured that the banner would be seen without distracting from the main content. The placement decision was based on analytics and user behavior patterns, prioritizing areas of the interface that garnered the most user engagement.
 
 This ensured that users were immediately notified of their spins upon entering the casino section, addressing the previous lack of visibility.
 
-### Branding for marketing
+#### Branding for marketing
 
 In addition to improving user awareness, we also developed a unique brand identity for the Free Spins feature, including a custom icon and bold design elements. This branding not only made the feature more recognizable within the platform but also allowed us to collaborate with the marketing team to help promote it externally.
 
@@ -100,7 +100,7 @@ By leveraging this visual identity, the marketing team could more easily create 
 
 <Figure src="/work/wb-free-spins/free-spins-icon.png" w={1480} h={340} alt="Custom Free Spins icon and brand elements" />
 
-### User profile display
+#### User profile display
 
 A dedicated tab in the user profile where users could track all available spins and the games associated with them, ensuring continuous awareness.
 
@@ -110,13 +110,13 @@ When a user has zero spins, the tab will be disabled with no number displayed.
 
 <Figure src="/work/wb-free-spins/account-mobile.jpg" w={375} h={812} alt="Free Spins tab in the account area, mobile" />
 
-### Dedicated page
+#### Dedicated page
 
 A dedicated page displayed all the casino games for which the user had free spins. If the user had more than one spin across different games, each game tile would show the number of available spins.
 
 This clear layout simplified the process for users to identify which games to play to use their spins, improving overall usability and transparency.
 
-### Backend integration
+#### Backend integration
 
 We worked to integrate the casino's CMS with our platform, ensuring that games offering free spins could be updated dynamically by casino management. This integration allowed for greater flexibility in which games participated in the Free Spins feature, ensuring that changes made on the backend were reflected immediately across both the website and app.
 
@@ -128,7 +128,7 @@ While we did not track specific metrics like user retention the significant drop
 
 The improved CMS integration also allowed casino management to update the games offering free spins without additional backend issues, streamlining operations.
 
-### Navigation efficiency
+#### Navigation efficiency
 
 Users found it easier to locate the free spins banner when it appeared on the main casino screen upon eligibility. This banner featured a custom-designed Free Spins icon, creating a unique brand identity for the feature.
 
@@ -138,11 +138,11 @@ The banner also dynamically displayed the number of free spins available, allowi
 
 <Figure src="/work/wb-free-spins/banner-active.png" w={375} h={605} alt="Casino screen showing active free spins" caption="Active free spins" />
 
-### Dedicated page
+#### Dedicated page
 
 A dedicated free spins page displaying all games eligible for a free spin and the remaining amount. This page only appears if they have a free spin available. Once all spins are used, the page will be removed.
 
-### Operational efficiency
+#### Operational efficiency
 
 The redesign led to significant improvements in user awareness and engagement with Free Spins. Users were no longer limited to discovering spins only within the awarding game, leading to increased usage and spin redemptions. After the update, there was a measurable decrease in customer support tickets related to spin availability, and overall engagement with free spins improved.
 
@@ -152,6 +152,6 @@ Although exact numbers are unavailable due to the company's shutdown, the reduct
 
 Going forward, we could had explore additional features like timed notifications or email reminders for free spins to further ensure users are aware of time-sensitive rewards.
 
-### A/B testing
+#### A/B testing
 
 A/B testing could focus on which notification strategies drive the highest engagement and explore how personalized notifications (based on user preferences) or different timing options could further increase engagement and reduce the chances of missed spins.

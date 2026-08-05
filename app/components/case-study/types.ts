@@ -1,11 +1,11 @@
 import type { MDXComponents } from "mdx/types";
-import type { CaseStudyMeta } from "../../work/caseStudies";
+import type { CaseStudyMeta, Section } from "../../work/caseStudies";
 
 /** Props every variant's page shell receives. */
 export type ShellProps = {
   meta: CaseStudyMeta;
-  /** Section labels, exported by each MDX file, used for the section nav. */
-  sections: string[];
+  /** Section entries, exported by each MDX file, used for the section nav. */
+  sections: Section[];
   children: React.ReactNode;
 };
 
