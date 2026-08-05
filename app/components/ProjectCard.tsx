@@ -57,7 +57,7 @@ export default function ProjectCard({
       {/* Footer: tag + expand icon + description */}
       <div className="flex items-start gap-[15px] px-[10px] pt-[8px] pb-[19px]">
         <div className="flex flex-col items-start gap-[15px]">
-          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink underline decoration-1 underline-offset-2">
+          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink u-line">
             {project.tag}
           </span>
           <ExpandIcon />

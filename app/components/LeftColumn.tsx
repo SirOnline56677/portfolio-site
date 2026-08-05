@@ -102,7 +102,7 @@ export default function LeftColumn() {
         <Link
           href="/exploration"
           data-cursor-label="EXPLORE"
-          className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink underline underline-offset-4 hover:text-muted"
+          className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink u-line hover:text-muted"
         >
           Photography, AI imagery, branding &amp; experiments →
         </Link>
@@ -128,9 +128,9 @@ export default function LeftColumn() {
         <div className="rule-solid" />
         <p className="mt-4 max-w-[641px] font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink">
           You can reach me and say Hi on{" "}
-          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="underline underline-offset-4 hover:text-muted">LinkedIn</a> or on{" "}
-          <a href="https://github.com/SirOnline56677" className="underline underline-offset-4 hover:text-muted">GitHub</a> or{" "}
-          <a href="mailto:saguila21@gmail.com" className="underline underline-offset-4 hover:text-muted">email</a> if you want to talk.
+          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or on{" "}
+          <a href="https://github.com/SirOnline56677" className="u-line hover:text-muted">GitHub</a> or{" "}
+          <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a> if you want to talk.
         </p>
       </div>
     </div>

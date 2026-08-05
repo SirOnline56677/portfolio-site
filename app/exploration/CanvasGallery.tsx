@@ -89,7 +89,7 @@ function PieceModal({
           </div>
 
           <div className="flex items-baseline gap-4">
-            <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink underline decoration-1 underline-offset-2">
+            <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink u-line">
               {piece.medium}
             </span>
             {piece.date && (
@@ -352,7 +352,7 @@ export default function CanvasGallery() {
         <div className="pointer-events-auto flex flex-col gap-[14px]">
           <Link
             href="/"
-            className="w-fit font-[family-name:var(--font-label)] text-[14px] leading-[18px] uppercase text-ink underline underline-offset-4 hover:text-muted"
+            className="w-fit font-[family-name:var(--font-label)] text-[14px] leading-[18px] uppercase text-ink u-line hover:text-muted"
           >
             ← Index
           </Link>
