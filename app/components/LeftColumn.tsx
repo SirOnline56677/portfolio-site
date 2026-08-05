@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { stack, currentlyWorkingOn } from "../data";
+import Link from "next/link";
+import { stack } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
 import SectionLabel from "./SectionLabel";
 import ThemeToggle from "./ThemeToggle";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
+import WorkingOnList from "./WorkingOnList";
 
 function StackItem({ name, icon }: { name: string; icon: string }) {
   return (
@@ -62,25 +64,49 @@ export default function LeftColumn() {
         {/* Currently working on */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-[11px]">
-            <SectionLabel>Currently working on</SectionLabel>
+            <div className="flex flex-wrap items-baseline justify-between gap-4">
+              <SectionLabel>Current Projects</SectionLabel>
+              <div className="flex items-center gap-6">
+                {(
+                  [
+                    ["Working", "#34a06f"],
+                    ["Unfinished", "#e8a33d"],
+                  ] as const
+                ).map(([label, color]) => (
+                  <span key={label} className="flex items-center gap-[8px]">
+                    <span
+                      className="h-[9px] w-[9px] rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="font-[family-name:var(--font-body)] font-light text-[16px] leading-[22px] text-muted">
+                      {label}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            </div>
             <div className="rule-solid" />
           </div>
-          <div className="flex flex-col gap-[15px]">
-            {currentlyWorkingOn.map((item, i) => (
-              <span
-                key={i}
-                className="font-[family-name:var(--font-body)] font-light text-body-lg text-ink"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+          <WorkingOnList />
         </div>
       </div>
 
       {/* GitHub contributions — renders nothing (heading included) when the
           contribution data is unavailable. */}
       <ContributionsGraph />
+
+      {/* Exploration — side projects live on their own page */}
+      <div className="flex flex-col gap-[11px]">
+        <SectionLabel>Exploration</SectionLabel>
+        <div className="rule-solid" />
+        <Link
+          href="/exploration"
+          data-cursor-label="EXPLORE"
+          className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink u-line hover:text-muted"
+        >
+          Photography, AI imagery, branding &amp; experiments →
+        </Link>
+      </div>
 
       {/* Get in touch */}
       <div className="flex flex-col gap-[11px]">
@@ -102,9 +128,9 @@ export default function LeftColumn() {
         <div className="rule-solid" />
         <p className="mt-4 max-w-[641px] font-[family-name:var(--font-body)] font-light text-body-lg text-ink">
           You can reach me and say Hi on{" "}
-          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="underline underline-offset-4 hover:text-muted">LinkedIn</a> or on{" "}
-          <a href="https://github.com/SirOnline56677" className="underline underline-offset-4 hover:text-muted">GitHub</a> or{" "}
-          <a href="mailto:saguila21@gmail.com" className="underline underline-offset-4 hover:text-muted">email</a> if you want to talk.
+          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or on{" "}
+          <a href="https://github.com/SirOnline56677" className="u-line hover:text-muted">GitHub</a> or{" "}
+          <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a> if you want to talk.
         </p>
       </div>
     </div>
