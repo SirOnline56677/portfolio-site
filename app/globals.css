@@ -120,6 +120,26 @@ body {
   background: var(--color-divider);
 }
 
+/* Idle drift for pieces on the /exploration floating canvas. Duration/delay
+   are staggered per piece inline so the field never moves in lockstep. */
+@keyframes floaty {
+  from {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+.floaty {
+  position: relative;
+  animation: floaty 6s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .floaty {
+    animation: none;
+  }
+}
+
 /* CRT scanline vertical roll (one period = 4px) */
 @keyframes scanline-roll {
   to {

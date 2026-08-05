@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { stack, currentlyWorkingOn } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
@@ -81,6 +82,19 @@ export default function LeftColumn() {
       {/* GitHub contributions — renders nothing (heading included) when the
           contribution data is unavailable. */}
       <ContributionsGraph />
+
+      {/* Exploration — side projects live on their own page */}
+      <div className="flex flex-col gap-[11px]">
+        <SectionLabel>Exploration</SectionLabel>
+        <div className="rule-solid" />
+        <Link
+          href="/exploration"
+          data-cursor-label="EXPLORE"
+          className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink underline underline-offset-4 hover:text-muted"
+        >
+          Photography, AI imagery, branding &amp; experiments →
+        </Link>
+      </div>
 
       {/* Get in touch */}
       <div className="flex flex-col gap-[11px]">
