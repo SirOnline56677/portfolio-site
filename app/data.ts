@@ -215,6 +215,14 @@ export const currentlyWorkingOn: WorkingOn[] = [
     url: "https://www.aguiladistributor.com/",
   },
   {
+    name: "Grocery Market",
+    description:
+      "A grocery spending tracker that reads receipts with AI — snap a photo and every line item gets named, categorized, and priced over time.",
+    dates: "2026 — Now",
+    status: "active",
+    thumb: "/assets/grocery-market.png",
+  },
+  {
     name: "This site",
     description: "The portfolio you're looking at, designed and built in the open.",
     dates: "2026 — Now",
