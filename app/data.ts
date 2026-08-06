@@ -200,15 +200,19 @@ export type WorkingOn = {
   status: "active" | "simmering";
   /** Thumbnail that floats beside the cursor on hover. */
   thumb?: string;
+  /** External link; the project name becomes an anchor when set. */
+  url?: string;
 };
 
 export const currentlyWorkingOn: WorkingOn[] = [
   {
     name: "Palleta",
-    description: "Placeholder — a line on what Palleta is.",
+    description:
+      "A point-of-sale and inventory app for a small wholesale distributor — live in production, headed to the App Store.",
     dates: "2026 — Now",
     status: "active",
-    thumb: "/assets/wynnbet.png",
+    thumb: "/assets/palleta.png",
+    url: "https://www.aguiladistributor.com/",
   },
   {
     name: "This site",

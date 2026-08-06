@@ -68,9 +68,20 @@ export default function WorkingOnList() {
           onPointerLeave={() => setVisible(false)}
         >
           <span className="flex items-center gap-[10px]">
-            <span className="font-[family-name:var(--font-body)] font-medium text-[22px] leading-[30px] text-ink">
-              {item.name}
-            </span>
+            {item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-[family-name:var(--font-body)] font-medium text-[22px] leading-[30px] text-ink u-line hover:text-muted"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <span className="font-[family-name:var(--font-body)] font-medium text-[22px] leading-[30px] text-ink">
+                {item.name}
+              </span>
+            )}
             <span
               className={`status-dot h-[9px] w-[9px] rounded-full ${
                 item.status === "active" ? "bg-[#34a06f]" : "bg-[#e8a33d]"
@@ -80,12 +91,31 @@ export default function WorkingOnList() {
               {item.status === "active" ? "working" : "unfinished"}
             </span>
           </span>
-          <span className="font-[family-name:var(--font-body)] font-light text-[20px] leading-[30px] tracking-[0.03em] text-ink">
-            {item.description}
-          </span>
-          <span className="font-[family-name:var(--font-body)] font-light text-[18px] leading-[26px] tracking-[0.03em] text-muted">
-            {item.dates}
-          </span>
+          {(() => {
+            const body = (
+              <>
+                <span className="font-[family-name:var(--font-body)] font-light text-[20px] leading-[30px] tracking-[0.03em] text-ink">
+                  {item.description}
+                </span>
+                <span className="font-[family-name:var(--font-body)] font-light text-[18px] leading-[26px] tracking-[0.03em] text-muted">
+                  {item.dates}
+                </span>
+              </>
+            );
+            return item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={-1}
+                className="flex flex-col gap-[4px] no-underline"
+              >
+                {body}
+              </a>
+            ) : (
+              body
+            );
+          })()}
         </div>
       ))}
 
