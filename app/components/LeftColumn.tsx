@@ -135,7 +135,7 @@ export default function LeftColumn() {
           </div>
         </div>
         <div className="rule-solid" />
-        <p className="mt-4 max-w-[641px] font-[family-name:var(--font-body)] font-light text-body-lg text-ink">
+        <p className="mt-4 font-[family-name:var(--font-body)] font-light text-body-lg text-ink">
           You can reach me and say Hi on{" "}
           <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or on{" "}
           <a href="https://github.com/SirOnline56677" className="u-line hover:text-muted">GitHub</a> or{" "}

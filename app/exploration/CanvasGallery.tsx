@@ -596,7 +596,7 @@ export default function CanvasGallery() {
             href="/"
             className="w-fit font-[family-name:var(--font-label)] text-[14px] leading-[18px] uppercase text-ink u-line hover:text-muted"
           >
-            ← Index
+            ← Home
           </Link>
           <h1 className="font-[family-name:var(--font-display)] text-[40px] leading-[1.05] capitalize text-ink">
             Exploration
