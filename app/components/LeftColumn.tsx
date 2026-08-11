@@ -3,6 +3,7 @@ import Link from "next/link";
 import { stack } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
+import ExplorationFight from "./ExplorationFight";
 import SectionLabel from "./SectionLabel";
 import ThemeToggle from "./ThemeToggle";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
@@ -97,8 +98,16 @@ export default function LeftColumn() {
 
       {/* Exploration — side projects live on their own page */}
       <div className="flex flex-col gap-[11px]">
-        <SectionLabel>Exploration</SectionLabel>
-        <div className="rule-solid" />
+        <div className="flex flex-col gap-[11px] lg:hidden">
+          <SectionLabel>Exploration</SectionLabel>
+          <div className="rule-solid" />
+        </div>
+        <div className="relative hidden lg:block">
+          <div className="pointer-events-none absolute bottom-[18px] left-0 z-10">
+            <SectionLabel>Exploration</SectionLabel>
+          </div>
+          <ExplorationFight />
+        </div>
         <Link
           href="/exploration"
           data-cursor-label="EXPLORE"

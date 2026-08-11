@@ -250,6 +250,31 @@ body {
   background: var(--color-divider);
 }
 
+/* Desktop-only Exploration easter egg. In light mode, every Yusuke state is
+   revealed only through the custom pointer's 32px circle. Negative mode
+   reveals the full canvas. */
+.exploration-fight-stage {
+  --fight-reveal-x: 50%;
+  --fight-reveal-y: 50%;
+}
+.exploration-fight {
+  opacity: 0;
+  clip-path: circle(16px at var(--fight-reveal-x) var(--fight-reveal-y));
+  transition: opacity 80ms linear;
+}
+.exploration-fight-stage:hover .exploration-fight {
+  opacity: 1;
+}
+[data-theme="dark"] .exploration-fight {
+  opacity: 1;
+  clip-path: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .exploration-fight {
+    transition: none;
+  }
+}
+
 /* Animated underline, replacing static `underline` everywhere: hidden at
    rest, slides in from the left on hover/focus, and retracts back the way it
    came on leave (the left anchor never moves, so the transition reverses
