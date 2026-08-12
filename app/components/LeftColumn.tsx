@@ -92,8 +92,8 @@ export default function LeftColumn() {
         </div>
       </div>
 
-      {/* GitHub contributions — renders nothing (heading included) when the
-          contribution data is unavailable. */}
+      {/* GitHub contributions — live public activity, immediately above
+          Exploration. */}
       <ContributionsGraph />
 
       {/* Exploration — side projects live on their own page */}
