@@ -113,7 +113,10 @@ export default function LeftColumn() {
           data-cursor-label="EXPLORE"
           className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink u-line hover:text-muted"
         >
-          Photography, AI imagery, branding &amp; experiments →
+          This is my creative playground. A home for the work that doesn’t
+          fit neatly into a case study: one-off digital projects, travel
+          photography, branding experiments, and whatever I’m exploring with
+          AI. Some start with a purpose. Others start with a simple, “What if?”
         </Link>
       </div>
 
