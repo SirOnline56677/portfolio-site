@@ -171,8 +171,11 @@ export const explorationPieces: ExplorationPiece[] = [
     medium: "Fujifilm X100T",
     // EXIF puts the set at 23 Dec 2016 – 4 Jan 2017; the folder just says 2016.
     date: "December 2016 — January 2017",
-    description:
-      "Placeholder — Stephen's words about the trip go here.",
+    // Not rendered, on purpose. The photo popup shows `photo.caption` and only
+    // falls back to this when a frame has none — and every frame here has one.
+    // It stays as the set's own description, and as the safety net if a frame
+    // is ever added without a caption.
+    description: "Japan Trip Dec 2016 - Jan 2017",
     image: "/exploration/japan-2016/01.jpg",
     photos: [
       {
