@@ -63,9 +63,37 @@ export type ExplorationVersion = {
   image: string;
 };
 
+/**
+ * One frame in a `photo` piece. Unlike `versions` these are distinct
+ * photographs, not takes on the same image, so each carries its own caption.
+ * `w`/`h` are the file's real pixel dimensions — they reserve the right box
+ * before the image loads, which matters when the frames are full-bleed and
+ * mixed orientation.
+ */
+export type ExplorationPhoto = {
+  image: string;
+  caption?: string;
+  w: number;
+  h: number;
+};
+
+/**
+ * Which popup layout a piece gets. Kept explicit rather than inferred from
+ * `medium` so a new medium can't silently pick up a layout it was never
+ * designed for.
+ *
+ * - `generative` — AI imagery. Square image with the take-switcher beneath it
+ *   and the writing alongside. The switcher only appears at two or more images.
+ * - `photo` — photography. Its own layout, not designed yet; until it exists
+ *   these fall through to `generative`.
+ */
+export type ExplorationLayout = "generative" | "photo";
+
 export type ExplorationPiece = {
   id: string;
   title: string;
+  /** Defaults to `generative`. Photography must say so explicitly. */
+  layout?: ExplorationLayout;
   /** Medium/tool — shown in the cursor pill on hover and as the tag in the popup. */
   medium: string;
   /** When it was made/shot — freeform ("March 2026", "Summer 2019", "2024"). */
@@ -78,8 +106,10 @@ export type ExplorationPiece = {
    * equals — those pass their own ("v4", "Take 2"…).
    */
   coverLabel?: string;
-  /** Alternate takes / iterations, switchable inside the popup. */
+  /** Alternate takes / iterations, switchable inside the popup. `generative`. */
   versions?: ExplorationVersion[];
+  /** The frames of a photo essay, in order. `photo` layout only. */
+  photos?: ExplorationPhoto[];
   /** World-space placement on the floating canvas (px at scale 1). */
   x: number;
   y: number;
@@ -93,17 +123,37 @@ export type ExplorationPiece = {
 // entry below. Where a group is several takes on one idea it stays ONE piece —
 // the cover goes in `image`, the rest in `versions`, and the popup switches
 // between them. Entries still carrying "Placeholder —" copy are unfilled.
+//
+// Set `layout` to match the medium. Only `generative` is built; photography is
+// getting its own and should not be filled in against this one.
 export const explorationPieces: ExplorationPiece[] = [
   {
     id: "mj-footballer",
     title: "the striker",
+    layout: "generative",
     medium: "Midjourney",
-    date: "August 2026",
-    description:
-      "Five passes at the same idea: a footballer at the moment of contact, "
-      + "drawn in one nervous line and coloured in flat yellow and green. The "
-      + "prompt barely changed between takes — what moved was how much of the "
-      + "figure the colour was allowed to swallow.",
+    date: "March 2026",
+    // Stephen's own words. Blank lines separate paragraphs; `[label](href)` is
+    // the only markup the popup understands.
+    description: [
+      "This started with the World Cup. I wanted to capture what makes the "
+      + "game feel so alive: the speed, the movement, the constant change of "
+      + "direction. That's where the lines came from. They're meant to feel "
+      + "like traces of motion, almost like you're watching the path of a "
+      + "player cutting across the field.",
+
+      "Visually, I pulled inspiration from [Shin-chan](https://i.pinimg.com"
+      + "/736x/9e/19/11/9e1911f38eb26a69e7ce7c58d9137a9b.jpg) creator Yoshito "
+      + "Usui and his loose lines, strange shapes, and imperfect style. I also "
+      + "kept coming back to Yoshihiro Togashi's work on [Hunter × Hunter]"
+      + "(https://x.com/HxHSource/status/767924453279952896/photo/1), "
+      + "especially the rougher, more expressive drawings from periods when "
+      + "his health affected the manga's production.",
+
+      "I liked that tension: something energetic and intentional, but still "
+      + "raw. Not overly polished. Not trying to make every line perfect. The "
+      + "imperfections are part of what gives it movement and personality.",
+    ].join("\n\n"),
     image: "/exploration/footballer/04.png",
     coverLabel: "v4",
     versions: [
@@ -113,6 +163,65 @@ export const explorationPieces: ExplorationPiece[] = [
       { label: "v5", image: "/exploration/footballer/05.png" },
     ],
     x: 120, y: -620, w: 360, h: 360,
+  },
+  {
+    id: "photo-japan-2016",
+    title: "japan",
+    layout: "photo",
+    medium: "Fujifilm X100T",
+    // EXIF puts the set at 23 Dec 2016 – 4 Jan 2017; the folder just says 2016.
+    date: "December 2016 — January 2017",
+    description:
+      "Placeholder — Stephen's words about the trip go here.",
+    image: "/exploration/japan-2016/01.jpg",
+    photos: [
+      {
+        image: "/exploration/japan-2016/01.jpg",
+        w: 2400,
+        h: 1600,
+        caption:
+          "8AM, wandering around the Ryōgoku District. Checking out the sumo "
+          + "stables, just after the wrestlers' first workout.",
+      },
+      {
+        image: "/exploration/japan-2016/02.jpg",
+        w: 2400,
+        h: 1338,
+        caption:
+          "The buzzing Dotonbori, empty at 8AM two days after Christmas.",
+      },
+      {
+        image: "/exploration/japan-2016/03.jpg",
+        w: 2400,
+        h: 1522,
+        caption: "Kiyomizu-dera on a rainy afternoon.",
+      },
+      {
+        image: "/exploration/japan-2016/04.jpg",
+        w: 2302,
+        h: 2400,
+        caption: "Stone steps up to Kiyomizu-dera.",
+      },
+      {
+        image: "/exploration/japan-2016/05.jpg",
+        w: 2400,
+        h: 1600,
+        caption: "The Kamo River on a grey December morning.",
+      },
+      {
+        image: "/exploration/japan-2016/06.jpg",
+        w: 2400,
+        h: 1600,
+        caption: "The cold and chrome of Tokyo.",
+      },
+      {
+        image: "/exploration/japan-2016/07.jpg",
+        w: 1810,
+        h: 2400,
+        caption: "Ginza, first light.",
+      },
+    ],
+    x: 700, y: 560, w: 420, h: 280,
   },
   {
     id: "photo-01",
