@@ -299,6 +299,39 @@ body {
   }
 }
 
+/* The Exploration frame remains fixed while its arrow wraps through a clipped
+   viewport once per hover/focus. Leaving removes the animation so it can play
+   again on the next interaction. */
+@keyframes exploration-arrow-smooth-wrap {
+  0%,
+  13% {
+    transform: translateX(0);
+  }
+  38% {
+    transform: translateX(24px);
+  }
+  38.01% {
+    transform: translateX(-24px);
+  }
+  68%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.group:hover .exploration-arrow-glyph,
+.group:focus-visible .exploration-arrow-glyph {
+  animation: exploration-arrow-smooth-wrap 1.35s
+    cubic-bezier(0.45, 0, 0.2, 1) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .exploration-arrow-glyph,
+  .group:focus-visible .exploration-arrow-glyph {
+    animation: none;
+  }
+}
+
 /* Breathing fade for the "currently working on" status dots. */
 @keyframes status-pulse {
   0%,

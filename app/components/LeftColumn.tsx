@@ -20,6 +20,38 @@ function StackItem({ name, icon }: { name: string; icon: string }) {
   );
 }
 
+function ExplorationArrow() {
+  return (
+    <span
+      aria-hidden="true"
+      className="relative h-[22px] w-[22px] shrink-0"
+    >
+      <span className="absolute inset-0 overflow-hidden">
+        <svg
+          viewBox="0 0 22 22"
+          className="exploration-arrow-glyph absolute inset-0 h-[22px] w-[22px]"
+        >
+          <path
+            d="m10.91 5.61-.93.93 3.99 3.99H5.06v1.3h8.91l-3.99 4.02.93.92 5.57-5.56-5.57-5.6Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <svg
+        viewBox="0 0 22 22"
+        className="pointer-events-none absolute inset-0 h-[22px] w-[22px] overflow-visible"
+      >
+        <path
+          d="M.4 5.19V.4h4.79M21.16 17.17v4.79h-4.79M5.19 21.96H.4v-4.79M16.37.4h4.79v4.79"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth=".8"
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function LeftColumn() {
   return (
     <div className="flex flex-col gap-[82px]">
@@ -110,13 +142,15 @@ export default function LeftColumn() {
         </div>
         <Link
           href="/exploration"
-          data-cursor-label="EXPLORE"
-          className="mt-4 w-fit font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink u-line hover:text-muted"
+          className="group mt-4 flex w-full items-end font-[family-name:var(--font-body)] font-light text-[20px] leading-[36px] tracking-[0.03em] text-ink hover:text-muted"
         >
-          This is my creative playground. A home for the work that doesn’t
-          fit neatly into a case study: one-off digital projects, travel
-          photography, branding experiments, and whatever I’m exploring with
-          AI. Some start with a purpose. Others start with a simple, “What if?”
+          <span className="min-w-0 flex-1">
+            This is my creative playground. A home for the work that doesn’t
+            fit neatly into a case study: one-off digital projects, travel
+            photography, branding experiments, and whatever I’m exploring with
+            AI. Some start with a purpose. Others start with a simple, “What if?”
+          </span>
+          <ExplorationArrow />
         </Link>
       </div>
 
