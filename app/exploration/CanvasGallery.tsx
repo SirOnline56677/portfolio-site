@@ -11,6 +11,9 @@ const MAX_SCALE = 2.5;
 /** Pointer travel (px) below which a press still counts as a click, not a drag. */
 const CLICK_SLOP = 6;
 
+const ZOOM_BUTTON =
+  "grid h-9 min-w-9 place-items-center rounded-full border border-divider px-3 font-[family-name:var(--font-label)] text-[14px] uppercase text-ink transition-colors hover:border-ink";
+
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 function worldBounds() {
@@ -30,8 +33,17 @@ function PieceModal({
   piece: ExplorationPiece;
   onClose: () => void;
 }) {
-  const takes = [{ label: "Original", image: piece.image }, ...(piece.versions ?? [])];
-  const [take, setTake] = useState(0);
+  // A piece with a `coverLabel` is a numbered series whose cover happens to be
+  // one of the takes — so the chips run in series order (v1…v5) and we just
+  // open on the cover. Without one the cover is the canonical image and leads.
+  const cover = { label: piece.coverLabel ?? "Original", image: piece.image };
+  const takes = [cover, ...(piece.versions ?? [])];
+  if (piece.coverLabel) {
+    takes.sort((a, b) =>
+      a.label.localeCompare(b.label, undefined, { numeric: true }),
+    );
+  }
+  const [take, setTake] = useState(() => takes.indexOf(cover));
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -370,23 +382,33 @@ export default function CanvasGallery() {
           Drag or scroll to move · pinch or ⌘ scroll to zoom · click a piece to open
         </span>
         <div className="pointer-events-auto flex items-center gap-2">
-          {(
-            [
-              ["−", () => zoomCenter(0.8), "Zoom out"],
-              ["+", () => zoomCenter(1.25), "Zoom in"],
-              ["Reset", fit, "Reset view"],
-            ] as const
-          ).map(([label, fn, aria]) => (
-            <button
-              key={aria}
-              type="button"
-              onClick={fn}
-              aria-label={aria}
-              className="grid h-9 min-w-9 place-items-center rounded-full border border-divider px-3 font-[family-name:var(--font-label)] text-[14px] uppercase text-ink transition-colors hover:border-ink"
-            >
-              {label}
-            </button>
-          ))}
+          {/* Written out rather than mapped over an array of closures: collecting
+              `zoomCenter`/`fit` into a value during render reads as a ref access
+              to the compiler's lint rule. In an onClick prop it's fine. */}
+          <button
+            type="button"
+            onClick={() => zoomCenter(0.8)}
+            aria-label="Zoom out"
+            className={ZOOM_BUTTON}
+          >
+            −
+          </button>
+          <button
+            type="button"
+            onClick={() => zoomCenter(1.25)}
+            aria-label="Zoom in"
+            className={ZOOM_BUTTON}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            onClick={() => fit()}
+            aria-label="Reset view"
+            className={ZOOM_BUTTON}
+          >
+            Reset
+          </button>
         </div>
       </footer>
 

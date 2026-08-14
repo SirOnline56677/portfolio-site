@@ -72,6 +72,12 @@ export type ExplorationPiece = {
   date?: string;
   description: string;
   image: string;
+  /**
+   * Label for `image` in the popup's version switcher. Defaults to "Original",
+   * which is wrong for a set where the cover is just one variation among
+   * equals — those pass their own ("v4", "Take 2"…).
+   */
+  coverLabel?: string;
   /** Alternate takes / iterations, switchable inside the popup. */
   versions?: ExplorationVersion[];
   /** World-space placement on the floating canvas (px at scale 1). */
@@ -82,8 +88,32 @@ export type ExplorationPiece = {
 };
 
 // Pieces scattered across the /exploration floating canvas.
-// Placeholder imagery/copy — swap per piece, same as `projects` above.
+//
+// Adding a group: drop the files in `public/exploration/<group>/` and add one
+// entry below. Where a group is several takes on one idea it stays ONE piece —
+// the cover goes in `image`, the rest in `versions`, and the popup switches
+// between them. Entries still carrying "Placeholder —" copy are unfilled.
 export const explorationPieces: ExplorationPiece[] = [
+  {
+    id: "mj-footballer",
+    title: "the striker",
+    medium: "Midjourney",
+    date: "August 2026",
+    description:
+      "Five passes at the same idea: a footballer at the moment of contact, "
+      + "drawn in one nervous line and coloured in flat yellow and green. The "
+      + "prompt barely changed between takes — what moved was how much of the "
+      + "figure the colour was allowed to swallow.",
+    image: "/exploration/footballer/04.png",
+    coverLabel: "v4",
+    versions: [
+      { label: "v1", image: "/exploration/footballer/01.png" },
+      { label: "v2", image: "/exploration/footballer/02.png" },
+      { label: "v3", image: "/exploration/footballer/03.png" },
+      { label: "v5", image: "/exploration/footballer/05.png" },
+    ],
+    x: 120, y: -620, w: 360, h: 360,
+  },
   {
     id: "photo-01",
     title: "untitled 01",
