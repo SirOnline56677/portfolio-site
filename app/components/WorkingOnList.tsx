@@ -94,10 +94,10 @@ export default function WorkingOnList() {
           {(() => {
             const body = (
               <>
-                <span className="font-[family-name:var(--font-body)] font-light text-[20px] leading-[30px] tracking-[0.03em] text-ink">
+                <span className="font-[family-name:var(--font-body)] font-light text-[16px] leading-[24px] tracking-[0.03em] text-ink">
                   {item.description}
                 </span>
-                <span className="font-[family-name:var(--font-body)] font-light text-[18px] leading-[26px] tracking-[0.03em] text-muted">
+                <span className="font-[family-name:var(--font-body)] font-light text-[16px] leading-[22px] tracking-[0.03em] text-muted">
                   {item.dates}
                 </span>
               </>

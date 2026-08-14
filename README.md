@@ -10,7 +10,6 @@ A single-page product-design portfolio built from a Paper design.
 
 ```bash
 npm install
-cp .env.example .env.local   # then paste a GitHub token (see below)
 npm run dev
 ```
 
@@ -50,16 +49,17 @@ Two things to know before editing theme code:
 ## GitHub contributions heatmap
 
 The heatmap in the left column pulls **live** contribution data for the `SirOnline56677`
-account. It needs a GitHub Personal Access Token:
+account. It uses GitHub's public profile calendar by default, so no local setup is
+required. A GitHub Personal Access Token is optional and makes the site prefer the
+authenticated GraphQL API:
 
 1. Create one at <https://github.com/settings/tokens> (classic or fine-grained; no special
    scopes are required for public contribution data).
 2. Add it locally to `.env.local` as `GITHUB_TOKEN=...`
 3. Add the same variable to your Vercel project's **Environment Variables** for production.
 
-**Without a token the whole section — heading included — is omitted.** It deliberately does
-not substitute placeholder data: this is a portfolio, and inventing a year of GitHub
-activity would misrepresent real work.
+If GitHub is temporarily unavailable, the section remains visible and links to the profile;
+it deliberately does not substitute placeholder activity.
 
 If the graph looks emptier than expected, the usual cause isn't the token. GitHub excludes
 **private** repository activity from the contribution calendar. Enable it under

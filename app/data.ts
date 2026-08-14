@@ -274,11 +274,4 @@ export const currentlyWorkingOn: WorkingOn[] = [
     status: "active",
     thumb: "/assets/grocery-market.png",
   },
-  {
-    name: "This site",
-    description: "The portfolio you're looking at, designed and built in the open.",
-    dates: "2026 — Now",
-    status: "active",
-    thumb: "/assets/paper.png",
-  },
 ];
