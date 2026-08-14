@@ -73,7 +73,9 @@ export default function ThemeToggle() {
         {/* Reads the current mode; on hover (or keyboard focus) it swaps to the
             mode you'd switch to. Both words are stacked in one grid cell so the
             box is always as wide as the longer of the two — otherwise the label
-            would resize under the pointer as LIGHT became NEGATIVE.
+            would resize under the pointer as LIGHT became NEGATIVE. The cursor
+            pill deliberately does NOT follow that box; see the fit target
+            below.
 
             data-cursor-fit sits here rather than on the button on purpose:
             `.has-custom-cursor *` sets cursor: none, so the custom cursor is the
@@ -89,7 +91,14 @@ export default function ThemeToggle() {
           <span className="col-start-1 row-start-1 transition-opacity duration-150 group-hover:opacity-0 group-focus-visible:opacity-0 motion-reduce:transition-none">
             {dark ? "Negative" : "Light"}
           </span>
-          <span className="col-start-1 row-start-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+          {/* data-cursor-fit-target: this is the word the pill actually sits
+              over, so it's the one the pill is sized and centred on. Without it
+              the pill takes the grid cell's width — always the longer of the
+              two words — and overhangs whichever word is shorter. */}
+          <span
+            data-cursor-fit-target=""
+            className="col-start-1 row-start-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+          >
             {dark ? "Light" : "Negative"}
           </span>
         </span>

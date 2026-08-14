@@ -110,14 +110,23 @@ export default function Cursor() {
       //                       element inverts through it rather than being
       //                       covered by a competing word (the theme toggle)
       const hit = el?.closest<HTMLElement>("[data-cursor-label], [data-cursor-fit]");
-      fitEl = hit?.dataset.cursorFit !== undefined ? hit : null;
+      fitEl = null;
       if (!hit) {
         setTarget("", "", SIZE);
       } else if (hit.dataset.cursorFit !== undefined) {
-        // scrollWidth, not getBoundingClientRect: the toggle stacks both words
-        // in one grid cell, so the layout box is already the wider of the two
-        // and the pill won't resize as the label swaps underneath it.
-        setTarget(`fit:${hit.scrollWidth}`, "", hit.scrollWidth + PAD_X);
+        // Hug an inner element when one is marked, otherwise the element
+        // itself. The theme toggle stacks both words in a single grid cell, so
+        // its box is always the *longer* word's — sizing to that left the pill
+        // overhanging the shorter one. Marking the word that's actually visible
+        // on hover fixes both halves of the problem at once: `fitEl` centres
+        // the pill on that word, and the width is measured from it.
+        const target =
+          hit.querySelector<HTMLElement>("[data-cursor-fit-target]") ?? hit;
+        fitEl = target;
+        // The rect, not scrollWidth — it's sub-pixel accurate and it's what
+        // `frame()` already uses to place the pill, so the two agree.
+        const w = target.getBoundingClientRect().width;
+        setTarget(`fit:${w.toFixed(1)}`, "", w + PAD_X);
       } else {
         const text = hit.dataset.cursorLabel ?? "";
         label.textContent = text;

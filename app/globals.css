@@ -174,6 +174,41 @@ body {
   background-image: linear-gradient(var(--wash), var(--wash));
 }
 
+/* Orphans and widows.
+
+   `balance` evens out the lines of a short block so a two-line heading can't
+   strand its last word on a line of its own. It costs extra layout passes, so
+   browsers cap it — Chrome stops at about six lines — which is exactly why
+   it's scoped to headings and not to running text.
+
+   `pretty` is the cheap counterpart for body copy: it leaves the bulk of the
+   paragraph alone and only reworks the last few lines to avoid a one-word
+   final line.
+
+   Deliberately inside `@layer base`, unlike the `[data-theme]` block below.
+   That one has to sit unlayered to outrank Tailwind's `@layer theme`; these
+   are defaults that a `text-nowrap` or `text-balance` utility should still be
+   able to override, and `@layer utilities` wins over base. */
+@layer base {
+  /* Set on body and left to inherit rather than listed per element: a lot of
+     the body copy here lives in spans — the "currently working on" entries,
+     the homepage Exploration blurb — so a `p, li, …` list would quietly miss
+     it. Single-line text is unaffected; `pretty` only does anything to a block
+     that actually wraps. */
+  body {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+}
+
 /* Stack logos invert with the rest of the page in dark mode.
    Measured contrast against the #000606 ground, before → after inverting:
      figma  1.5:1 → 13.4:1   (an opaque black tile; inverting rescues it)
