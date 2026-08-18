@@ -234,12 +234,12 @@ export const explorationPieces: ExplorationPiece[] = [
 
 export const stack = {
   designing: [
-    { name: "Figma", icon: "/assets/figma.png" },
-    { name: "Paper", icon: "/assets/paper.png" },
+    { name: "Figma", icon: "/assets/figma.png", width: 27, height: 27, gap: 15 },
+    { name: "Paper", icon: "/assets/paper.png", width: 34, height: 34, gap: 11 },
   ],
   building: [
-    { name: "Claude", icon: "/assets/claude.png" },
-    { name: "Codex", icon: "/assets/codex.png" },
+    { name: "Claude", icon: "/assets/claude.png", width: 34, height: 32, gap: 12 },
+    { name: "Codex", icon: "/assets/codex.png", width: 30, height: 30, gap: 10 },
   ],
 };
 

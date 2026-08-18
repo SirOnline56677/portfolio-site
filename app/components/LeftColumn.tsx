@@ -9,10 +9,31 @@ import ThemeToggle from "./ThemeToggle";
 import ThinkingOrbIcon from "./ThinkingOrbIcon";
 import WorkingOnList from "./WorkingOnList";
 
-function StackItem({ name, icon }: { name: string; icon: string }) {
+function StackItem({
+  name,
+  icon,
+  width,
+  height,
+  gap,
+}: {
+  name: string;
+  icon: string;
+  width: number;
+  height: number;
+  gap: number;
+}) {
   return (
-    <div className="flex items-center gap-3">
-      <Image src={icon} alt={name} width={28} height={28} className="stack-icon h-7 w-7 object-contain" />
+    <div className="flex shrink-0 items-center" style={{ gap }}>
+      <Image
+        src={icon}
+        alt=""
+        aria-hidden="true"
+        width={width}
+        height={height}
+        className="stack-icon shrink-0 object-cover"
+        data-stack-icon={name.toLowerCase()}
+        style={{ width, height }}
+      />
       <span className="font-[family-name:var(--font-body)] font-medium text-stack text-muted">
         {name.toUpperCase()}
       </span>
@@ -84,7 +105,7 @@ export default function LeftColumn() {
             <div className="rule-dashed" />
             <div className="flex flex-wrap items-center justify-between gap-4">
               <SectionLabel>Building with</SectionLabel>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-[15px]">
                 {stack.building.map((s) => (
                   <StackItem key={s.name} {...s} />
                 ))}
