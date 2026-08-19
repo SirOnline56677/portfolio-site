@@ -3,6 +3,8 @@ export type Project = {
   tag: string;
   description: string;
   image: string;
+  /** Optional homepage-card crop position for portrait or off-center artwork. */
+  imagePosition?: string;
   href: string;
   /** Shown inside the cursor pill on hover — the kind of piece this is. */
   kind: "CASE STUDY" | "WEBSITE";
@@ -16,7 +18,8 @@ export const projects: Project[] = [
     tag: "Mobile / Web",
     description:
       "Redesigned the Free Spins experience so players could find, track and use spins from anywhere on the platform.",
-    image: "/work/wb-free-spins/cover.jpg",
+    image: "/work/wb-free-spins/wynnbet-free-spins-home-img-lite.png",
+    imagePosition: "50% 51%",
     href: "/work/wb-free-spins",
     kind: "CASE STUDY",
   },

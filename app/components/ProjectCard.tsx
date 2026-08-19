@@ -35,6 +35,7 @@ export default function ProjectCard({
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 570px"
           className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
         />
       </div>
 
