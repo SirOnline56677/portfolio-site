@@ -9,6 +9,12 @@ export default function ProjectCard({
   /** A loop duplicate: visually present, but invisible to AT and the tab order. */
   decorative?: boolean;
 }) {
+  const mediaStyle = {
+    objectFit: project.mediaFit ?? "cover",
+    objectPosition: project.imagePosition ?? "50% 50%",
+    transform: `scale(${project.mediaScale ?? 1})`,
+  } as const;
+
   return (
     <a
       href={project.href}
@@ -29,28 +35,30 @@ export default function ProjectCard({
 
       {/* Image well — square, lolo-style */}
       <div className="relative aspect-square w-full overflow-clip rounded-[24px] bg-well">
-        {project.video ? (
-          <video
-            src={project.video}
-            poster={project.image}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-          />
-        ) : (
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 570px"
-            className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
-          />
-        )}
+        <div className="relative h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]">
+          {project.video ? (
+            <video
+              src={project.video}
+              poster={project.image}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              className="h-full w-full"
+              style={mediaStyle}
+            />
+          ) : (
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 570px"
+              style={mediaStyle}
+            />
+          )}
+        </div>
       </div>
 
       {/* Footer: tag + description */}
