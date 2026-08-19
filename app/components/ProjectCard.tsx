@@ -29,14 +29,28 @@ export default function ProjectCard({
 
       {/* Image well — square, lolo-style */}
       <div className="relative aspect-square w-full overflow-clip rounded-[24px] bg-well">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 570px"
-          className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-          style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
-        />
+        {project.video ? (
+          <video
+            src={project.video}
+            poster={project.image}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          />
+        ) : (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 570px"
+            className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+          />
+        )}
       </div>
 
       {/* Footer: tag + description */}

@@ -3,6 +3,8 @@ export type Project = {
   tag: string;
   description: string;
   image: string;
+  /** Optional silent looping preview for the homepage card. */
+  video?: string;
   /** Optional homepage-card crop position for portrait or off-center artwork. */
   imagePosition?: string;
   href: string;
@@ -37,7 +39,8 @@ export const projects: Project[] = [
     tag: "Mobile / Web",
     description:
       "A modular sportsbook and casino platform serving 11 states, each with its own legal restrictions.",
-    image: "/work/wb-sportsbook/cover.jpg",
+    image: "/work/wb-sportsbook/sportsbook-evolution-poster.png",
+    video: "/work/wb-sportsbook/sportsbook-evolution.mp4",
     href: "/work/wb-sportsbook",
     kind: "CASE STUDY",
   },
