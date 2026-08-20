@@ -29,7 +29,7 @@ export default function ProjectCard({
       className={`group flex-col gap-[10px] ${decorative ? "hidden lg:flex" : "flex"}`}
     >
       {/* Title */}
-      <h3 className="font-[family-name:var(--font-project)] text-project uppercase text-ink">
+      <h3 className="font-[family-name:var(--font-project)] font-semibold text-project uppercase text-ink">
         {project.title}
       </h3>
 
