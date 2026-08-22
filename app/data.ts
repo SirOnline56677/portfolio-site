@@ -56,7 +56,8 @@ export const projects: Project[] = [
     tag: "Mobile",
     description:
       "A voice-supported job matching platform for older adults. First-ever Innovation Jam Hackathon winner at Go Studio, InComm Payments.",
-    image: "/work/bingo-ai-job-matching-platform-for-seniors/cover.jpg",
+    image: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident-poster.jpg",
+    video: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident.mp4",
     href: "/work/bingo-ai-job-matching-platform-for-seniors",
     kind: "CASE STUDY",
   },
