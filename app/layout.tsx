@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Koulen, Istok_Web } from "next/font/google";
+import { Koulen } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
@@ -11,14 +11,6 @@ import Cursor from "./components/Cursor";
 const koulen = Koulen({
   variable: "--ff-display",
   weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Project titles
-const istokWeb = Istok_Web({
-  variable: "--ff-project",
-  weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -69,7 +61,7 @@ export default function RootLayout({
       // React hydrates, so the server's "light" and the client's actual value
       // legitimately differ. Scoped to this attribute on this element only.
       suppressHydrationWarning
-      className={`${koulen.variable} ${istokWeb.variable} ${paralucent.variable} ${ivyStyleSans.variable} h-full antialiased`}
+      className={`${koulen.variable} ${paralucent.variable} ${ivyStyleSans.variable} h-full antialiased`}
     >
       <head>
         {/* Blocking on purpose: this must run before first paint, or a stored

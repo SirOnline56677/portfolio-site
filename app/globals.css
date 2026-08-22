@@ -10,7 +10,7 @@
 
   /* next/font injects --ff-* on <html>; expose them as font utilities */
   --font-display: var(--ff-display); /* Koulen */
-  --font-project: var(--ff-project); /* Istok Web */
+  --font-project: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body: var(--ff-body); /* Paralucent */
   --font-label: var(--ff-label); /* IvyStyle Sans */
 }

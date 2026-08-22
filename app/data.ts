@@ -3,7 +3,13 @@ export type Project = {
   tag: string;
   description: string;
   image: string;
-  /** Optional homepage-card crop position for portrait or off-center artwork. */
+  /** Optional silent looping preview for the homepage card. */
+  video?: string;
+  /** Scale the card media without changing the card's square footprint. */
+  mediaScale?: number;
+  /** Choose whether card media fills the well or remains fully visible. */
+  mediaFit?: "cover" | "contain";
+  /** Optional homepage-card focal point for off-center artwork. */
   imagePosition?: string;
   href: string;
   /** Shown inside the cursor pill on hover — the kind of piece this is. */
@@ -37,7 +43,11 @@ export const projects: Project[] = [
     tag: "Mobile / Web",
     description:
       "A modular sportsbook and casino platform serving 11 states, each with its own legal restrictions.",
-    image: "/work/wb-sportsbook/cover.jpg",
+    image: "/work/wb-sportsbook/sportsbook-evolution-poster.png",
+    video: "/work/wb-sportsbook/sportsbook-evolution.mp4",
+    mediaScale: 1,
+    mediaFit: "cover",
+    imagePosition: "50% 50%",
     href: "/work/wb-sportsbook",
     kind: "CASE STUDY",
   },
@@ -46,7 +56,8 @@ export const projects: Project[] = [
     tag: "Mobile",
     description:
       "A voice-supported job matching platform for older adults. First-ever Innovation Jam Hackathon winner at Go Studio, InComm Payments.",
-    image: "/work/bingo-ai-job-matching-platform-for-seniors/cover.jpg",
+    image: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident-poster.jpg",
+    video: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident.mp4",
     href: "/work/bingo-ai-job-matching-platform-for-seniors",
     kind: "CASE STUDY",
   },
