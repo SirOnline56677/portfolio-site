@@ -55,6 +55,12 @@ agents should prefer the driver: port 3000 is contended (see Gotchas).
 
 ## Gotchas
 
+- **Next 16 allows ONE dev server per project directory.** If any `next dev`
+  is already running from this checkout (whatever the port), `driver.sh start`
+  will print Ready and then die with "Another next dev server is already
+  running". Reuse the running one or kill it first. Anchor URLs (`#section`)
+  also screenshot blank under headless Chrome — the smooth-scroll library eats
+  the jump; take a tall full-page shot and crop instead.
 - **Port 3000 can be serving a DIFFERENT checkout.** Codex/agent clones of
   this repo live under `~/Documents/Codex/<date>/…/portfolio-site` and run
   their own `next dev` on 3000. Worse, two servers can coexist on 3000 (one
