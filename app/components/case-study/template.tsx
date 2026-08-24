@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Mindmap from "./Mindmap";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
 import type { FigureProps, RoadmapProps, ShellProps, Template } from "./types";
@@ -215,6 +216,7 @@ export const caseStudyTemplate: Template = {
     ),
     strong: (p) => <strong {...p} className="font-medium" />,
     Figure,
+    Mindmap,
     Roadmap,
   },
 };

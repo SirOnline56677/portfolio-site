@@ -41,3 +41,21 @@ export type RoadmapProps = {
   sub: string;
   phases: RoadmapPhase[];
 };
+
+/** One idea bubble on the brainstorm mindmap, in 900×560 logical space. */
+export type MindmapNode = {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  /** root = the center topic; spark = a starred/standout idea. */
+  kind?: "root" | "idea" | "spark";
+};
+
+export type MindmapProps = {
+  /** Small-caps line in the card head, e.g. the session date or prompt. */
+  sub: string;
+  nodes: MindmapNode[];
+  /** Pairs of node ids to connect. */
+  edges: [string, string][];
+};
