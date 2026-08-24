@@ -27,3 +27,17 @@ export type FigureProps = {
   alt?: string;
   caption?: string;
 };
+
+/** One phase of a project roadmap timeline. */
+export type RoadmapPhase = {
+  week: string;
+  dates: string;
+  name: string;
+  items: string[];
+};
+
+export type RoadmapProps = {
+  /** Small-caps line in the card head, e.g. "5 weeks · Mar 21 – Apr 23". */
+  sub: string;
+  phases: RoadmapPhase[];
+};
