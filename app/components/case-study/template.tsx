@@ -87,7 +87,7 @@ function Roadmap({ sub, phases }: RoadmapProps) {
               <RoadmapNode />
             </span>
             <span className="flex items-baseline gap-3 md:block">
-              <span className="block font-[family-name:var(--font-label)] text-label uppercase tracking-[0.14em] text-ink">
+              <span className="block font-[family-name:var(--font-label)] text-label font-bold uppercase tracking-[0.14em] text-ink">
                 {ph.week}
               </span>
               <span className="block font-[family-name:var(--font-label)] text-label uppercase text-muted md:mt-1">
