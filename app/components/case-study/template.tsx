@@ -60,9 +60,9 @@ function Roadmap({ sub, phases }: RoadmapProps) {
   return (
     <section
       aria-label="Project roadmap"
-      className="mx-auto my-12 max-w-[30rem] md:mx-0 md:max-w-none"
+      className="mx-auto mb-12 max-w-[30rem] md:mx-0 md:max-w-none"
     >
-      <p className="mb-7 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.12em] text-muted md:mb-9">
+      <p className="mb-7 font-[family-name:var(--font-label)] text-label font-bold uppercase tracking-[0.12em] text-muted md:mb-9">
         {sub}
       </p>
 
