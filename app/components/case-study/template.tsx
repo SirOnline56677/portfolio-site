@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
+import ProblemSpace from "./ProblemSpace";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
 import type { FigureProps, RoadmapProps, ShellProps, Template } from "./types";
@@ -219,6 +220,7 @@ export const caseStudyTemplate: Template = {
     Figure,
     Matrix,
     Mindmap,
+    ProblemSpace,
     Roadmap,
   },
 };

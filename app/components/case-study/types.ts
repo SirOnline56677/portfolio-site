@@ -76,3 +76,14 @@ export type MatrixProps = {
   axes: { top: string; bottom: string; left: string; right: string };
   items: MatrixItem[];
 };
+
+/** One Problem Space card; `art` keys a built-in ident-geometry SVG. */
+export type ProblemSpaceItem = {
+  title: string;
+  copy: string;
+  art: "savings" | "eclipse" | "drift";
+};
+
+export type ProblemSpaceProps = {
+  items: ProblemSpaceItem[];
+};
