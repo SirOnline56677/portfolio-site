@@ -36,10 +36,10 @@ function Figure({ src, w, h, alt = "", caption }: FigureProps) {
   );
 }
 
-// Timeline card in the Bingo ident palette. The colors are the case study's
-// brand, not the site's — like the images, the card stays identical in both
-// themes, so they're literals rather than theme tokens.
-const RM = { ink: "#141414", cream: "#EFEAE0", red: "#E8472A", blue: "#2B2A6A" };
+// Timeline on the page ground, like the section's siblings. Structure text
+// and the track use theme tokens and invert; only the two-disc nodes keep
+// the fixed ident red/blue, per the Mindmap/Matrix rule.
+const RM = { red: "#E8472A", blue: "#2B2A6A" };
 
 function RoadmapNode() {
   return (
@@ -60,13 +60,9 @@ function Roadmap({ sub, phases }: RoadmapProps) {
   return (
     <section
       aria-label="Project roadmap"
-      className="mx-auto my-12 max-w-[30rem] rounded-[24px] px-6 py-7 md:mx-0 md:max-w-none md:px-9 md:py-9"
-      style={{ background: RM.ink, color: RM.cream }}
+      className="mx-auto mb-12 max-w-[30rem] md:mx-0 md:max-w-none"
     >
-      <p
-        className="mb-7 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.12em] md:mb-9"
-        style={{ color: `${RM.cream}8C` }}
-      >
+      <p className="mb-7 font-[family-name:var(--font-label)] text-label font-bold uppercase tracking-[0.12em] text-muted md:mb-9">
         {sub}
       </p>
 
@@ -79,7 +75,7 @@ function Roadmap({ sub, phases }: RoadmapProps) {
         <span
           aria-hidden
           className="absolute bottom-2 left-[6px] top-2 w-px md:bottom-auto md:left-0 md:right-0 md:top-[59px] md:h-px md:w-auto"
-          style={{ background: `${RM.cream}38` }}
+          style={{ background: "color-mix(in srgb, var(--color-ink) 30%, transparent)" }}
         />
 
         {phases.map((ph) => (
@@ -91,28 +87,24 @@ function Roadmap({ sub, phases }: RoadmapProps) {
               <RoadmapNode />
             </span>
             <span className="flex items-baseline gap-3 md:block">
-              <span className="block font-[family-name:var(--font-label)] text-label uppercase tracking-[0.14em]">
+              <span className="block font-[family-name:var(--font-label)] text-label font-bold uppercase tracking-[0.14em] text-ink">
                 {ph.week}
               </span>
-              <span
-                className="block font-[family-name:var(--font-label)] text-label uppercase md:mt-1"
-                style={{ color: `${RM.cream}8C` }}
-              >
+              <span className="block font-[family-name:var(--font-label)] text-label uppercase text-muted md:mt-1">
                 {ph.dates}
               </span>
             </span>
             <span className="hidden md:mb-4 md:mt-[18px] md:block">
               <RoadmapNode />
             </span>
-            <span className="col-start-2 mt-1 block font-[family-name:var(--font-display)] text-h3 uppercase leading-[1.1] md:mt-0">
+            <span className="col-start-2 mt-1 block font-[family-name:var(--font-display)] text-h3 uppercase leading-[1.1] text-ink md:mt-0">
               {ph.name}
             </span>
             <ul className="col-start-2 m-0 mt-2 list-none p-0">
               {ph.items.map((item) => (
                 <li
                   key={item}
-                  className="font-[family-name:var(--font-body)] text-[13px] font-light leading-[1.7]"
-                  style={{ color: `${RM.cream}B8` }}
+                  className="font-[family-name:var(--font-body)] text-[13px] font-light leading-[1.7] text-muted"
                 >
                   {item}
                 </li>
