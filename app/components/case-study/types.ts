@@ -87,3 +87,18 @@ export type ProblemSpaceItem = {
 export type ProblemSpaceProps = {
   items: ProblemSpaceItem[];
 };
+
+/** Persona dossier card content. */
+export type PersonaProps = {
+  name: string;
+  /** After the name, e.g. "67 · Retired". */
+  meta: string;
+  chips: string[];
+  /** Rendered in quote marks with a red closing period — omit end punctuation. */
+  quote: string;
+  bio: string;
+  goals: string[];
+  worries: string[];
+  /** Avatar cutout, shown on a cream disc. */
+  img: { src: string; w: number; h: number };
+};
