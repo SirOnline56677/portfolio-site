@@ -45,7 +45,67 @@ Our solution included implementing a user-friendly, voice-supported onboarding p
 
 ## Project Roadmap
 
-<Figure src="/work/bingo-ai-job-matching-platform-for-seniors/roadmap.png" w={868} h={392} alt="Project roadmap" />
+<Roadmap
+  sub="5 weeks · Mar 21 – Apr 23"
+  phases={[
+    {
+      week: "Week 1",
+      dates: "3/21 – 3/26",
+      name: "Theme Research",
+      items: [
+        "Decide on area",
+        "Screener survey",
+        "Booking user interviews",
+        "Competitive feature analysis",
+      ],
+    },
+    {
+      week: "Week 2",
+      dates: "3/28 – 4/1",
+      name: "Research & Analysis",
+      items: [
+        "User interviews",
+        "Affinity mapping on Miro",
+        "Statements & insights",
+        "Persona · user flow",
+        "Problem statement",
+      ],
+    },
+    {
+      week: "Week 3",
+      dates: "4/4 – 4/8",
+      name: "Ideation",
+      items: [
+        "Design studio",
+        "Feature prioritization",
+        "Lo-fi wireframes",
+        "Mid-fi wireframes",
+      ],
+    },
+    {
+      week: "Week 4",
+      dates: "4/11 – 4/15",
+      name: "Prototyping",
+      items: [
+        "Mid-fi usability test",
+        "Hi-fi wireframe",
+        "Hi-fi usability testing",
+        "Presentation deck",
+      ],
+    },
+    {
+      week: "Week 5",
+      dates: "4/18 – 4/23",
+      name: "Presentation",
+      items: [
+        "Presentation prep",
+        "Recording",
+        "Finalize submission material",
+        "Submit",
+      ],
+    },
+  ]}
+/>
 
 ## Research & Insights
 
@@ -57,7 +117,58 @@ We aimed to understand the job market and specific needs of older adults seeking
 
 These conversations helped validate our ideas, highlighting concerns like the need for simplified applications and user-friendly onboarding, which influenced our decision to implement voice interaction and visual aids.
 
-<Figure src="/work/bingo-ai-job-matching-platform-for-seniors/brainstorm.png" w={425} h={449} alt="Brainstorming board" />
+<Mindmap
+  sub="Brainstorm · services for older adults"
+  nodes={[
+    { id: "concierge", label: "Concierge service", x: 400, y: 205, kind: "root" },
+    { id: "financial", label: "Financial", x: 215, y: 130 },
+    { id: "investment", label: "Investment", x: 240, y: 58 },
+    { id: "discount", label: "Discounts", x: 385, y: 80, kind: "spark" },
+    { id: "funeral", label: "Funeral prep", x: 82, y: 84 },
+    { id: "job", label: "Finding a job", x: 78, y: 170, kind: "spark" },
+    { id: "housekeeping", label: "House keeping", x: 620, y: 72 },
+    { id: "cooking", label: "Cooking", x: 596, y: 138 },
+    { id: "physical", label: "Elderly physical services", x: 560, y: 195 },
+    { id: "social", label: "Social", x: 680, y: 235 },
+    { id: "dating", label: "Dating app", x: 800, y: 180 },
+    { id: "friends", label: "Making new friends", x: 620, y: 292 },
+    { id: "coliving", label: "Co-living (roommates)", x: 800, y: 320, kind: "spark" },
+    { id: "routine", label: "Routine", x: 235, y: 222 },
+    { id: "shopping", label: "Shopping", x: 345, y: 285 },
+    { id: "medical", label: "Medical", x: 160, y: 285 },
+    { id: "rideshare", label: "Ride share", x: 500, y: 300 },
+    { id: "driver", label: "Driver w/ medical license", x: 610, y: 372 },
+    { id: "pharma", label: "Pharmaceutical", x: 130, y: 388 },
+    { id: "druginfo", label: "Drug information", x: 92, y: 480 },
+    { id: "patientcare", label: "Patient care", x: 320, y: 470 },
+    { id: "reminder", label: "Daily reminder · pain exam", x: 465, y: 420, kind: "spark" },
+    { id: "emergency", label: "Personal emergency card", x: 420, y: 512 },
+  ]}
+  edges={[
+    ["concierge", "financial"],
+    ["financial", "investment"],
+    ["financial", "discount"],
+    ["financial", "funeral"],
+    ["financial", "job"],
+    ["concierge", "housekeeping"],
+    ["concierge", "cooking"],
+    ["concierge", "physical"],
+    ["concierge", "social"],
+    ["social", "dating"],
+    ["social", "friends"],
+    ["friends", "coliving"],
+    ["concierge", "routine"],
+    ["concierge", "shopping"],
+    ["concierge", "medical"],
+    ["concierge", "rideshare"],
+    ["rideshare", "driver"],
+    ["medical", "pharma"],
+    ["pharma", "druginfo"],
+    ["pharma", "patientcare"],
+    ["patientcare", "reminder"],
+    ["patientcare", "emergency"],
+  ]}
+/>
 
 ## Competitor Analysis
 
@@ -65,7 +176,21 @@ Bingo stands between short to mid-term jobs. Letting seniors have the option to 
 
 While most competitors focus on short-term or general job placements, Bingo AI fills a unique gap by targeting older adults seeking flexible, part-time roles. Our platform emphasizes simplicity and accessibility, distinguishing us from more complex or generic job platforms.
 
-<Figure src="/work/bingo-ai-job-matching-platform-for-seniors/competitor-matrix.png" w={868} h={532} alt="Competitor matrix" />
+<Matrix
+  axes={{ top: "Short term", bottom: "Long term", left: "General", right: "For older adults" }}
+  items={[
+    { id: "snagajob", label: "Snagajob", x: 252, y: 146, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/snagajob.png", w: 127, h: 35 } },
+    { id: "bingo", label: "Bingo", x: 657, y: 106, kind: "spark", img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/bingo-wordmark.svg", w: 420, h: 173, em: 1.9 } },
+    { id: "flexjobs", label: "FlexJobs", x: 351, y: 302, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/flexjobs.png", w: 82, h: 39, em: 1.9 } },
+    { id: "retirementjobs", label: "RetirementJobs.com", x: 567, y: 297, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/retirementjobs.png", w: 208, h: 22, em: 1.1 } },
+    { id: "monster", label: "Monster", x: 216, y: 353, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/monster.png", w: 105, h: 23, em: 1.15 } },
+    { id: "glassdoor", label: "Glassdoor", x: 153, y: 403, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/glassdoor.png", w: 151, h: 35 } },
+    { id: "indeed", label: "Indeed", x: 288, y: 403, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/indeed.png", w: 114, h: 35 } },
+    { id: "linkedin", label: "LinkedIn", x: 225, y: 454, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/linkedin.png", w: 124, h: 36 } },
+    { id: "workforce50", label: "Workforce50", x: 540, y: 420, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/workforce50.png", w: 57, h: 67, em: 3 } },
+    { id: "whatsnext", label: "What's Next", x: 645, y: 460, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/whatsnext.png", w: 110, h: 41, em: 1.7 } },
+  ]}
+/>
 
 ## Problem Space
 

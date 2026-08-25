@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import Matrix from "./Matrix";
+import Mindmap from "./Mindmap";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
-import type { FigureProps, ShellProps, Template } from "./types";
+import type { FigureProps, RoadmapProps, ShellProps, Template } from "./types";
 
 // The case study template.
 //
@@ -29,6 +31,95 @@ function Figure({ src, w, h, alt = "", caption }: FigureProps) {
         </figcaption>
       ) : null}
     </figure>
+  );
+}
+
+// Timeline card in the Bingo ident palette. The colors are the case study's
+// brand, not the site's — like the images, the card stays identical in both
+// themes, so they're literals rather than theme tokens.
+const RM = { ink: "#141414", cream: "#EFEAE0", red: "#E8472A", blue: "#2B2A6A" };
+
+function RoadmapNode() {
+  return (
+    <span className="relative block h-[14px] w-[22px]" aria-hidden>
+      <span
+        className="absolute left-[8px] top-[5px] h-[14px] w-[14px] rounded-full"
+        style={{ background: RM.blue }}
+      />
+      <span
+        className="absolute left-0 top-0 h-[14px] w-[14px] rounded-full"
+        style={{ background: RM.red }}
+      />
+    </span>
+  );
+}
+
+function Roadmap({ sub, phases }: RoadmapProps) {
+  return (
+    <section
+      aria-label="Project roadmap"
+      className="mx-auto my-12 max-w-[30rem] rounded-[24px] px-6 py-7 md:mx-0 md:max-w-none md:px-9 md:py-9"
+      style={{ background: RM.ink, color: RM.cream }}
+    >
+      <p
+        className="mb-7 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.12em] md:mb-9"
+        style={{ color: `${RM.cream}8C` }}
+      >
+        {sub}
+      </p>
+
+      <ol
+        className="relative grid list-none grid-cols-1 gap-y-7 p-0 md:grid-cols-5 md:gap-x-5 md:gap-y-0"
+        style={{ counterReset: "none" }}
+      >
+        {/* track: vertical spine when stacked, horizontal line through the
+            node row at md+ (top offset = week+dates lines + node margin). */}
+        <span
+          aria-hidden
+          className="absolute bottom-2 left-[6px] top-2 w-px md:bottom-auto md:left-0 md:right-0 md:top-[59px] md:h-px md:w-auto"
+          style={{ background: `${RM.cream}38` }}
+        />
+
+        {phases.map((ph) => (
+          <li
+            key={ph.week}
+            className="relative grid grid-cols-[22px_1fr] gap-x-4 md:block"
+          >
+            <span className="pt-px md:hidden">
+              <RoadmapNode />
+            </span>
+            <span className="flex items-baseline gap-3 md:block">
+              <span className="block font-[family-name:var(--font-label)] text-label uppercase tracking-[0.14em]">
+                {ph.week}
+              </span>
+              <span
+                className="block font-[family-name:var(--font-label)] text-label uppercase md:mt-1"
+                style={{ color: `${RM.cream}8C` }}
+              >
+                {ph.dates}
+              </span>
+            </span>
+            <span className="hidden md:mb-4 md:mt-[18px] md:block">
+              <RoadmapNode />
+            </span>
+            <span className="col-start-2 mt-1 block font-[family-name:var(--font-display)] text-h3 uppercase leading-[1.1] md:mt-0">
+              {ph.name}
+            </span>
+            <ul className="col-start-2 m-0 mt-2 list-none p-0">
+              {ph.items.map((item) => (
+                <li
+                  key={item}
+                  className="font-[family-name:var(--font-body)] text-[13px] font-light leading-[1.7]"
+                  style={{ color: `${RM.cream}B8` }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
@@ -126,5 +217,8 @@ export const caseStudyTemplate: Template = {
     ),
     strong: (p) => <strong {...p} className="font-medium" />,
     Figure,
+    Matrix,
+    Mindmap,
+    Roadmap,
   },
 };
