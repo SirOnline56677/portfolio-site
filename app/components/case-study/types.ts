@@ -59,3 +59,20 @@ export type MindmapProps = {
   /** Pairs of node ids to connect. */
   edges: [string, string][];
 };
+
+/** One competitor chip on the 2×2 positioning matrix, in 900×560 space. */
+export type MatrixItem = {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  /** Brand mark rendered inside a white chip; `em` is display height. */
+  img?: { src: string; w: number; h: number; em?: number };
+  /** spark = the ident-red highlighted entrant. */
+  kind?: "spark";
+};
+
+export type MatrixProps = {
+  axes: { top: string; bottom: string; left: string; right: string };
+  items: MatrixItem[];
+};
