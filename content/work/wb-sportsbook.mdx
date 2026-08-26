@@ -62,15 +62,24 @@ Internet research revealed that 70% of users accessed the platform via mobile de
 
 Competitor analysis revealed that quick deposits and intuitive wager processes are critical for user retention. This insight informed our focus on streamlining deposits, simplifying user flows, and enhancing visibility for key features.
 
-<Figure src="/work/wb-sportsbook/competitor-1.png" w={171} h={210} alt="Competitor analysis" />
-
-<Figure src="/work/wb-sportsbook/competitor-2.png" w={171} h={210} alt="Competitor analysis" />
-
-<Figure src="/work/wb-sportsbook/competitor-3.png" w={171} h={210} alt="Competitor analysis" />
-
-<Figure src="/work/wb-sportsbook/competitor-4.png" w={171} h={210} alt="Competitor analysis" />
-
-<Figure src="/work/wb-sportsbook/competitor-5.png" w={171} h={210} alt="Competitor analysis" />
+<CompareCards
+  books={[
+    { name: "FanDuel", logo: { src: "/work/wb-sportsbook/logos/fanduel.svg", w: 2661, h: 468 } },
+    { name: "DraftKings", logo: { src: "/work/wb-sportsbook/logos/draftkings.svg", w: 444, h: 225 } },
+    { name: "Caesars Sportsbook", logo: { src: "/work/wb-sportsbook/logos/caesars.png", w: 586, h: 176 }, dark: true },
+  ]}
+  features={[
+    { statement: "Opt-in to promos without leaving the home screen", offers: [true, true, true] },
+    { statement: "Live betting on the home screen", offers: [true, true, true] },
+    { statement: "A category list to navigate & toggle on the home screen", offers: [true, true, true] },
+    { statement: "Quick parlay placement", offers: [true, true, true] },
+    {
+      statement: "Unique special features on display",
+      offers: [true, false, true],
+      note: "DraftKings sits this one out.",
+    },
+  ]}
+/>
 
 ## User Challenge
 

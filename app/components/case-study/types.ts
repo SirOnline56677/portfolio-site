@@ -102,3 +102,22 @@ export type PersonaProps = {
   /** Avatar cutout, shown on a cream disc. */
   img: { src: string; w: number; h: number };
 };
+
+/** A competitor column on the feature-comparison cards. */
+export type CompareBook = {
+  name: string;
+  logo: { src: string; w: number; h: number };
+  /** Render the logo chip on the brand's dark ground (light-on-dark marks). */
+  dark?: boolean;
+};
+
+export type CompareCardsProps = {
+  books: CompareBook[];
+  features: {
+    statement: string;
+    /** One entry per book, same order. */
+    offers: boolean[];
+    /** Optional caption under the rows, e.g. naming the odd one out. */
+    note?: string;
+  }[];
+};

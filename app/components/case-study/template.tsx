@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CompareCards from "./CompareCards";
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import Persona from "./Persona";
@@ -210,6 +211,7 @@ export const caseStudyTemplate: Template = {
       />
     ),
     strong: (p) => <strong {...p} className="font-medium" />,
+    CompareCards,
     Figure,
     Matrix,
     Mindmap,
