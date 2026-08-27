@@ -66,7 +66,8 @@ export const projects: Project[] = [
     tag: "Mobile",
     description:
       "A peer-to-peer marketplace for luxury watches, built around authenticity, seller reputation and buyer education.",
-    image: "/work/wrist-check-a-peer-to-peer-market-place/cover.jpg",
+    image: "/work/wrist-check-a-peer-to-peer-market-place/tile-wordmark.png",
+    video: "/work/wrist-check-a-peer-to-peer-market-place/tile-wordmark.mp4",
     href: "/work/wrist-check-a-peer-to-peer-market-place",
     kind: "CASE STUDY",
   },
