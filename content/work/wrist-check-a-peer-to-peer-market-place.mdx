@@ -100,11 +100,33 @@ Freddy provided insights into the risks of the gray market, where authenticity c
 
 ## Competitor Analysis
 
-### SWOT
+### Who does what
 
 While platforms like Chrono24 and eBay serve the broader luxury watch market, they lack the robust authentication and community trust features Wrist Check provides, positioning us as a safer alternative for newcomers.
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/swot.jpg" w={1080} h={502} alt="SWOT analysis" />
+<CapabilityBoard
+  title="WHO DOES WHAT"
+  byline="SECONDARY MARKET · 2020"
+  groups={[
+    { label: "SELL", color: "#E23B22", span: 3 },
+    { label: "TRADE", color: "#2657E0", span: 2 },
+    { label: "TRUST", color: "#F0B60B", labelColor: "#8a6a06", span: 1 },
+  ]}
+  columns={["TO THE\nSITE", "ON-SITE\nTO OTHERS", "PEER TO\nPEER", "TRADE\nIN", "PEER TO\nPEER", "AUTH\nGUARANTEE"]}
+  rows={[
+    { name: "CHRONO24", caps: [false, true, false, false, false, true], note: "SELLS VIA PRO DEALERS OR PRIVATE SELLERS · 2.85% LISTING FEE" },
+    { name: "WATCHUWANT", caps: [true, false, false, true, false, true] },
+    { name: "BOB'S WATCHES", caps: [true, false, false, false, false, true] },
+    { name: "GOVBERG", caps: [true, false, false, true, false, true] },
+    { name: "CROWN & CALIBER", caps: [true, false, false, false, false, true] },
+    { name: "BERNARD WATCH", caps: [true, false, false, true, false, true] },
+    { name: "DAVID SW", caps: [false, false, false, false, false, false] },
+    { name: "EBAY", caps: [false, true, false, false, false, false] },
+    { name: "FORUMS", caps: [false, true, true, false, true, false], note: "NO GUARANTEE WHAT YOU BUY IS REAL" },
+  ]}
+  highlight={{ name: "WRIST CHECK", caps: [false, false, true, false, true, true] }}
+  punchline="PEER-TO-PEER × AUTHENTICATED — ONLY ONE NAME HOLDS BOTH."
+/>
 
 ## User Challenge
 

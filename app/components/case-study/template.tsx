@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CapabilityBoard from "./CapabilityBoard";
 import CompareCards from "./CompareCards";
 import FreeSpinsMoment from "./free-spins/FreeSpinsMoment";
 import BannerStates from "./free-spins/BannerStates";
@@ -215,6 +216,7 @@ export const caseStudyTemplate: Template = {
       />
     ),
     strong: (p) => <strong {...p} className="font-medium" />,
+    CapabilityBoard,
     CompareCards,
     Figure,
     BannerStates,

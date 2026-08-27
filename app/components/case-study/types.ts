@@ -128,3 +128,17 @@ export type CompareCardsProps = {
     note?: string;
   }[];
 };
+
+/** "Who does what" capability board (competitor analysis). */
+export type CapabilityBoardProps = {
+  title: string;
+  byline: string;
+  /** Capability groups; span = number of columns covered. */
+  groups: { label: string; color: string; labelColor?: string; span: number }[];
+  /** Column headings; use \n for two-line heads. */
+  columns: string[];
+  rows: { name: string; caps: boolean[]; note?: string }[];
+  /** The product's highlighted row. */
+  highlight: { name: string; caps: boolean[] };
+  punchline: string;
+};
