@@ -1,0 +1,19 @@
+{
+  "name": "bingo-ident",
+  "private": true,
+  "description": "Remotion source for the Bingo AI ident video (homepage card loop) — slideshow burst into the resolved wordmark.",
+  "scripts": {
+    "render": "remotion render Square ../../public/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident.mp4 --scale=0.6667 --crf=26",
+    "still": "remotion still Square ../../public/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident-poster.jpg --frame=150 --scale=0.6667 --image-format=jpeg"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.515",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.515"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "typescript": "^7.0.2"
+  }
+}
