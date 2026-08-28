@@ -142,3 +142,15 @@ export type CapabilityBoardProps = {
   highlight: { name: string; caps: boolean[] };
   punchline: string;
 };
+
+/** Approach shortlist on a budget axis. */
+export type PriceRulerProps = {
+  caption: string;
+  min: number;
+  max: number;
+  /** Brands placed at their entry price along the axis. */
+  items: { name: string; value: number }[];
+  /** The over-budget outlier pinned past the ceiling. */
+  over: string;
+  footnote: string;
+};

@@ -9,6 +9,7 @@ import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/s
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import Persona from "./Persona";
+import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
@@ -229,6 +230,7 @@ export const caseStudyTemplate: Template = {
     SpinSurfaces,
     Mindmap,
     Persona,
+    PriceRuler,
     ProblemSpace,
     Roadmap,
   },
