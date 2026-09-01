@@ -20,6 +20,48 @@ const isDark = () => document.documentElement.dataset.theme === "dark";
 // The server always renders light; the script may correct it before paint.
 const serverIsDark = () => false;
 
+// Burst reveal: the incoming theme floods the page as a circle from the
+// top-left corner. Timings hand-tuned in prototypes/theme-reveal-tuner.html —
+// grow to a 110px bubble, hold it a beat, then accelerate out.
+const GROW_MS = 150;
+const HOLD_MS = 160;
+const FLOOD_MS = 340;
+const BUBBLE_PX = 110;
+
+function burstReveal(apply: () => void) {
+  const vt = document.startViewTransition(apply);
+  // If the transition can't start (a second flip mid-flight skips the first),
+  // the theme has still been applied — only the animation is lost.
+  vt.ready
+    .then(() => {
+      // Radius to the far corner, so the circle always covers the page. The
+      // origin is the viewport corner, not this button: case studies render
+      // the toggle elsewhere, and the reveal should feel like the page's move,
+      // not the button's.
+      const r = Math.hypot(window.innerWidth, window.innerHeight);
+      const total = GROW_MS + HOLD_MS + FLOOD_MS;
+      document.documentElement.animate(
+        {
+          clipPath: [
+            "circle(0px at 0px 0px)",
+            `circle(${BUBBLE_PX}px at 0px 0px)`,
+            // A slight swell keeps the hold reading as alive, not stuck.
+            `circle(${Math.round(BUBBLE_PX * 1.12)}px at 0px 0px)`,
+            `circle(${Math.round(r)}px at 0px 0px)`,
+          ],
+          offset: [0, GROW_MS / total, (GROW_MS + HOLD_MS) / total, 1],
+          easing: [
+            "cubic-bezier(0.33, 1, 0.68, 1)",
+            "ease-in-out",
+            "cubic-bezier(0.55, 0, 0.85, 0.25)",
+          ],
+        },
+        { duration: total, pseudoElement: "::view-transition-new(root)" },
+      );
+    })
+    .catch(() => {});
+}
+
 // Inverted ("negative") theme toggle.
 //
 // Writes data-theme on <html> and nothing else — every colour in the page is a
@@ -36,14 +78,25 @@ export default function ThemeToggle() {
 
   const toggle = () => {
     const next = !dark;
-    // Write the attribute only — the store above picks the change straight back
-    // up, so there's no second copy of this state to keep in sync.
-    document.documentElement.dataset.theme = next ? "dark" : "light";
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {
-      // Private mode / storage disabled — the theme just won't persist.
+    const apply = () => {
+      // Write the attribute only — the store above picks the change straight
+      // back up, so there's no second copy of this state to keep in sync.
+      document.documentElement.dataset.theme = next ? "dark" : "light";
+      try {
+        localStorage.setItem("theme", next ? "dark" : "light");
+      } catch {
+        // Private mode / storage disabled — the theme just won't persist.
+      }
+    };
+
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      apply();
+      return;
     }
+    burstReveal(apply);
   };
 
   return (
