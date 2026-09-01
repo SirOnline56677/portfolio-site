@@ -69,9 +69,12 @@ function burstReveal(apply: () => void) {
 // other component. The dither canvas and thinking-orbs both observe the same
 // attribute directly rather than subscribing to React state.
 //
-// Persisted in localStorage so the choice survives navigation — case studies are
-// real routes, and without this every click would snap back to light. Still does
-// NOT follow prefers-color-scheme: the OS is never consulted.
+// Persisted in sessionStorage so the choice survives navigation — case studies
+// are real routes, and without this every click would snap back to the default.
+// sessionStorage, not localStorage, on purpose: the choice lasts only for the
+// visit, and the next one starts from the time-of-day default again (AM light,
+// PM negative — see the boot script in layout.tsx). Still does NOT follow
+// prefers-color-scheme: the OS is never consulted.
 //
 export default function ThemeToggle() {
   const dark = useSyncExternalStore(subscribe, isDark, serverIsDark);
@@ -83,7 +86,7 @@ export default function ThemeToggle() {
       // back up, so there's no second copy of this state to keep in sync.
       document.documentElement.dataset.theme = next ? "dark" : "light";
       try {
-        localStorage.setItem("theme", next ? "dark" : "light");
+        sessionStorage.setItem("theme", next ? "dark" : "light");
       } catch {
         // Private mode / storage disabled — the theme just won't persist.
       }
