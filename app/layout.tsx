@@ -57,21 +57,27 @@ export default function RootLayout({
       // Always stamped, including "light" — see globals.css. Static here, so
       // there is no theme flash and nothing for hydration to disagree about.
       data-theme="light"
-      // The blocking script below rewrites data-theme from localStorage before
-      // React hydrates, so the server's "light" and the client's actual value
-      // legitimately differ. Scoped to this attribute on this element only.
+      // The blocking script below rewrites data-theme before React hydrates —
+      // from the visitor's clock, or a toggle stored for this visit — so the
+      // server's "light" and the client's actual value legitimately differ.
+      // Scoped to this attribute on this element only.
       suppressHydrationWarning
       className={`${koulen.variable} ${paralucent.variable} ${ivyStyleSans.variable} h-full antialiased`}
     >
       <head>
-        {/* Blocking on purpose: this must run before first paint, or a stored
-            dark theme shows a frame of light first on every page load. It only
-            reads localStorage — the OS preference is deliberately never
-            consulted. Wrapped in try/catch because storage throws in some
-            private-browsing modes, where the default light theme is fine. */}
+        {/* Blocking on purpose: this must run before first paint, or a PM
+            visitor shows a frame of light on every page load. The default is
+            the visitor's clock — AM light, PM negative — and a toggle made
+            during the visit rides on top from sessionStorage, whose lifetime
+            IS the visit: it survives reloads and route changes in the tab,
+            then dies with it, so the next visit answers to the clock again.
+            The OS preference is deliberately never consulted. Storage reads
+            are try/caught (some private-browsing modes throw) — the clock
+            still decides there. The localStorage.removeItem sweeps out the
+            key a pre-time-default build left behind on returning visitors. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}`,
+            __html: `var t=null;try{t=sessionStorage.getItem("theme")}catch(e){}if(t!=="dark"&&t!=="light")t=new Date().getHours()>=12?"dark":"light";document.documentElement.dataset.theme=t;try{localStorage.removeItem("theme")}catch(e){}`,
           }}
         />
       </head>
