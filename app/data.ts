@@ -34,7 +34,8 @@ export const projects: Project[] = [
     tag: "Mobile / Web",
     description:
       "Brought leaderboards out of the promotions tab onto their own page, with direct opt-in and visible expiry.",
-    image: "/work/wb-leaderboards/cover.jpg",
+    image: "/work/wb-leaderboards/tile-shuffle.png",
+    video: "/work/wb-leaderboards/tile-shuffle.mp4",
     href: "/work/wb-leaderboards",
     kind: "CASE STUDY",
   },
