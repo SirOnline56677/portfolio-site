@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import CompareCards from "./CompareCards";
+import FreeSpinsMoment from "./free-spins/FreeSpinsMoment";
+import BannerStates from "./free-spins/BannerStates";
+import SpinsPrototype from "./free-spins/SpinsPrototype";
+import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/studyGraphics";
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import Persona from "./Persona";
@@ -213,7 +217,14 @@ export const caseStudyTemplate: Template = {
     strong: (p) => <strong {...p} className="font-medium" />,
     CompareCards,
     Figure,
+    BannerStates,
+    BrandBoard,
+    CmsFlow,
+    FreeSpinsMoment,
     Matrix,
+    ProblemIssues,
+    SpinsPrototype,
+    SpinSurfaces,
     Mindmap,
     Persona,
     ProblemSpace,
