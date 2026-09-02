@@ -212,6 +212,89 @@ export function BrandBoard() {
           </span>
         </div>
       </div>
+      <div>
+        <GroupLabel>How it should feel</GroupLabel>
+        <style>{`
+          @keyframes fs-breathe { 0%, 100% { stroke-dashoffset: 66; } 55% { stroke-dashoffset: 44; } }
+          @keyframes fs-dotpulse { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+          @keyframes fs-twinkle { 0%, 100% { opacity: 0.15; } 45% { opacity: 1; } }
+          @media (prefers-reduced-motion: reduce) {
+            .fs-anim { animation: none !important; }
+          }
+        `}</style>
+        <div className="mt-3 grid grid-cols-1 gap-[14px] sm:grid-cols-2">
+          <div className="flex min-h-[170px] flex-col rounded-[12px] p-[26px] pb-[22px]" style={{ background: NAVY }}>
+            <div className="flex h-[84px] items-center">
+              <svg width={84} height={84} viewBox="0 0 84 84" aria-hidden>
+                <circle cx={42} cy={42} r={35} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={6} />
+                <circle
+                  className="fs-anim"
+                  cx={42}
+                  cy={42}
+                  r={35}
+                  fill="none"
+                  stroke={GOLD}
+                  strokeWidth={6}
+                  strokeLinecap="round"
+                  strokeDasharray="219.9"
+                  strokeDashoffset="66"
+                  transform="rotate(-90 42 42)"
+                  style={{ animation: "fs-breathe 2.6s ease-in-out infinite" }}
+                />
+              </svg>
+              <span className="ml-[18px] flex gap-[6px]" aria-hidden>
+                {[0, 0.25, 0.5].map((d) => (
+                  <span
+                    key={d}
+                    className="fs-anim h-[6px] w-[6px] rounded-full"
+                    style={{ background: "rgba(255,255,255,0.7)", animation: `fs-dotpulse 1.8s ease-in-out ${d}s infinite` }}
+                  />
+                ))}
+              </span>
+            </div>
+            <div className="mt-auto text-[22px] tracking-[0.06em]" style={{ fontFamily: "var(--font-display)", color: GOLD }}>
+              ANTICIPATION
+            </div>
+            <div className="mt-[4px] text-[13.5px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
+              Your spin is waiting.
+            </div>
+          </div>
+          <div
+            className="flex min-h-[170px] flex-col rounded-[12px] p-[26px] pb-[22px]"
+            style={{ background: "linear-gradient(135deg, #43104f 0%, #8e24aa 100%)" }}
+          >
+            <div className="relative flex h-[84px] items-center">
+              <span
+                className="text-[64px] leading-none"
+                style={{ fontFamily: "var(--font-display)", color: "#f2c21c", textShadow: "0 2px 0 #c99400" }}
+              >
+                7
+              </span>
+              <svg width={84} height={84} viewBox="0 0 84 84" className="absolute left-[34px] top-0" aria-hidden>
+                {[
+                  ["M22 10l2.4 6.6L31 19l-6.6 2.4L22 28l-2.4-6.6L13 19l6.6-2.4Z", "#f2c21c", 0],
+                  ["M58 34l1.8 5L65 40.8l-5 1.8L58.2 48l-1.8-5-5.2-1.8 5-1.8Z", "#f2c21c", 0.6],
+                  ["M40 58l1.4 3.8 3.8 1.4-3.8 1.4L40 68.4l-1.4-3.8-3.8-1.4 3.8-1.4Z", "#ffffff", 1.2],
+                ].map(([d, fill, delay]) => (
+                  <path
+                    key={String(delay)}
+                    className="fs-anim"
+                    d={d as string}
+                    fill={fill as string}
+                    style={{ animation: `fs-twinkle 2.2s ease-in-out ${delay}s infinite` }}
+                  />
+                ))}
+              </svg>
+            </div>
+            <div className="mt-auto text-[22px] tracking-[0.06em]" style={{ fontFamily: "var(--font-display)", color: GOLD }}>
+              LUCK
+            </div>
+            <div className="mt-[4px] text-[13.5px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
+              Today feels lucky.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -253,7 +336,7 @@ const ISSUE_ICONS: Record<string, React.ReactNode> = {
  * theme tokens (they invert); the navy chip and gold glyphs stay fixed. */
 function IssueList({ items }: { items: [keyof typeof ISSUE_ICONS, string][] }) {
   return (
-    <div className="my-12 flex max-w-[560px] flex-col gap-3">
+    <div className="my-12 grid max-w-[760px] grid-cols-1 gap-3 sm:grid-cols-2">
       {items.map(([icon, text]) => (
         <div
           key={text}
