@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { GOLD, NAVY, display, sans } from "./wb";
+import { GOLD, NAVY } from "./wb";
 
 // Static study graphics for the Free Spins case study. Like the other
 // case-study components: structure and text sit on the page ground and use
@@ -292,54 +292,6 @@ export function BrandBoard() {
             <div className="mt-[4px] text-[13.5px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
               Today feels lucky.
             </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <GroupLabel>The campaign</GroupLabel>
-        <div className="relative mt-3 flex h-[300px] overflow-clip rounded-[12px]" style={{ background: "#0a0d16" }}>
-          <div
-            className="absolute right-0 top-0 h-full w-[52%]"
-            style={{
-              backgroundImage: `url(${G}/campaign-floor.jpg)`,
-              backgroundSize: "cover",
-              backgroundPosition: "center right",
-            }}
-          >
-            <span
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(90deg, #0a0d16 0%, rgba(10,13,22,0.55) 30%, transparent 70%)" }}
-            />
-          </div>
-          <div className="relative z-[1] flex flex-col items-start p-[30px] pl-[34px]">
-            <div style={{ transform: "skewX(-6deg)" }}>
-              <div className="text-[40px] leading-[0.92] tracking-[0.02em] text-white" style={{ fontFamily: display }}>
-                SPIN MORE
-              </div>
-              <div
-                className="text-[40px] leading-[0.92] tracking-[0.02em]"
-                style={{ fontFamily: display, color: "#f2c21c", textShadow: "0 2px 0 #c99400" }}
-              >
-                WIN MORE
-              </div>
-            </div>
-            <Image
-              src={LOCKUP}
-              width={626}
-              height={144}
-              alt="Free Spins"
-              className="my-[12px]"
-              style={{ width: "auto", height: 44 }}
-            />
-            <div className="text-[13px] font-light leading-[1.45]" style={{ color: "rgba(255,255,255,0.85)", fontFamily: sans }}>
-              Exclusive free spins, just for you.
-            </div>
-            <span
-              className="mt-auto inline-flex items-center gap-[8px] rounded-[8px] px-[26px] py-[13px] text-[13px] font-extrabold tracking-[0.04em]"
-              style={{ background: "#f2c21c", color: NAVY, fontFamily: sans }}
-            >
-              SIGN UP NOW <span className="text-[15px]">›</span>
-            </span>
           </div>
         </div>
       </div>
