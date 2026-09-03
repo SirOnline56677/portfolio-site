@@ -111,6 +111,13 @@ export type CompareBook = {
   dark?: boolean;
 };
 
+/** One animated Bonus Spins product moment, on a desktop + phone pair. */
+export type FreeSpinsMomentProps = {
+  /** Which micro-story plays: finding the page, or a spin completing. */
+  story: "account" | "spins";
+  caption?: string;
+};
+
 export type CompareCardsProps = {
   books: CompareBook[];
   features: {
