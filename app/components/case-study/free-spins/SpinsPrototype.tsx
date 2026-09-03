@@ -261,7 +261,7 @@ export function LobbyScreen({
           width={626}
           height={144}
           alt="Free Spins"
-          style={{ width: "auto", height: 24 }}
+          style={{ width: "auto", height: 24, marginLeft: 1 }}
         />
         <span className="text-[13px] font-semibold text-white">Spin For Free and Win Big!</span>
         <span
