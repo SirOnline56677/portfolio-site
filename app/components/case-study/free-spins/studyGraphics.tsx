@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { GOLD, NAVY } from "./wb";
+import CountdownChip from "./CountdownChip";
+import { GOLD, NAVY, sans } from "./wb";
 
 // Static study graphics for the Free Spins case study. Like the other
 // case-study components: structure and text sit on the page ground and use
@@ -214,84 +215,68 @@ export function BrandBoard() {
       </div>
       <div>
         <GroupLabel>How it should feel</GroupLabel>
-        <style>{`
-          @keyframes fs-breathe { 0%, 100% { stroke-dashoffset: 66; } 55% { stroke-dashoffset: 44; } }
-          @keyframes fs-dotpulse { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
-          @keyframes fs-twinkle { 0%, 100% { opacity: 0.15; } 45% { opacity: 1; } }
-          @media (prefers-reduced-motion: reduce) {
-            .fs-anim { animation: none !important; }
-          }
-        `}</style>
-        <div className="mt-3 grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-          <div className="flex min-h-[170px] flex-col rounded-[12px] p-[26px] pb-[22px]" style={{ background: NAVY }}>
-            <div className="flex h-[84px] items-center">
-              <svg width={84} height={84} viewBox="0 0 84 84" aria-hidden>
-                <circle cx={42} cy={42} r={35} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={6} />
-                <circle
-                  className="fs-anim"
-                  cx={42}
-                  cy={42}
-                  r={35}
-                  fill="none"
-                  stroke={GOLD}
-                  strokeWidth={6}
-                  strokeLinecap="round"
-                  strokeDasharray="219.9"
-                  strokeDashoffset="66"
-                  transform="rotate(-90 42 42)"
-                  style={{ animation: "fs-breathe 2.6s ease-in-out infinite" }}
-                />
-              </svg>
-              <span className="ml-[18px] flex gap-[6px]" aria-hidden>
-                {[0, 0.25, 0.5].map((d) => (
-                  <span
-                    key={d}
-                    className="fs-anim h-[6px] w-[6px] rounded-full"
-                    style={{ background: "rgba(255,255,255,0.7)", animation: `fs-dotpulse 1.8s ease-in-out ${d}s infinite` }}
-                  />
-                ))}
-              </span>
-            </div>
-            <div className="mt-auto text-[22px] tracking-[0.06em]" style={{ fontFamily: "var(--font-display)", color: GOLD }}>
-              ANTICIPATION
-            </div>
-            <div className="mt-[4px] text-[13.5px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
-              Your spin is waiting.
-            </div>
-          </div>
+        <div className="mt-3 flex flex-col gap-[14px]">
           <div
-            className="flex min-h-[170px] flex-col rounded-[12px] p-[26px] pb-[22px]"
-            style={{ background: "linear-gradient(135deg, #43104f 0%, #8e24aa 100%)" }}
+            className="flex h-[96px] items-center gap-[18px] rounded-[10px] px-[20px]"
+            style={{ background: "#0a0d16" }}
           >
-            <div className="relative flex h-[84px] items-center">
+            <Image src={LOCKUP} width={626} height={144} alt="Free Spins" style={{ width: "auto", height: 30 }} />
+            <span className="flex">
+              {["starburst.png", "7up.png", "mystic-chief.png"].map((g, i) => (
+                <Image
+                  key={g}
+                  src={`${G}/${g}`}
+                  width={54}
+                  height={54}
+                  alt=""
+                  className="rounded-[10px] border-2"
+                  style={{ width: 54, height: 54, borderColor: "#0a0d16", marginLeft: i ? -12 : 0 }}
+                />
+              ))}
+            </span>
+            <span className="text-[14px] font-light leading-[1.3] text-white" style={{ fontFamily: sans }}>
+              <b className="font-bold" style={{ color: "#f2c21c" }}>3 free spins,</b> on the house.
+              <br />
+              Pick a game and pull.
+            </span>
+            <span
+              className="ml-auto inline-flex items-center rounded-[8px] px-[22px] py-[12px] text-[12px] font-extrabold tracking-[0.04em]"
+              style={{ background: "#f2c21c", color: NAVY, fontFamily: sans }}
+            >
+              CLAIM SPINS
+            </span>
+          </div>
+          <div className="flex flex-col gap-[16px] sm:flex-row sm:items-start">
+            <div
+              className="relative flex h-[200px] w-full max-w-[380px] flex-none flex-col items-start justify-center overflow-clip rounded-[12px] p-[26px]"
+              style={{ backgroundImage: `url(${G}/campaign-floor.jpg)`, backgroundSize: "cover", backgroundPosition: "center right" }}
+            >
               <span
-                className="text-[64px] leading-none"
-                style={{ fontFamily: "var(--font-display)", color: "#f2c21c", textShadow: "0 2px 0 #c99400" }}
-              >
-                7
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(90deg, rgba(6,10,20,0.92) 35%, rgba(6,10,20,0.55) 100%)" }}
+              />
+              <Image
+                src={LOCKUP}
+                width={626}
+                height={144}
+                alt="Free Spins"
+                className="relative mb-[10px]"
+                style={{ width: "auto", height: 26 }}
+              />
+              <span className="relative">
+                <CountdownChip />
               </span>
-              <svg width={84} height={84} viewBox="0 0 84 84" className="absolute left-[34px] top-0" aria-hidden>
-                {[
-                  ["M22 10l2.4 6.6L31 19l-6.6 2.4L22 28l-2.4-6.6L13 19l6.6-2.4Z", "#f2c21c", 0],
-                  ["M58 34l1.8 5L65 40.8l-5 1.8L58.2 48l-1.8-5-5.2-1.8 5-1.8Z", "#f2c21c", 0.6],
-                  ["M40 58l1.4 3.8 3.8 1.4-3.8 1.4L40 68.4l-1.4-3.8-3.8-1.4 3.8-1.4Z", "#ffffff", 1.2],
-                ].map(([d, fill, delay]) => (
-                  <path
-                    key={String(delay)}
-                    className="fs-anim"
-                    d={d as string}
-                    fill={fill as string}
-                    style={{ animation: `fs-twinkle 2.2s ease-in-out ${delay}s infinite` }}
-                  />
-                ))}
-              </svg>
+              <span
+                className="relative mt-[10px] text-[12.5px] font-light leading-[1.4]"
+                style={{ color: "rgba(255,255,255,0.85)", fontFamily: sans }}
+              >
+                Your free spins expire tonight.
+              </span>
             </div>
-            <div className="mt-auto text-[22px] tracking-[0.06em]" style={{ fontFamily: "var(--font-display)", color: GOLD }}>
-              LUCK
-            </div>
-            <div className="mt-[4px] text-[13.5px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
-              Today feels lucky.
-            </div>
+            <p className="mt-[6px] max-w-[280px] font-[family-name:var(--font-body)] text-[11.5px] font-light leading-[1.5] text-muted">
+              Two voices of one campaign: the games selling generosity in a leaderboard, and the
+              expiry clock pushing urgency in a native card. The countdown ticks live.
+            </p>
           </div>
         </div>
       </div>
