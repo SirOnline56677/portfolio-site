@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+# remotion video projects (video/<name>/ holds its own npm install + renders)
+video/*/node_modules/
+video/*/out/
+
 # next.js
 /.next/
 /out/
