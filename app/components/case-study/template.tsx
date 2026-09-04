@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CapabilityBoard from "./CapabilityBoard";
 import CompareCards from "./CompareCards";
 import FreeSpinsMoment from "./free-spins/FreeSpinsMoment";
 import BannerStates from "./free-spins/BannerStates";
@@ -8,6 +9,7 @@ import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/s
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import Persona from "./Persona";
+import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
@@ -215,6 +217,7 @@ export const caseStudyTemplate: Template = {
       />
     ),
     strong: (p) => <strong {...p} className="font-medium" />,
+    CapabilityBoard,
     CompareCards,
     Figure,
     BannerStates,
@@ -227,6 +230,7 @@ export const caseStudyTemplate: Template = {
     SpinSurfaces,
     Mindmap,
     Persona,
+    PriceRuler,
     ProblemSpace,
     Roadmap,
   },

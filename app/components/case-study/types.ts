@@ -128,3 +128,29 @@ export type CompareCardsProps = {
     note?: string;
   }[];
 };
+
+/** "Who does what" capability board (competitor analysis). */
+export type CapabilityBoardProps = {
+  title: string;
+  byline: string;
+  /** Capability groups; span = number of columns covered. */
+  groups: { label: string; color: string; labelColor?: string; span: number }[];
+  /** Column headings; use \n for two-line heads. */
+  columns: string[];
+  rows: { name: string; caps: boolean[]; note?: string }[];
+  /** The product's highlighted row. */
+  highlight: { name: string; caps: boolean[] };
+  punchline: string;
+};
+
+/** Approach shortlist on a budget axis. */
+export type PriceRulerProps = {
+  caption: string;
+  min: number;
+  max: number;
+  /** Brands placed at their entry price along the axis. */
+  items: { name: string; value: number }[];
+  /** The over-budget outlier pinned past the ceiling. */
+  over: string;
+  footnote: string;
+};
