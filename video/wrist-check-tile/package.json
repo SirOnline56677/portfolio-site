@@ -1,0 +1,19 @@
+{
+  "name": "wrist-check-tile",
+  "private": true,
+  "description": "Remotion source for the Wrist Check homepage tile video (flip-dot mark ticking over the boutique image).",
+  "scripts": {
+    "render": "remotion render WristTile ../../public/work/wrist-check-a-peer-to-peer-market-place/tile-wordmark.mp4 --crf=24",
+    "still": "remotion still WristTile ../../public/work/wrist-check-a-peer-to-peer-market-place/tile-wordmark.png --frame=11"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.515",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.515"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "typescript": "^7.0.2"
+  }
+}
