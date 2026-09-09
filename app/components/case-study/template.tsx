@@ -13,7 +13,7 @@ import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
-import type { FigureProps, RoadmapProps, ShellProps, Template } from "./types";
+import type { FigureProps, RoadmapProps, ShellProps, Template, VideoProps } from "./types";
 
 // The case study template.
 //
@@ -33,6 +33,57 @@ function Figure({ src, w, h, alt = "", caption }: FigureProps) {
         style={{ maxWidth: w }}
       >
         <Image src={src} width={w} height={h} alt={alt} className="h-auto w-full" />
+      </div>
+      {caption ? (
+        <figcaption className="mt-3 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">
+          {caption}
+        </figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+function Video({ src, poster, w, h, focus = "50% 50%", alt, caption }: VideoProps) {
+  return (
+    <figure className="my-12">
+      {/* The ratio lives on the wrapper and the video fills it with
+          object-cover, so the source gets cropped to this box. Figure can't do
+          that job: its img is h-auto, so it always keeps the file's own ratio
+          and a square asset would render square at a landscape size. */}
+      <div
+        className="overflow-clip rounded-[24px] bg-well"
+        style={{ maxWidth: w, aspectRatio: `${w} / ${h}` }}
+      >
+        <video
+          poster={poster}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          // role="img" + a label: without it this exposes a media widget with
+          // no controls, no duration and no name. The clip is silent, so
+          // there's nothing to caption.
+          role="img"
+          aria-label={alt}
+          // The radius is on the video as well as the wrapper: a composited
+          // video layer can escape an ancestor's border-radius clip in Safari.
+          className="h-full w-full rounded-[24px]"
+          style={{ objectFit: "cover", objectPosition: focus }}
+        >
+          {/* The media query lives here rather than on a `src` attribute, so a
+              reader who asked for reduced motion selects no source at all: the
+              poster stays up and not one byte of the mp4 is fetched. A JS gate
+              would still have shipped the request, and it would have dragged a
+              "use client" onto this whole server module. Engines that ignore
+              `media` here just play the loop, which is what the homepage card
+              already does. */}
+          <source
+            src={src}
+            type="video/mp4"
+            media="(prefers-reduced-motion: no-preference)"
+          />
+        </video>
       </div>
       {caption ? (
         <figcaption className="mt-3 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">
@@ -220,6 +271,7 @@ export const caseStudyTemplate: Template = {
     CapabilityBoard,
     CompareCards,
     Figure,
+    Video,
     BannerStates,
     BrandBoard,
     CmsFlow,
