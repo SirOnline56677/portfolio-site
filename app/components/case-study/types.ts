@@ -140,6 +140,25 @@ export type FreeSpinsMomentProps = {
   caption?: string;
 };
 
+/**
+ * A desktop + mobile screenshot pair shown in the Free Spins device shells.
+ * The alt describes the screen once: the phone shot is the same screen, so it
+ * is marked decorative rather than announced twice.
+ */
+export type ScreenPairProps = {
+  desktopSrc: string;
+  desktopW: number;
+  desktopH: number;
+  mobileSrc: string;
+  mobileW: number;
+  mobileH: number;
+  alt: string;
+  /** Browser tab label and address bar text on the desktop shell. */
+  tab?: string;
+  url?: string;
+  caption?: string;
+};
+
 export type CompareCardsProps = {
   books: CompareBook[];
   features: {
