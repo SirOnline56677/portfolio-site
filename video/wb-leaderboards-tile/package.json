@@ -4,7 +4,9 @@
   "description": "Remotion source for the WynnBET Leaderboards tile video (standings shuffle under the real page head, drifting navy/gold ground).",
   "scripts": {
     "render": "remotion render LeaderboardTile ../../public/work/wb-leaderboards/tile-shuffle.mp4 --crf=24",
-    "still": "remotion still LeaderboardTile ../../public/work/wb-leaderboards/tile-shuffle.png --frame=0"
+    "still": "remotion still LeaderboardTile ../../public/work/wb-leaderboards/tile-shuffle.png --frame=0",
+    "render:wide": "remotion render LeaderboardTileWide ../../public/work/wb-leaderboards/tile-wide.mp4 --crf=24",
+    "still:wide": "remotion still LeaderboardTileWide ../../public/work/wb-leaderboards/tile-wide.png --frame=0"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.515",
