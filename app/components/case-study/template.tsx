@@ -8,6 +8,7 @@ import SpinsPrototype from "./free-spins/SpinsPrototype";
 import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/studyGraphics";
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
+import LeaderboardPrototype from "./LeaderboardPrototype";
 import Persona from "./Persona";
 import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
@@ -274,6 +275,7 @@ export const caseStudyTemplate: Template = {
     Figure,
     Video,
     ScreenPair,
+    LeaderboardPrototype,
     BannerStates,
     BrandBoard,
     CmsFlow,
