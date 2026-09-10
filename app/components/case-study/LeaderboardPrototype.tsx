@@ -179,7 +179,7 @@ function Card({
   promo,
   optedIn,
   onOptIn,
-  onPlay,
+  onLearnMore,
   pulse,
   decorative,
 }: {
@@ -187,8 +187,9 @@ function Card({
   promo: (typeof PROMOS)[keyof typeof PROMOS];
   optedIn?: boolean;
   onOptIn?: () => void;
-  onPlay?: () => void;
-  pulse?: boolean;
+  onLearnMore?: () => void;
+  /** Which button wears the attention ring, if any. */
+  pulse?: "optin" | "learn";
   decorative?: boolean;
 }) {
   return (
@@ -250,12 +251,26 @@ function Card({
         {promo.copy}
       </p>
 
-      <span
-        className="absolute flex items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
-        style={{ left: 26, top: 567, width: 150, height: 35, background: NAVY, fontFamily: sans }}
-      >
-        LEARN MORE
-      </span>
+      {/* LEARN MORE is the one that opens the leaderboard. On the real page
+          PLAY NOW launches the game itself, which is not what this prototype
+          is about, so it is left as a label. */}
+      {decorative ? (
+        <span
+          className="absolute flex items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
+          style={{ left: 26, top: 567, width: 150, height: 35, background: NAVY, fontFamily: sans }}
+        >
+          LEARN MORE
+        </span>
+      ) : (
+        <button
+          onClick={onLearnMore}
+          className="absolute flex cursor-pointer items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
+          style={{ left: 26, top: 567, width: 150, height: 35, background: NAVY, fontFamily: sans }}
+        >
+          {pulse === "learn" ? <PulseRing radius={2} /> : null}
+          LEARN MORE
+        </button>
+      )}
       {decorative ? (
         <span
           className="absolute flex items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
@@ -264,21 +279,19 @@ function Card({
           OPT IN
         </span>
       ) : optedIn ? (
-        <button
-          onClick={onPlay}
-          className="absolute flex cursor-pointer items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
+        <span
+          className="absolute flex items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
           style={{ left: 181, top: 567, width: 150, height: 35, background: PLAY_BLUE, fontFamily: sans }}
         >
-          {pulse ? <PulseRing radius={2} /> : null}
           PLAY NOW
-        </button>
+        </span>
       ) : (
         <button
           onClick={onOptIn}
           className="absolute flex cursor-pointer items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
           style={{ left: 181, top: 567, width: 150, height: 35, background: GOLD, fontFamily: sans }}
         >
-          {pulse ? <PulseRing radius={2} /> : null}
+          {pulse === "optin" ? <PulseRing radius={2} /> : null}
           OPT IN
         </button>
       )}
@@ -315,14 +328,14 @@ const reducedMotion = () =>
 function CardCarousel({
   optedIn,
   onOptIn,
-  onPlay,
-  active,
+  onLearnMore,
+  pulse,
   resetKey,
 }: {
   optedIn?: boolean;
   onOptIn?: () => void;
-  onPlay?: () => void;
-  active: boolean;
+  onLearnMore?: () => void;
+  pulse?: "optin" | "learn";
   resetKey: number;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -467,8 +480,8 @@ function CardCarousel({
         promo={PROMOS.tenk}
         optedIn={optedIn}
         onOptIn={onOptIn}
-        onPlay={onPlay}
-        pulse={active && index === 0}
+        onLearnMore={onLearnMore}
+        pulse={index === 0 ? pulse : undefined}
       />
       <Card x={398} promo={PROMOS.slots} decorative />
     </div>
@@ -477,14 +490,18 @@ function CardCarousel({
 
 function LobbyScreen({
   optedIn,
+  toast,
   onOptIn,
-  onPlay,
-  active,
+  onLearnMore,
+  pulse,
+  resetKey,
 }: {
   optedIn?: boolean;
+  toast?: boolean;
   onOptIn?: () => void;
-  onPlay?: () => void;
-  active: boolean;
+  onLearnMore?: () => void;
+  pulse?: "optin" | "learn";
+  resetKey: number;
 }) {
   return (
     <div className="relative h-[926px] w-[428px] overflow-clip" style={{ background: "#f2f3f6" }}>
@@ -493,21 +510,23 @@ function LobbyScreen({
       <CardCarousel
         optedIn={optedIn}
         onOptIn={onOptIn}
-        onPlay={onPlay}
-        active={active}
-        resetKey={optedIn ? 1 : 0}
+        onLearnMore={onLearnMore}
+        pulse={pulse}
+        resetKey={resetKey}
       />
-      {/* The success bar sits above the tab bar, as in frame 2765:5532. */}
+      {/* The success bar (frame 2765:5532) is a confirmation, not a state:
+          it slides in on opt-in, holds, then leaves — and only once it has
+          gone does the card settle into PLAY NOW. */}
       <div
         className="pointer-events-none absolute left-0 flex w-[428px] items-center justify-center px-[45px] transition-all duration-500 ease-out motion-reduce:transition-none"
         style={{
           top: 789,
           height: 55,
           background: GREEN,
-          opacity: optedIn ? 1 : 0,
-          transform: `translateY(${optedIn ? 0 : 55}px)`,
+          opacity: toast ? 1 : 0,
+          transform: `translateY(${toast ? 0 : 55}px)`,
         }}
-        aria-hidden={!optedIn}
+        aria-hidden={!toast}
       >
         <span className="text-center text-[12px] font-medium text-white" style={{ fontFamily: sans }}>
           You have successfully opted into the Exclusive $10,000 Leaderboard.
@@ -674,14 +693,32 @@ function DetailScreen({ onBack, active }: { onBack: () => void; active: boolean 
   );
 }
 
-const HINTS = [
-  "Try it: tap OPT IN",
-  "Opted in. Tap PLAY NOW to open the match",
-  "Your rank is pinned above the standings. Tap back to step out",
-];
+/** How long the success bar holds before the card settles into PLAY NOW. */
+const TOAST_MS = 2400;
 
 export default function LeaderboardPrototype() {
   const [step, setStep] = useState(0);
+  const [toast, setToast] = useState(false);
+
+  // Opting in is a confirmation with a beat in it: the bar arrives, holds,
+  // then goes, and the button only becomes PLAY NOW once it has.
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => {
+      setToast(false);
+      setStep(1);
+    }, TOAST_MS);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  const hint =
+    step === 2
+      ? "Your rank is pinned above the standings. Tap back to step out"
+      : toast
+        ? "Opted in"
+        : step === 1
+          ? "Now tap LEARN MORE to open the leaderboard"
+          : "Try it: tap OPT IN";
 
   return (
     <div>
@@ -706,9 +743,11 @@ export default function LeaderboardPrototype() {
                   <div className="absolute inset-0" aria-hidden={step === 2}>
                     <LobbyScreen
                       optedIn={step >= 1}
-                      onOptIn={() => setStep(1)}
-                      onPlay={() => setStep(2)}
-                      active={step <= 1}
+                      toast={toast}
+                      onOptIn={() => setToast(true)}
+                      onLearnMore={() => setStep(2)}
+                      pulse={step === 1 ? "learn" : step === 0 && !toast ? "optin" : undefined}
+                      resetKey={step}
                     />
                   </div>
                   <div
@@ -727,7 +766,7 @@ export default function LeaderboardPrototype() {
           className="mt-6 text-center font-[family-name:var(--font-label)] text-label uppercase tracking-[0.05em]"
           style={{ color: "#666" }}
         >
-          {HINTS[step]}
+          {hint}
         </p>
       </div>
       <p className="-mt-8 mb-12 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">
