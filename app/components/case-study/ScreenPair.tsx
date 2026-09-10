@@ -17,6 +17,8 @@ export default function ScreenPair({
   alt,
   tab,
   url,
+  mobilePadTop = 0,
+  mobilePadColor,
   caption,
 }: ScreenPairProps) {
   return (
@@ -35,13 +37,17 @@ export default function ScreenPair({
           />
         }
         mobile={
-          <Image
-            src={mobileSrc}
-            width={mobileW}
-            height={mobileH}
-            alt=""
-            className="block h-auto w-full"
-          />
+          // The pad is a percentage of width, not a pixel value, so it keeps
+          // its proportion as the shells scale down with the column.
+          <div style={{ background: mobilePadColor, paddingTop: `${(mobilePadTop / mobileW) * 100}%` }}>
+            <Image
+              src={mobileSrc}
+              width={mobileW}
+              height={mobileH}
+              alt=""
+              className="block h-auto w-full"
+            />
+          </div>
         }
       />
       {caption ? (

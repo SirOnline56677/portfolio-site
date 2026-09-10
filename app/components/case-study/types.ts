@@ -156,6 +156,13 @@ export type ScreenPairProps = {
   /** Browser tab label and address bar text on the desktop shell. */
   tab?: string;
   url?: string;
+  /**
+   * Breathing room above the phone shot, in that image's own pixels, filled
+   * with `mobilePadColor`. Some captures crop tight to the app header and sit
+   * against the bezel; this gives the header the space the design had.
+   */
+  mobilePadTop?: number;
+  mobilePadColor?: string;
   caption?: string;
 };
 
