@@ -570,6 +570,37 @@ const ROW_DEFAULT = {
   borderColor: "rgba(255,255,255,0.07)",
 };
 
+/**
+ * The ••• control. Same file the bottom nav uses, painted through a mask so
+ * the one asset can be navy here and white down there — the InkIcon trick
+ * from SpinsPrototype.
+ */
+function MoreDots() {
+  const mask = `url(${ART}/ic-more.svg)`;
+  return (
+    <span
+      aria-hidden
+      className="block"
+      style={{
+        width: 28,
+        height: 6,
+        // Figma draws these navy, but its card is lighter at the right than
+        // ours (ours matches the tile video's gradient), where navy-on-navy
+        // disappears. Light dots keep the control findable.
+        background: "rgba(255,255,255,0.85)",
+        maskImage: mask,
+        maskSize: "contain",
+        maskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskImage: mask,
+        WebkitMaskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+      }}
+    />
+  );
+}
+
 /** A label/value pair in the prize panel. */
 function Meta({ k, v, w }: { k: string; v: string; w: string }) {
   return (
@@ -584,7 +615,23 @@ function Meta({ k, v, w }: { k: string; v: string; w: string }) {
   );
 }
 
-function DetailScreen({ onBack, active }: { onBack: () => void; active: boolean }) {
+function DetailScreen({
+  onBack,
+  onOptOut,
+  active,
+}: {
+  onBack: () => void;
+  onOptOut: () => void;
+  active: boolean;
+}) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Coming back to this screen starts closed, so the panel is never left
+  // hanging open from a previous visit.
+  useEffect(() => {
+    if (!active) setMenuOpen(false);
+  }, [active]);
+
   return (
     <div className="relative h-[926px] w-[428px] overflow-clip" style={{ background: DETAIL_BG }}>
       <TopNav onBack={onBack} backPulse={active} />
@@ -641,15 +688,64 @@ function DetailScreen({ onBack, active }: { onBack: () => void; active: boolean 
           MY RANK
         </div>
         {/* The pinned row: the whole point of the redesign, so it gets the
-            blue card treatment rather than a place in the list. */}
-        <div className="mx-[24px] mt-[6px] rounded-[8px] px-[20px] py-[14px]" style={{ background: MY_BLUE }}>
+            blue card treatment rather than a place in the list. The ••• opens
+            it out (Figma "Leaderboard / Details - More Menu", 2735:3885) onto
+            the last game played and the way out — 224 tall open, 150 closed. */}
+        <div
+          className="mx-[24px] mt-[6px] overflow-clip rounded-[8px] px-[20px] py-[14px] transition-[height] duration-300 ease-out motion-reduce:transition-none"
+          style={{ background: MY_BLUE, height: menuOpen ? 224 : 150 }}
+        >
           <div className="text-[22px] font-extrabold text-white" style={{ fontFamily: sans }}>
             John D.
           </div>
-          <div className="mt-[8px] flex">
+          <div className="mt-[8px] flex items-end">
             <Meta k="RANK" v="9" w="33%" />
             <Meta k="SCORE" v="11,099" w="33%" />
             <Meta k="PRIZE" v="$50" w="33%" />
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label={menuOpen ? "Close rank options" : "Rank options"}
+              aria-expanded={menuOpen}
+              className="-mr-[4px] flex h-[26px] w-[36px] cursor-pointer items-center justify-center"
+            >
+              <MoreDots />
+            </button>
+          </div>
+
+          <div
+            className="mt-[16px] transition-opacity duration-200 ease-out motion-reduce:transition-none"
+            style={{ opacity: menuOpen ? 1 : 0 }}
+            aria-hidden={!menuOpen}
+          >
+            <div
+              className="text-[10px] font-semibold tracking-[0.12em] text-white/80"
+              style={{ fontFamily: sans }}
+            >
+              RECENTLY PLAYED
+            </div>
+            <div className="mt-[8px] flex items-center">
+              <Image
+                src="/work/wb-free-spins/games/starburst.png"
+                width={240}
+                height={240}
+                alt=""
+                className="rounded-[8px]"
+                style={{ width: 68, height: 68 }}
+              />
+              <button
+                onClick={onOptOut}
+                className="ml-auto flex cursor-pointer items-center justify-center rounded-[4px] text-[15px] font-bold tracking-[0.04em] text-white"
+                style={{
+                  width: 155,
+                  height: 55,
+                  border: "1.5px solid rgba(255,255,255,0.9)",
+                  fontFamily: sans,
+                }}
+                tabIndex={menuOpen ? undefined : -1}
+              >
+                OPT OUT
+              </button>
+            </div>
           </div>
         </div>
 
@@ -747,7 +843,7 @@ export default function LeaderboardPrototype() {
 
   const hint =
     step === 2
-      ? "Your rank is pinned above the standings. Tap back to step out"
+      ? "Your rank is pinned above the standings. Tap the ••• for your last game"
       : toast
         ? "Opted in"
         : step === 1
@@ -789,7 +885,14 @@ export default function LeaderboardPrototype() {
                     style={{ transform: `translateX(${step === 2 ? 0 : 100}%)` }}
                     aria-hidden={step !== 2}
                   >
-                    <DetailScreen onBack={() => setStep(1)} active={step === 2} />
+                    <DetailScreen
+                      onBack={() => setStep(1)}
+                      onOptOut={() => {
+                        setToast(false);
+                        setStep(0);
+                      }}
+                      active={step === 2}
+                    />
                   </div>
                 </div>
               </ScaledScreen>
