@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ScaledScreen from "./free-spins/ScaledScreen";
 import { GOLD, NAVY, PLAY_BLUE, sans, display } from "./free-spins/wb";
 import { StatusBar } from "./free-spins/ui";
@@ -96,10 +96,18 @@ function BottomNav() {
       className="absolute left-0 flex w-[428px] items-start justify-between px-[14px] pt-[13px]"
       style={{ top: 844, height: 82, background: NAVY, boxShadow: "0 -3.3px 4.4px 0 rgba(0,0,0,0.15)" }}
     >
+      {/* One opacity for all five. The exporter had baked Figma's inactive
+          state into ic-mybets and ic-promos, so those two were being dimmed
+          twice and sat at half the shade of CASINO and SPORTS; that attribute
+          is stripped from the files and the state lives here instead. */}
       {NAV_ITEMS.map(([icon, label]) => (
         <span key={label} className="flex w-[76px] flex-col items-center gap-[6px]" style={{ opacity: 0.5 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- exported Figma glyph, no intrinsic size needed */}
-          <img src={`${ART}/${icon}.svg`} alt="" width={20} height={20} style={{ height: 20, width: "auto" }} />
+          {/* A pinned box with object-fit: contain, as NavIcon does in
+              SpinsPrototype. Free height with auto width blew MORE up: its
+              viewBox is 29x7, so a 20px height scaled it 2.8x and each dot
+              came out as tall as the whole CASINO square. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- exported Figma glyph */}
+          <img src={`${ART}/${icon}.svg`} alt="" width={20} height={20} style={{ width: 20, height: 20, objectFit: "contain" }} />
           <span className="text-[9.88px] font-bold text-white" style={{ fontFamily: sans }}>
             {label}
           </span>
@@ -120,47 +128,92 @@ function Tabs() {
       className="absolute left-0 w-[428px] bg-white"
       style={{ top: 110, height: 50, boxShadow: "0 4px 4px 0 rgba(0,0,0,0.15)" }}
     >
-      <span className="absolute text-[14px] font-bold" style={{ left: 91, top: 14, color: NAVY, fontFamily: sans }}>
+      {/* The bar is a child of the label rather than a positioned box in frame
+          coordinates: Figma's 104px was measured in Montserrat, and this
+          renders in the site's own sans, so a fixed width lands short. */}
+      <span
+        className="absolute inline-block text-[14px] font-bold"
+        style={{ left: 91, top: 14, color: NAVY, fontFamily: sans }}
+      >
         Live &amp; Upcoming
+        <span className="absolute -bottom-[6px] left-0 right-0" style={{ height: 2, background: GOLD }} />
       </span>
       <span className="absolute text-[14px] font-bold" style={{ left: 283, top: 14, color: NAVY, fontFamily: sans }}>
         Results
       </span>
-      <span className="absolute" style={{ left: 100.5, top: 34, width: 104, height: 2, background: GOLD }} />
     </div>
   );
 }
 
-/** One carousel card. The second card is clipped by the frame, as designed. */
+/** The two promos in the lobby carousel, transcribed from the shipped page. */
+const PROMOS = {
+  tenk: {
+    art: `${ART}/card-art.png`,
+    trophy: true,
+    title: "Exclusive $10,000 Leaderboard",
+    dates: "May 20, 2023 - June 1, 2023",
+    copy: "Earn leaderboard points when you wager on Masai Mara Megaways and more selected titles to win a share of $10,000!",
+  },
+  slots: {
+    // Cropped from leaderboard-desktop.jpg, the only shot where this card is
+    // not cut off. Its wordmark is part of the artwork, so no overlay.
+    art: `${ART}/card-art-slots.png`,
+    trophy: false,
+    title: "Mega Slots Leaderboards",
+    dates: "June 15, 2023 - June 29, 2023",
+    copy: "Experience the thrill of the first Mega Slots Leaderboards! Spin to win big with a chance at $15,000!",
+  },
+} as const;
+
+/**
+ * One carousel card. `decorative` is the second promo: it is there to be
+ * dragged to, not used, so its buttons render as plain spans — no tab stop,
+ * and a second identical OPT IN never reaches a screen reader.
+ *
+ * Not `inert` on the card: that also blocks pointer events, so once the rail
+ * had moved to this card there was nothing left to grab and you could not
+ * drag back.
+ */
 function Card({
   x,
+  promo,
   optedIn,
   onOptIn,
   onPlay,
   pulse,
-  art,
+  decorative,
 }: {
   x: number;
+  promo: (typeof PROMOS)[keyof typeof PROMOS];
   optedIn?: boolean;
   onOptIn?: () => void;
   onPlay?: () => void;
   pulse?: boolean;
-  art?: boolean;
+  decorative?: boolean;
 }) {
   return (
     <div
       className="absolute overflow-clip rounded-[6px] bg-white"
-      style={{ left: x, top: 183, width: 355, height: 635, boxShadow: "0 2px 10px 2px rgba(0,0,0,0.18)" }}
+      style={{ left: x, top: 0, width: 355, height: 635, boxShadow: "0 2px 10px 2px rgba(0,0,0,0.18)" }}
+      aria-hidden={decorative || undefined}
     >
       <div className="relative h-[425px] w-[355px] overflow-clip">
-        <Image src={`${ART}/card-art.png`} width={355} height={425} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        {art ? (
+        <Image
+          src={promo.art}
+          width={355}
+          height={425}
+          alt=""
+          draggable={false}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {promo.trophy ? (
           <>
             <Image
               src={`${ART}/trophy-10k.png`}
               width={934}
               height={692}
               alt=""
+              draggable={false}
               className="absolute"
               style={{ left: 55, top: 79, width: 242, height: 180 }}
             />
@@ -172,27 +225,29 @@ function Card({
             </span>
           </>
         ) : null}
-        {optedIn ? (
-          <span
-            className="absolute rounded-[2px] px-[8px] py-[3px] text-[9px] font-bold tracking-[0.08em] text-white"
-            style={{ left: 14, top: 14, background: GREEN, fontFamily: sans }}
-          >
-            OPTED IN
-          </span>
-        ) : null}
       </div>
 
+      {/* Below the art, above the title — where the shipped page puts it. */}
+      {optedIn ? (
+        <span
+          className="absolute rounded-[2px] px-[7px] py-[2px] text-[8px] font-bold tracking-[0.08em] text-white"
+          style={{ left: 26, top: 434, background: GREEN, fontFamily: sans }}
+        >
+          OPTED IN
+        </span>
+      ) : null}
+
       <p className="absolute text-[14px] font-bold" style={{ left: 26, top: 460, color: NAVY, fontFamily: sans }}>
-        Exclusive $10,000 Leaderboard
+        {promo.title}
       </p>
       <p className="absolute text-[10px] font-medium" style={{ left: 26, top: 478, color: MUTED_DATE, fontFamily: sans }}>
-        May 20, 2023 - June 1, 2023
+        {promo.dates}
       </p>
       <p
         className="absolute text-[12px] font-medium leading-[15px] text-black"
         style={{ left: 25, top: 498, width: 305, fontFamily: sans }}
       >
-        Earn leaderboard points when you wager on Masai Mara Megaways and more selected titles to win a share of $10,000!
+        {promo.copy}
       </p>
 
       <span
@@ -201,7 +256,14 @@ function Card({
       >
         LEARN MORE
       </span>
-      {optedIn ? (
+      {decorative ? (
+        <span
+          className="absolute flex items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
+          style={{ left: 181, top: 567, width: 150, height: 35, background: GOLD, fontFamily: sans }}
+        >
+          OPT IN
+        </span>
+      ) : optedIn ? (
         <button
           onClick={onPlay}
           className="absolute flex cursor-pointer items-center justify-center rounded-[2px] text-[12px] font-bold text-white"
@@ -224,6 +286,195 @@ function Card({
   );
 }
 
+// --- the carousel rail ---------------------------------------------------
+const PITCH = 375; // 355 card + 20 gutter, straight off the Figma frame
+const LAST = 1;
+const MIN_OFF = -LAST * PITCH;
+const RUBBER = 0.35; // resistance past either end
+const FLICK = 0.5; // design px per ms
+const SLOP = 6; // client px: past this, a tap has become a drag
+const AXIS_LOCK = 4; // client px: past this, the gesture has picked an axis
+
+const rubber = (x: number) =>
+  x > 0 ? x * RUBBER : x < MIN_OFF ? MIN_OFF + (x - MIN_OFF) * RUBBER : x;
+
+const reducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/**
+ * The two promos on a rail. Figma leaves 30px of the second card peeking; this
+ * makes that peek mean something.
+ *
+ * The offset lives in a ref and is written straight to the transform — a
+ * pointermove has to move a transform, not re-render two 355x635 cards — and
+ * only the settled index reaches React. Listeners sit on window rather than
+ * using setPointerCapture for the reason CanvasGallery records: pointerup
+ * still targets the button, so its click survives and we get to decide
+ * whether to let it through.
+ */
+function CardCarousel({
+  optedIn,
+  onOptIn,
+  onPlay,
+  active,
+  resetKey,
+}: {
+  optedIn?: boolean;
+  onOptIn?: () => void;
+  onPlay?: () => void;
+  active: boolean;
+  resetKey: number;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+
+  const g = useRef({
+    id: -1, // active pointerId, -1 when idle
+    scale: 1, // client px -> design px, measured once per gesture
+    startX: 0,
+    startY: 0,
+    base: 0,
+    off: 0,
+    axis: "" as "" | "x" | "y",
+    v: 0, // design px per ms, smoothed
+    lastX: 0,
+    lastT: 0,
+    dragged: false,
+  });
+
+  const paint = (off: number) => {
+    const el = trackRef.current;
+    if (el) el.style.transform = `translate3d(${off}px,0,0)`;
+  };
+
+  const settle = useCallback((i: number) => {
+    const el = trackRef.current;
+    if (el) el.style.transition = "";
+    paint(-i * PITCH);
+    setIndex(i);
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const el = trackRef.current;
+    if (e.button !== 0 || !el || g.current.id !== -1) return;
+    // The rect is post-transform, so it already folds in ScaledScreen's
+    // scale(); reading --fs-scale would race its ResizeObserver.
+    const w = el.getBoundingClientRect().width;
+    g.current = {
+      id: e.pointerId,
+      scale: w > 0 ? 428 / w : 1,
+      startX: e.clientX,
+      startY: e.clientY,
+      base: -index * PITCH,
+      off: -index * PITCH,
+      axis: "",
+      v: 0,
+      lastX: 0,
+      lastT: performance.now(),
+      dragged: false,
+    };
+    el.style.transition = "none";
+  };
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const s = g.current;
+      if (e.pointerId !== s.id) return;
+      const dxc = e.clientX - s.startX;
+      const dyc = e.clientY - s.startY;
+
+      // A mostly-vertical gesture belongs to the page: bow out for the rest of
+      // it and never paint, so the reader can scroll past the prototype.
+      if (!s.axis) {
+        if (Math.abs(dxc) < AXIS_LOCK && Math.abs(dyc) < AXIS_LOCK) return;
+        s.axis = Math.abs(dxc) > Math.abs(dyc) ? "x" : "y";
+        if (s.axis === "y") {
+          s.id = -1;
+          if (trackRef.current) trackRef.current.style.transition = "";
+          return;
+        }
+      }
+      if (Math.abs(dxc) > SLOP) s.dragged = true;
+
+      const x = dxc * s.scale;
+      const t = performance.now();
+      const dt = t - s.lastT;
+      if (dt > 0) {
+        s.v = 0.7 * ((x - s.lastX) / dt) + 0.3 * s.v;
+        s.lastX = x;
+        s.lastT = t;
+      }
+      s.off = rubber(s.base + x);
+      paint(s.off);
+    };
+
+    const onUp = (e: PointerEvent) => {
+      const s = g.current;
+      if (e.pointerId !== s.id) return;
+      s.id = -1;
+      const moved = s.off - s.base;
+      // A finger that stopped before lifting did not flick, and nor does
+      // anyone who asked for reduced motion: distance decides instead.
+      const v = performance.now() - s.lastT > 100 || reducedMotion() ? 0 : s.v;
+      let next = index;
+      if (moved < -PITCH * 0.25 || v < -FLICK) next = index + 1;
+      else if (moved > PITCH * 0.25 || v > FLICK) next = index - 1;
+      settle(Math.min(LAST, Math.max(0, next)));
+    };
+
+    const onCancel = (e: PointerEvent) => {
+      if (e.pointerId !== g.current.id) return;
+      g.current.id = -1;
+      settle(index);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onCancel);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onCancel);
+    };
+  }, [index, settle]);
+
+  // Advancing the flow re-centres the rail: the hint points at a button, so
+  // that button has to be on screen.
+  useEffect(() => {
+    settle(0);
+  }, [resetKey, settle]);
+
+  return (
+    <div
+      ref={trackRef}
+      onPointerDown={onPointerDown}
+      onDragStart={(e) => e.preventDefault()}
+      onClickCapture={(e) => {
+        // The buttons ride inside the rail, so a drag has to eat its own click
+        // before it reaches OPT IN. detail === 0 is keyboard-synthesised and
+        // is never a drag.
+        if (g.current.dragged && e.detail !== 0) {
+          g.current.dragged = false;
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
+      className="absolute left-0 cursor-grab touch-pan-y select-none transition-transform duration-300 ease-out will-change-transform active:cursor-grabbing motion-reduce:transition-none"
+      style={{ top: 183, width: 428, height: 635, transform: `translate3d(${-index * PITCH}px,0,0)` }}
+    >
+      <Card
+        x={23}
+        promo={PROMOS.tenk}
+        optedIn={optedIn}
+        onOptIn={onOptIn}
+        onPlay={onPlay}
+        pulse={active && index === 0}
+      />
+      <Card x={398} promo={PROMOS.slots} decorative />
+    </div>
+  );
+}
+
 function LobbyScreen({
   optedIn,
   onOptIn,
@@ -239,11 +490,16 @@ function LobbyScreen({
     <div className="relative h-[926px] w-[428px] overflow-clip" style={{ background: "#f2f3f6" }}>
       <TopNav />
       <Tabs />
-      <Card x={23} art optedIn={optedIn} onOptIn={onOptIn} onPlay={onPlay} pulse={active} />
-      <Card x={398} />
+      <CardCarousel
+        optedIn={optedIn}
+        onOptIn={onOptIn}
+        onPlay={onPlay}
+        active={active}
+        resetKey={optedIn ? 1 : 0}
+      />
       {/* The success bar sits above the tab bar, as in frame 2765:5532. */}
       <div
-        className="absolute left-0 flex w-[428px] items-center justify-center px-[45px] transition-all duration-500 ease-out motion-reduce:transition-none"
+        className="pointer-events-none absolute left-0 flex w-[428px] items-center justify-center px-[45px] transition-all duration-500 ease-out motion-reduce:transition-none"
         style={{
           top: 789,
           height: 55,
