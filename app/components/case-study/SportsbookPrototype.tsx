@@ -80,6 +80,27 @@ const SPORTS = [
   "Darts",
 ];
 
+/**
+ * Ring on anything you can actually click. It breathes until the first click
+ * lands, then holds as a quiet outline — long enough to teach, not so long it
+ * nags. Everything else in these frames is real design that simply has no
+ * frame behind it, so it is left alone rather than dimmed.
+ */
+function LiveRing({ radius, pulse }: { radius: number; pulse: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute -inset-[3px]"
+      style={{
+        borderRadius: radius,
+        boxShadow: `0 0 0 2px ${GOLD}`,
+        opacity: pulse ? undefined : 0.45,
+        animation: pulse ? "sb-ring 2.2s ease-out infinite" : undefined,
+      }}
+    />
+  );
+}
+
 function Chevron({ down, color = "#fff" }: { down?: boolean; color?: string }) {
   return (
     <svg width={14} height={14} viewBox="0 0 14 14" aria-hidden style={{ flex: "none" }}>
@@ -100,11 +121,13 @@ function SideRow({
   onPick,
   open,
   sub,
+  pulse,
 }: {
   label: string;
   onPick?: () => void;
   open?: boolean;
   sub?: boolean;
+  pulse?: boolean;
 }) {
   const lit = open || undefined;
   const inner = (
@@ -122,7 +145,12 @@ function SideRow({
   );
   const style = { height: sub ? 44 : 46.4, paddingLeft: sub ? 34 : 14, paddingRight: 20, fontFamily: sans };
   return onPick ? (
-    <button onClick={onPick} className="flex w-full cursor-pointer items-center text-left" style={style}>
+    <button
+      onClick={onPick}
+      className="relative flex w-full cursor-pointer items-center text-left transition-colors hover:bg-white/10"
+      style={style}
+    >
+      <LiveRing radius={6} pulse={!!pulse} />
       {inner}
     </button>
   ) : (
@@ -132,7 +160,15 @@ function SideRow({
   );
 }
 
-function Sidebar({ state, onPick }: { state: State; onPick: (s: State) => void }) {
+function Sidebar({
+  state,
+  onPick,
+  pulse,
+}: {
+  state: State;
+  onPick: (s: State) => void;
+  pulse: boolean;
+}) {
   const open = state === "football";
   return (
     <div
@@ -152,7 +188,7 @@ function Sidebar({ state, onPick }: { state: State; onPick: (s: State) => void }
         {SPORTS.map((s) =>
           s === "Football" ? (
             <div key={s}>
-              <SideRow label={s} open={open} onPick={() => onPick("football")} />
+              <SideRow label={s} open={open} onPick={() => onPick("football")} pulse={pulse} />
               {/* The frame opens Football onto its own sub-list, and everything
                   below shifts down. Flow layout rather than absolute offsets,
                   so that shift happens on its own. */}
@@ -173,7 +209,15 @@ function Sidebar({ state, onPick }: { state: State; onPick: (s: State) => void }
   );
 }
 
-function TabRow({ state, onPick }: { state: State; onPick: (s: State) => void }) {
+function TabRow({
+  state,
+  onPick,
+  pulse,
+}: {
+  state: State;
+  onPick: (s: State) => void;
+  pulse: boolean;
+}) {
   const lit = TAB_FOR[state];
   return (
     <div className="absolute" style={{ left: SIDE_W, top: TAB_TOP, width: CARD_W, height: CONTENT_TOP - TAB_TOP }}>
@@ -201,9 +245,10 @@ function TabRow({ state, onPick }: { state: State; onPick: (s: State) => void })
           <button
             key={t.id}
             onClick={() => onPick(t.go!)}
-            className="absolute flex cursor-pointer flex-col items-center"
+            className="absolute flex cursor-pointer flex-col items-center rounded-[8px] pb-[4px] pt-[2px] transition-colors hover:bg-white/10"
             style={style}
           >
+            <LiveRing radius={8} pulse={pulse} />
             {body}
           </button>
         ) : (
@@ -217,7 +262,7 @@ function TabRow({ state, onPick }: { state: State; onPick: (s: State) => void })
 }
 
 const HINTS: Record<State, string> = {
-  home: "Try it: open Football in the A-Z menu, or pick a tab",
+  home: "Try it: anything ringed in gold is live — open Football, or pick a tab",
   football: "Football, one click deep. Live and Baseball are wired too",
   live: "Live games, grouped by league",
   baseball: "Baseball, straight from the tab row",
@@ -225,7 +270,13 @@ const HINTS: Record<State, string> = {
 
 export default function SportsbookPrototype() {
   const [state, setState] = useState<State>("home");
+  const [touched, setTouched] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
+
+  const go = (s: State) => {
+    setTouched(true);
+    setState(s);
+  };
 
   // A new section starts at its own top, the way a real navigation would.
   useEffect(() => {
@@ -234,7 +285,9 @@ export default function SportsbookPrototype() {
 
   return (
     <div>
-      <style>{`@keyframes sb-in { from { opacity: 0 } to { opacity: 1 } }`}</style>
+      <style>{`@keyframes sb-in { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes sb-ring { 0%, 100% { opacity: 0.3 } 50% { opacity: 0.95 } }
+        @media (prefers-reduced-motion: reduce) { [style*="sb-ring"] { animation: none !important; opacity: 0.5 !important } }`}</style>
       <div className="my-12 rounded-[24px] p-5 sm:p-8" style={{ background: "#ffffff" }}>
         <div
           className="overflow-clip rounded-[10px] bg-white"
@@ -308,7 +361,7 @@ export default function SportsbookPrototype() {
                 </span>
               </div>
 
-              <Sidebar state={state} onPick={setState} />
+              <Sidebar state={state} onPick={go} pulse={!touched} />
 
               {/* the promo strip and the betslip never change between the four
                   frames, so they are one shared plate each */}
@@ -329,7 +382,7 @@ export default function SportsbookPrototype() {
                 style={{ left: 1401, top: 421, width: 319, height: 161 }}
               />
 
-              <TabRow state={state} onPick={setState} />
+              <TabRow state={state} onPick={go} pulse={!touched} />
 
               {/* The game table scrolls inside the window. data-lenis-prevent
                   or the site's smooth scroll takes the wheel and the article
