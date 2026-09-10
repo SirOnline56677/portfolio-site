@@ -13,6 +13,7 @@ import Persona from "./Persona";
 import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
 import ScreenPair from "./ScreenPair";
+import SportsbookPrototype from "./SportsbookPrototype";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
 import type { FigureProps, RoadmapProps, ShellProps, Template, VideoProps } from "./types";
@@ -294,6 +295,7 @@ export const caseStudyTemplate: Template = {
     Video,
     ScreenPair,
     LeaderboardPrototype,
+    SportsbookPrototype,
     BannerStates,
     BrandBoard,
     CmsFlow,
