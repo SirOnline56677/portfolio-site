@@ -537,13 +537,26 @@ function LobbyScreen({
   );
 }
 
-const ROWS: [string, string, string][] = [
-  ["JOHN A.", "26,253", "$2,500"],
-  ["AMY S.", "23,098", "$2,500"],
-  ["DAVID G.", "21,865", "$2,500"],
-  ["HENRY H.", "19,028", "$500"],
-  ["SARAH F.", "18,765", "$400"],
+const ROWS: { name: string; score: string; prize: string; you?: boolean }[] = [
+  { name: "JOHN A.", score: "26,253", prize: "$2,500" },
+  { name: "AMY S.", score: "23,098", prize: "$2,500" },
+  { name: "DAVID G.", score: "21,865", prize: "$2,500" },
+  { name: "HENRY H.", score: "19,028", prize: "$500" },
+  { name: "SARAH F.", score: "18,765", prize: "$400" },
+  { name: "SAM B.", score: "17,421", prize: "$300" },
+  { name: "BOB W.", score: "15,980", prize: "$100" },
+  { name: "SANDY R.", score: "13,928", prize: "$50" },
+  { name: "JOHN D.", score: "11,099", prize: "$50", you: true },
+  { name: "BARBARA E.", score: "9,811", prize: "$50" },
 ];
+
+const PRIZE_TABLE: [string, string][] = [
+  ["1", "$2,500"],
+  ["2", "$1,700"],
+  ["3", "$1,100"],
+];
+
+const MY_BLUE = "linear-gradient(100deg, #2D9CDB 0%, #1D5FA8 55%, #12365F 100%)";
 
 // Medal treatments carried over from the tile video's composition, so the
 // prototype and the hero loop describe the same leaderboard.
@@ -557,136 +570,157 @@ const ROW_DEFAULT = {
   borderColor: "rgba(255,255,255,0.07)",
 };
 
+/** A label/value pair in the prize panel. */
+function Meta({ k, v, w }: { k: string; v: string; w: string }) {
+  return (
+    <div style={{ width: w }}>
+      <div className="text-[8px] font-semibold tracking-[0.12em] text-white/60" style={{ fontFamily: sans }}>
+        {k}
+      </div>
+      <div className="mt-[3px] text-[13px] font-bold text-white" style={{ fontFamily: sans }}>
+        {v}
+      </div>
+    </div>
+  );
+}
+
 function DetailScreen({ onBack, active }: { onBack: () => void; active: boolean }) {
   return (
     <div className="relative h-[926px] w-[428px] overflow-clip" style={{ background: DETAIL_BG }}>
       <TopNav onBack={onBack} backPulse={active} />
 
-      <Image
-        src={`${ART}/trophy-10k.png`}
-        width={934}
-        height={692}
-        alt=""
-        className="absolute"
-        style={{ left: 120, top: 116, width: 188, height: 139 }}
-      />
+      {/*
+        The page scrolls between the two bars, as the real one does — the
+        standings run to ten and the prize table sits under them, which is
+        more than a phone screen holds.
 
+        data-lenis-prevent: the site's smooth scroll owns the wheel, and
+        without it a wheel over the phone scrolls the article instead of the
+        screen. Touch is native and needs nothing.
+      */}
       <div
-        className="absolute flex rounded-[6px] px-[18px] py-[12px]"
-        style={{ left: 24, top: 262, width: 380, background: "rgba(255,255,255,0.06)" }}
+        data-lenis-prevent
+        className="absolute left-0 right-0 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ top: 100, bottom: 82 }}
       >
-        {[
-          ["TOTAL PRIZES", "$10,000.00"],
-          ["TOP PRIZE", "$2,500.00"],
-          ["PLAYERS", "54"],
-        ].map(([k, v]) => (
-          <div key={k} style={{ width: "34%" }}>
-            <div className="text-[8px] font-semibold tracking-[0.12em] text-white/60" style={{ fontFamily: sans }}>
-              {k}
-            </div>
-            <div className="mt-[3px] text-[13px] font-bold text-white" style={{ fontFamily: sans }}>
-              {v}
-            </div>
-          </div>
-        ))}
-      </div>
+        <Image
+          src={`${ART}/trophy-10k.png`}
+          width={934}
+          height={692}
+          alt=""
+          className="mx-auto mt-[16px] block"
+          style={{ width: 188, height: 139 }}
+        />
 
-      <div
-        className="absolute w-full text-center text-[21px] font-bold tracking-[0.06em] text-white"
-        style={{ top: 336, fontFamily: sans }}
-      >
-        STANDINGS
-      </div>
-
-      <div
-        className="absolute text-[10px] font-semibold tracking-[0.14em] text-white/65"
-        style={{ left: 26, top: 378, fontFamily: sans }}
-      >
-        MY RANK
-      </div>
-      {/* The pinned row: the whole point of the redesign, so it gets the
-          blue card treatment rather than a place in the list. */}
-      <div
-        className="absolute rounded-[8px] px-[20px] py-[14px]"
-        style={{
-          left: 24,
-          top: 396,
-          width: 380,
-          background: "linear-gradient(100deg, #2D9CDB 0%, #1D5FA8 55%, #12365F 100%)",
-        }}
-      >
-        <div className="text-[22px] font-extrabold text-white" style={{ fontFamily: sans }}>
-          John D.
-        </div>
-        <div className="mt-[8px] flex">
-          {[
-            ["RANK", "9"],
-            ["SCORE", "11,099"],
-            ["PRIZE", "$50"],
-          ].map(([k, v]) => (
-            <div key={k} style={{ width: "33%" }}>
-              <div className="text-[9px] font-semibold tracking-[0.12em] text-white/70" style={{ fontFamily: sans }}>
-                {k}
-              </div>
-              <div className="mt-[2px] text-[14px] font-bold text-white" style={{ fontFamily: sans }}>
-                {v}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute flex px-[24px]" style={{ left: 0, top: 508, width: 428 }}>
-        {[
-          ["RANK", 66],
-          ["NAME", 0],
-        ].map(([k, w]) => (
-          <span
-            key={k as string}
-            className="text-[9px] font-semibold tracking-[0.12em] text-white/60"
-            style={{ width: (w as number) || undefined, fontFamily: sans }}
-          >
-            {k}
-          </span>
-        ))}
-        <span className="ml-auto text-[9px] font-semibold tracking-[0.12em] text-white/60" style={{ fontFamily: sans }}>
-          SCORE
-        </span>
-        <span
-          className="text-right text-[9px] font-semibold tracking-[0.12em] text-white/60"
-          style={{ width: 108, fontFamily: sans }}
+        <div
+          className="mx-[24px] mt-[8px] rounded-[6px] px-[18px] py-[12px]"
+          style={{ background: "rgba(255,255,255,0.06)" }}
         >
-          PRIZE
-        </span>
-      </div>
-
-      {ROWS.map(([name, score, prize], i) => {
-        const medal = MEDALS[i] ?? ROW_DEFAULT;
-        return (
-          <div
-            key={name}
-            className="absolute flex items-center rounded-[6px] px-[20px]"
-            style={{
-              left: 24,
-              top: 528 + i * 60,
-              width: 380,
-              height: 52,
-              border: `1.5px solid ${medal.borderColor}`,
-              background: medal.background,
-              fontFamily: sans,
-            }}
-          >
-            <span className="text-[16px] font-extrabold text-white" style={{ width: 46 }}>
-              {i + 1}
-            </span>
-            <span className="text-[14px] font-semibold tracking-[0.02em] text-white">{name}</span>
-            <span className="ml-auto text-[13px] font-medium text-white tabular-nums">{score}</span>
-            <span className="text-right text-[13px] font-bold text-white" style={{ width: 96 }}>
-              {prize}
-            </span>
+          <div className="flex">
+            <Meta k="TOTAL PRIZES" v="$10,000.00" w="38%" />
+            <Meta k="TOP PRIZE" v="$2,500.00" w="34%" />
+            <Meta k="PLAYERS" v="54" w="28%" />
           </div>
-        );
-      })}
+          <div className="mt-[12px] flex">
+            <Meta k="START DATE" v="May 20, 2023, 10:00 AM EST" w="50%" />
+            <Meta k="END DATE" v="June 1, 2023, 11:59 PM EST" w="50%" />
+          </div>
+        </div>
+
+        <div
+          className="mt-[26px] text-center text-[21px] font-bold tracking-[0.06em] text-white"
+          style={{ fontFamily: sans }}
+        >
+          STANDINGS
+        </div>
+
+        <div
+          className="mx-[26px] mt-[14px] text-[10px] font-semibold tracking-[0.14em] text-white/65"
+          style={{ fontFamily: sans }}
+        >
+          MY RANK
+        </div>
+        {/* The pinned row: the whole point of the redesign, so it gets the
+            blue card treatment rather than a place in the list. */}
+        <div className="mx-[24px] mt-[6px] rounded-[8px] px-[20px] py-[14px]" style={{ background: MY_BLUE }}>
+          <div className="text-[22px] font-extrabold text-white" style={{ fontFamily: sans }}>
+            John D.
+          </div>
+          <div className="mt-[8px] flex">
+            <Meta k="RANK" v="9" w="33%" />
+            <Meta k="SCORE" v="11,099" w="33%" />
+            <Meta k="PRIZE" v="$50" w="33%" />
+          </div>
+        </div>
+
+        <div className="mx-[24px] mt-[16px] flex px-[20px]" style={{ fontFamily: sans }}>
+          <span className="text-[9px] font-semibold tracking-[0.12em] text-white/60" style={{ width: 46 }}>
+            RANK
+          </span>
+          <span className="text-[9px] font-semibold tracking-[0.12em] text-white/60">NAME</span>
+          <span className="ml-auto text-[9px] font-semibold tracking-[0.12em] text-white/60">SCORE</span>
+          <span className="text-right text-[9px] font-semibold tracking-[0.12em] text-white/60" style={{ width: 96 }}>
+            PRIZE
+          </span>
+        </div>
+
+        {ROWS.map((r, i) => {
+          const medal = r.you
+            ? { background: MY_BLUE, borderColor: "#2D9CDB" }
+            : (MEDALS[i] ?? ROW_DEFAULT);
+          return (
+            <div
+              key={r.name}
+              className="mx-[24px] mt-[8px] flex items-center rounded-[6px] px-[20px]"
+              style={{
+                height: 52,
+                border: `1.5px solid ${medal.borderColor}`,
+                background: medal.background,
+                fontFamily: sans,
+              }}
+            >
+              <span className="text-[16px] font-extrabold text-white" style={{ width: 46 }}>
+                {i + 1}
+              </span>
+              <span className="text-[14px] font-semibold tracking-[0.02em] text-white">{r.name}</span>
+              <span className="ml-auto text-[13px] font-medium text-white tabular-nums">{r.score}</span>
+              <span className="text-right text-[13px] font-bold text-white" style={{ width: 96 }}>
+                {r.prize}
+              </span>
+            </div>
+          );
+        })}
+
+        <div
+          className="mx-[24px] mt-[12px] flex h-[44px] items-center justify-center rounded-[6px] text-[13px] font-bold tracking-[0.06em] text-white"
+          style={{ background: "rgba(255,255,255,0.16)", fontFamily: sans }}
+        >
+          VIEW ALL
+        </div>
+
+        <div
+          className="mt-[30px] text-center text-[21px] font-bold tracking-[0.06em] text-white"
+          style={{ fontFamily: sans }}
+        >
+          PRIZES
+        </div>
+        <div className="mx-[24px] mt-[12px] flex px-[20px]" style={{ fontFamily: sans }}>
+          <span className="text-[9px] font-semibold tracking-[0.12em] text-white/60">POSITION</span>
+          <span className="ml-auto text-[9px] font-semibold tracking-[0.12em] text-white/60">PRIZE</span>
+        </div>
+        {PRIZE_TABLE.map(([pos, prize]) => (
+          <div
+            key={pos}
+            className="mx-[24px] mt-[8px] flex items-center rounded-[6px] px-[20px]"
+            style={{ height: 44, background: "rgba(255,255,255,0.08)", fontFamily: sans }}
+          >
+            <span className="text-[14px] font-semibold text-white">{pos}</span>
+            <span className="ml-auto text-[13px] font-bold text-white">{prize}</span>
+          </div>
+        ))}
+
+        <div style={{ height: 28 }} />
+      </div>
 
       <BottomNav />
     </div>
