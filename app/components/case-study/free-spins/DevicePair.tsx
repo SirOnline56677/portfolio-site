@@ -1,11 +1,13 @@
 // A Chrome-style browser window and an iPhone side by side in a Figure-style
 // well, showing the same product moment (the joshglucas.com/ai-mode layout).
+// The tab and address bar are props so other studies can borrow the shell —
+// they default to the Bonus Spins page this was built for.
 // The well chrome uses theme tokens and inverts; the device shells are part
 // of the framed object and stay fixed.
 
 const ICON = "#5f6368";
 
-function ChromeTopBar() {
+function ChromeTopBar({ tab, url }: { tab: string; url: string }) {
   return (
     <div style={{ background: "#DEE1E6" }}>
       <div className="relative flex h-[30px] items-end pl-[74px]">
@@ -22,7 +24,7 @@ function ChromeTopBar() {
             W
           </span>
           <span className="text-[10px] font-medium" style={{ color: "#3c4043" }}>
-            WynnBET | My Account
+            {tab}
           </span>
           <svg width={7} height={7} viewBox="0 0 8 8" aria-hidden>
             <path d="M1 1l6 6M7 1L1 7" stroke={ICON} strokeWidth={1.2} strokeLinecap="round" />
@@ -45,7 +47,7 @@ function ChromeTopBar() {
             <path d="M3 5V3.6a2 2 0 0 1 4 0V5" fill="none" stroke={ICON} strokeWidth={1.3} />
           </svg>
           <span className="truncate text-[10px]" style={{ color: "#3c4043" }}>
-            wynnbet.com/account/bonus-spins
+            {url}
           </span>
         </div>
         <span
@@ -62,9 +64,13 @@ function ChromeTopBar() {
 export default function DevicePair({
   desktop,
   mobile,
+  tab = "WynnBET | My Account",
+  url = "wynnbet.com/account/bonus-spins",
 }: {
   desktop: React.ReactNode;
   mobile: React.ReactNode;
+  tab?: string;
+  url?: string;
 }) {
   return (
     // Fixed white stage in both themes — the mockups sit on the same clean
@@ -82,7 +88,7 @@ export default function DevicePair({
                 "0 12px 32px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.10), 0 0 0 2px rgba(255,255,255,0.10)",
             }}
           >
-            <ChromeTopBar />
+            <ChromeTopBar tab={tab} url={url} />
             {desktop}
           </div>
         </div>

@@ -22,6 +22,14 @@ export const sections = [
   "Next Steps / Learnings",
 ];
 
+<Video
+  src="/work/wb-leaderboards/tile-wide.mp4"
+  poster="/work/wb-leaderboards/tile-wide.png"
+  w={1024}
+  h={661}
+  alt="The leaderboard standings shuffling as scores update"
+/>
+
 ## Overview
 
 The old leaderboard system was hard to find, buried within the promotions tab, and lacked essential features like a live expiration countdown. This led to user frustration, increased support tickets, and disengagement.
@@ -74,6 +82,8 @@ The biggest problem users faced with the leaderboard system was the lack of clar
 
 To address this, we developed a dedicated leaderboard page that prominently displayed an opt-in option, making it easy for users to join matches. Each leaderboard also clearly showed its expiration time on the main leaderboard page, giving users full transparency about how much time they had left to participate.
 
+<LeaderboardPrototype />
+
 ## Technical Challenge
 
 ### Challenge
@@ -96,6 +106,19 @@ The old leaderboard system lacked a live expiration countdown, which led to freq
 
 This confusion resulted in an increase in customer support requests and operational costs. From a business perspective, the goal was to increase user engagement with leaderboard matches, make them easier to find, and reduce the support burden caused by user confusion.
 
+<ScreenPair
+  desktopSrc="/work/wb-leaderboards/leaderboard-desktop.jpg"
+  desktopW={1080}
+  desktopH={1163}
+  mobileSrc="/work/wb-leaderboards/leaderboard-mobile.jpg"
+  mobileW={428}
+  mobileH={926}
+  alt="The leaderboard list on desktop and mobile, live and upcoming matches side by side"
+  tab="WynnBET | Leaderboard"
+  url="wynnbet.com/casino/leaderboard"
+  caption="The dedicated page: the same layout, one tap or click away on either device"
+/>
+
 ### Approach
 
 We addressed this by introducing a live expiration countdown on the leaderboard page, making it clear when a competition was set to end. Additionally, we improved the visibility of leaderboards on the main UI, ensuring that new users could easily find and participate in matches.
@@ -112,13 +135,18 @@ The redesign was consistent across both desktop and mobile platforms, offering t
 
 The consistent UI across both desktop and mobile ensures that users can enjoy the same seamless experience no matter which device they use, further reducing confusion and making the leaderboard feature more intuitive and accessible.
 
-<Figure src="/work/wb-leaderboards/leaderboard-desktop.jpg" w={939} h={1012} alt="Leaderboard on desktop" caption="Desktop" />
-
-<Figure src="/work/wb-leaderboards/leaderboard-mobile.jpg" w={428} h={926} alt="Leaderboard on mobile" caption="Mobile" />
-
-<Figure src="/work/wb-leaderboards/opted-in-desktop.jpg" w={939} h={1012} alt="Opted-in leaderboard detail on desktop" caption="Opted in on desktop" />
-
-<Figure src="/work/wb-leaderboards/opted-in-mobile.jpg" w={428} h={926} alt="Opted-in leaderboard detail on mobile" caption="Opted in on mobile" />
+<ScreenPair
+  desktopSrc="/work/wb-leaderboards/opted-in-desktop.jpg"
+  desktopW={1080}
+  desktopH={1163}
+  mobileSrc="/work/wb-leaderboards/opted-in-mobile.jpg"
+  mobileW={428}
+  mobileH={926}
+  alt="An opted-in match on desktop and mobile, with the player's own rank pinned above the standings"
+  tab="WynnBET | Leaderboard Details"
+  url="wynnbet.com/casino/leaderboard/exclusive-10k"
+  caption="Opted in: your name, rank and prize pinned above the standings"
+/>
 
 ## Results
 

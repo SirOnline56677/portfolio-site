@@ -28,6 +28,28 @@ export type FigureProps = {
   caption?: string;
 };
 
+/**
+ * A looping clip used the way `Figure` uses a still. Unlike Figure, `w`/`h`
+ * describe the box to crop TO, not the file's own dimensions: the source fills
+ * that box and is cropped, so a square tile can sit at a landscape size.
+ */
+export type VideoProps = {
+  src: string;
+  /**
+   * Frame shown until playback starts, whenever autoplay is refused, and as
+   * the whole story under reduced motion — so it is required, not optional.
+   */
+  poster: string;
+  w: number;
+  h: number;
+  /** object-position, for choosing which part of the source the crop keeps. */
+  focus?: string;
+  /** `<video>` takes no alt; this is announced in its place. Required, since
+   *  a figure that opens a section is never decorative. */
+  alt: string;
+  caption?: string;
+};
+
 /** One phase of a project roadmap timeline. */
 export type RoadmapPhase = {
   week: string;
@@ -115,6 +137,25 @@ export type CompareBook = {
 export type FreeSpinsMomentProps = {
   /** Which micro-story plays: finding the page, or a spin completing. */
   story: "account" | "spins";
+  caption?: string;
+};
+
+/**
+ * A desktop + mobile screenshot pair shown in the Free Spins device shells.
+ * The alt describes the screen once: the phone shot is the same screen, so it
+ * is marked decorative rather than announced twice.
+ */
+export type ScreenPairProps = {
+  desktopSrc: string;
+  desktopW: number;
+  desktopH: number;
+  mobileSrc: string;
+  mobileW: number;
+  mobileH: number;
+  alt: string;
+  /** Browser tab label and address bar text on the desktop shell. */
+  tab?: string;
+  url?: string;
   caption?: string;
 };
 

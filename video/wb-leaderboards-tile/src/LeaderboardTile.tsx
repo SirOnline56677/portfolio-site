@@ -1,4 +1,4 @@
-import {AbsoluteFill, Easing, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Easing, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {loadFont as loadMontserrat} from '@remotion/google-fonts/Montserrat';
 import {loadFont as loadPlexMono} from '@remotion/google-fonts/IBMPlexMono';
 
@@ -16,6 +16,16 @@ export const DURATION = 480; // 16s
 
 const SCREEN = {left: 160, top: 171, w: 820, h: 969};
 const HEAD_H = Math.round((490 / 1720) * SCREEN.w); // 234
+
+// How the page sits in the frame.
+//   'bleed'   — the square tile: 820x969 parked so the page runs to the bottom
+//               edge. Every inner size below is in these coordinates.
+//   'contain' — the study's landscape frame: the same page, scaled down and
+//               centred so all six rank rows fit with room to breathe. The
+//               ground and both glows still fill the frame, so the window
+//               reads as floating on it rather than cropped out of it.
+export type Fit = 'bleed' | 'contain';
+const CONTAIN_MARGIN_Y = 26;
 const PAD = {top: 28, x: 45, bottom: 41};
 
 const BASE: Record<string, number> = {
@@ -126,9 +136,22 @@ function Glow({t, gold}: {t: number; gold: boolean}) {
   );
 }
 
-export const LeaderboardTile: React.FC = () => {
+export const LeaderboardTile: React.FC<{fit?: Fit}> = ({fit = 'bleed'}) => {
   const frame = useCurrentFrame();
+  const {width, height} = useVideoConfig();
   const t = frame / FPS;
+
+  // Scale rather than re-lay-out: every size inside the window is a fixed px
+  // value in SCREEN's coordinate system, so a transform is the only way to
+  // resize the page without re-tuning forty numbers.
+  const scale = fit === 'contain' ? (height - CONTAIN_MARGIN_Y * 2) / SCREEN.h : 1;
+  const box =
+    fit === 'contain'
+      ? {
+          left: Math.round((width - SCREEN.w * scale) / 2),
+          top: Math.round((height - SCREEN.h * scale) / 2),
+        }
+      : {left: SCREEN.left, top: SCREEN.top};
 
   const rowArea = {h: 445, pitch: 75.8, rowH: 66};
   const label = {fontSize: 10.5, letterSpacing: '0.12em', fontWeight: 600, color: 'rgba(255,255,255,0.6)'};
@@ -153,11 +176,13 @@ export const LeaderboardTile: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          left: SCREEN.left,
-          top: SCREEN.top,
+          left: box.left,
+          top: box.top,
           width: SCREEN.w,
           height: SCREEN.h,
-          borderRadius: '20px 20px 0 0',
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+          borderRadius: fit === 'contain' ? 20 : '20px 20px 0 0',
           overflow: 'hidden',
           background: 'linear-gradient(175deg, #0B2242 0%, #0A1B33 40%, #081527 100%)',
           boxShadow: '0 30px 70px rgba(0,0,0,0.45), 0 4px 18px rgba(0,0,0,0.3)',
