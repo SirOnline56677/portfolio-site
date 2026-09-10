@@ -126,15 +126,18 @@ function Roadmap({ sub, phases }: RoadmapProps) {
 
 function Shell({ meta, sections, children }: ShellProps) {
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] gap-16">
-      <article className="min-w-0 flex-1">
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-display)] text-section uppercase text-muted hover:text-ink"
-        >
-          ← Back
-        </Link>
+    <div className="mx-auto w-full max-w-[1200px]">
+      <Link
+        href="/"
+        className="font-[family-name:var(--font-display)] text-section uppercase text-muted hover:text-ink"
+      >
+        ← Back
+      </Link>
 
+      {/* Full width, outside the body/nav row: the nav lists body sections
+          only, so there's nothing for it to sit beside up here — and the title
+          gets the whole 1200px to wrap in rather than the 916px column. */}
+      <header>
         <p className="mt-10 font-[family-name:var(--font-display)] text-section uppercase text-muted">
           {meta.client}
         </p>
@@ -160,11 +163,26 @@ function Shell({ meta, sections, children }: ShellProps) {
             </div>
           ))}
         </dl>
+      </header>
 
-        <div className="mt-12">{children}</div>
-      </article>
+      {/* No items-start / self-start here: the nav's inner `sticky` gets its
+          travel from being stretched to the article's height (see the note in
+          app/page.tsx) — pin it to content height and it un-pins the moment it
+          pins. The nav carries its own top margin for the same reason: a
+          spacing wrapper around it would become the stretched item and leave
+          the nav itself at content height.
 
-      <SectionNav sections={sections} />
+          mt-12 stays on this inner div rather than moving to the row: article
+          is a flex item, so it's a BFC, and the first MDX child's margin can no
+          longer collapse out of it. On the row the two would add (48 + 56)
+          instead of collapsing to 56, silently opening the body gap. */}
+      <div className="flex gap-16">
+        <article className="min-w-0 flex-1">
+          <div className="mt-12">{children}</div>
+        </article>
+
+        <SectionNav sections={sections} />
+      </div>
     </div>
   );
 }

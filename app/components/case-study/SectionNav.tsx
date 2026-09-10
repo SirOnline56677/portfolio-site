@@ -119,7 +119,12 @@ export default function SectionNav({ sections }: { sections: Section[] }) {
   };
 
   return (
-    <nav className="hidden w-[220px] shrink-0 lg:block">
+    // The top margin matches the body's own mt-12, so nav and copy both start
+    // one step below the header rule. It lives on the nav rather than a wrapper
+    // because this element is the sticky list's containing block: wrap it and
+    // the wrapper takes the flex stretch, leaving the nav at content height
+    // with no travel.
+    <nav className="hidden w-[220px] shrink-0 lg:mt-12 lg:block">
       <ul className="sticky top-12 flex flex-col gap-4">
         {sections.map((s) => {
           const id = sectionId(s);
