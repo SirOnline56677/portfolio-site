@@ -14,6 +14,8 @@ const PER_WINDOW = 30;
 const CACHE_MAX = 500;
 const EL_CAP = Number(process.env.BINGO_TTS_MONTHLY_CHARS ?? 9000);
 const G_CAP = Number(process.env.BINGO_GTTS_MONTHLY_CHARS ?? 900000);
+// Google's speakingRate is 0.25–4.0; ElevenLabs' speed is 0.7–1.2. One env var drives both.
+const SPEED = Number(process.env.ELEVENLABS_SPEED ?? 1);
 
 type Word = { w: string; s: number; e: number };
 type Clip = { audio: string; words: Word[]; provider: "elevenlabs" | "google" };
@@ -59,7 +61,7 @@ async function elevenlabs(text: string): Promise<Clip | null> {
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_64`, {
     method: "POST",
     headers: { "xi-api-key": key, "content-type": "application/json" },
-    body: JSON.stringify({ text, model_id: "eleven_flash_v2_5" }),
+    body: JSON.stringify({ text, model_id: "eleven_flash_v2_5", voice_settings: { speed: SPEED } }),
     signal: AbortSignal.timeout(6000),
   });
   if (!res.ok) return null;
@@ -81,7 +83,7 @@ async function google(text: string): Promise<Clip | null> {
     body: JSON.stringify({
       input: { ssml },
       voice: { languageCode: "en-US", name: process.env.GOOGLE_TTS_VOICE || "en-US-Neural2-F" },
-      audioConfig: { audioEncoding: "MP3" },
+      audioConfig: { audioEncoding: "MP3", speakingRate: SPEED },
       enableTimePointing: ["SSML_MARK"],
     }),
     signal: AbortSignal.timeout(6000),

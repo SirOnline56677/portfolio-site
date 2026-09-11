@@ -6,6 +6,7 @@
 //   GOOGLE_TTS_API_KEY=… node scripts/bingo-tts.mjs --provider google
 //   node scripts/bingo-tts.mjs --force                          # re-render existing ids
 //   node scripts/bingo-tts.mjs --voices                         # list ElevenLabs voices
+//   ELEVENLABS_SPEED=0.9 node scripts/bingo-tts.mjs --force     # slower/faster (0.7–1.2, default 1.0)
 //
 // Output: public/work/bingo-ai-job-matching-platform-for-seniors/prototype/tts/<id>.mp3
 // and <id>.json ({ words: [{ w, s, e }] }). Keys are read from the env (or
@@ -84,7 +85,7 @@ async function elRender(voiceId, text) {
   const res = await fetch(`${EL}/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_64`, {
     method: "POST",
     headers: elHeaders(),
-    body: JSON.stringify({ text, model_id: "eleven_flash_v2_5" }),
+    body: JSON.stringify({ text, model_id: "eleven_flash_v2_5", voice_settings: { speed: Number(process.env.ELEVENLABS_SPEED ?? 1) } }),
   });
   if (!res.ok) throw new Error(`tts: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
   const data = await res.json();
@@ -148,5 +149,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     chars += text.length; made += 1;
     console.log(`ok   ${id}  ${text.length} chars  ${words.length} words  ${(audio.length / 1024).toFixed(0)} KB`);
   }
-  console.log(`rendered ${made} clips, ${chars} characters via ${provider}`);
+  console.log(`rendered ${made} clips, ${chars} characters via ${provider}${provider === "elevenlabs" ? ` at speed ${process.env.ELEVENLABS_SPEED ?? 1}` : ""}`);
 }
