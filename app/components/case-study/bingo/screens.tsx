@@ -148,7 +148,7 @@ export function ScreenName({ ctx }: { ctx: Ctx }) {
 export function Screen00({ ctx }: { ctx: Ctx }) {
   const { s, d } = ctx;
   return (
-    <Shell ctx={ctx} title={`Hi, ${s.answers.name}`} back={false} step="">
+    <Shell ctx={ctx} title={`Hi, ${s.answers.name}`} step="">
       <Prompt ctx={ctx} />
       <Group label="What we'll ask">
         <Card>
