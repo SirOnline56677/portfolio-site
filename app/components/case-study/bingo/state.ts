@@ -116,15 +116,21 @@ export const initialState = (name = ""): State => ({
   listenNonce: 0,
 });
 
-/** What Bingo says when a screen opens. `{name}` is the preferred name. */
-export const PROMPTS: Record<ScreenId, string> = {
+/**
+ * What Bingo says when a screen opens, as segments. Static segments carry an
+ * `id` and play from pre-rendered clips (public/…/prototype/tts/<id>.mp3);
+ * dynamic ones (the visitor's name, their address, the read-back) are
+ * synthesized live, kept short so a month of plays stays inside a free tier.
+ */
+export type Segment = { id?: string; text: string };
+
+export const STATIC_SEGMENTS: Record<string, string> = {
   name: "I'm Bingo. What's your name?",
-  "00": "Hi {name}. Four quick things and you're set, about three minutes. You can talk or type at every step.",
+  "00-tail": "Four quick things and you're set, about three minutes. You can talk or type at every step.",
   "01": "I can read things out loud and listen when you answer. You can always type instead.",
-  "1a": "We'll call you {name}. Want something shorter?",
-  "1b": "Why are you looking for work, {name}? Pick any that fit, or just say it.",
+  "1a-tail": "Want something shorter?",
+  "1b-tail": "Pick any that fit, or just say it.",
   "2a": "Is this still the best number? Then tell me where you live, so we find work nearby.",
-  "2b": "I heard {address}. Is that right?",
   "2c": "How do you usually get around, and how far is too far?",
   "3a": "What kind of work have you done? Just talk, I'll take notes. A minute is plenty.",
   "3b": "Sounds like these. Tap one to remove it, or say another.",
@@ -132,18 +138,40 @@ export const PROMPTS: Record<ScreenId, string> = {
   "3d": "This one's optional. Anything you'd rather avoid? Say it, tap it, or skip.",
   "4a": "I'll read it back. Tap any line to fix it.",
   "4c": "Optional, but worth it: people who record a quick hello hear back from more employers.",
-  "4b": "You're in, {name}. Two near you for Tuesday morning. Want me to read them?",
+  "4b-tail": "Two near you for Tuesday morning. Want me to read them?",
+  matches: "Host at Corner Diner, Astoria, twelve minutes by bus, Tuesday and Thursday mornings, eighteen dollars an hour. Greeter at Home Depot, Long Island City, twenty five minutes by bus, Tuesday mornings, seventeen dollars an hour.",
 };
+
+const S = (id: string): Segment => ({ id, text: STATIC_SEGMENTS[id] });
 
 export function addressLine(a: Answers): string {
   return [a.street, [a.city, a.state].filter(Boolean).join(", ") + (a.zip ? " " + a.zip : "")].filter((s) => s.trim()).join(", ");
 }
 
+export function promptSegments(state: State): Segment[] {
+  const n = state.answers.name || "there";
+  switch (state.screen) {
+    case "name": return [S("name")];
+    case "00": return [{ text: `Hi ${n}.` }, S("00-tail")];
+    case "01": return [S("01")];
+    case "1a": return [{ text: `We'll call you ${n}.` }, S("1a-tail")];
+    case "1b": return [{ text: `Why are you looking for work, ${n}?` }, S("1b-tail")];
+    case "2a": return [S("2a")];
+    case "2b": return [{ text: `I heard ${addressLine(state.answers) || "nothing yet"}. Is that right?` }];
+    case "2c": return [S("2c")];
+    case "3a": return [S("3a")];
+    case "3b": return [S("3b")];
+    case "3c": return [S("3c")];
+    case "3d": return [S("3d")];
+    case "4a": return [S("4a")];
+    case "4c": return [S("4c")];
+    case "4b": return [{ text: `You're in, ${n}.` }, S("4b-tail")];
+  }
+}
+
+/** The prompt as shown on screen: the segments joined, so karaoke indexes line up. */
 export function promptFor(state: State): string {
-  const a = state.answers;
-  return PROMPTS[state.screen]
-    .replace(/\{name\}/g, a.name)
-    .replace("{address}", addressLine(a) || "nothing yet");
+  return promptSegments(state).map((s) => s.text).join(" ");
 }
 
 const go = (s: State, screen: ScreenId): State => ({

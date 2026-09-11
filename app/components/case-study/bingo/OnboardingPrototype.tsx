@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import ScaledScreen from "../free-spins/ScaledScreen";
 import { H, W } from "./tokens";
-import { initialState, promptFor, reducer, type ScreenId } from "./state";
+import { initialState, promptSegments, reducer, STATIC_SEGMENTS, type ScreenId } from "./state";
 import { useCamera } from "./useCamera";
 import { requestMic, speechSupport, useRecognition, useTts } from "./useSpeech";
 import { fetchSkills } from "./skills";
@@ -63,9 +63,10 @@ export default function OnboardingPrototype() {
   /* ---------- reading aloud ---------- */
   const readPrompt = useCallback(() => {
     const cur = sRef.current;
-    if (cur.muted || !tts.supported) return;
+    if (cur.muted) return;
     rec.abort();
     d({ type: "VOICE", state: "reading" });
+    const onWord = (i: number) => d({ type: "READ_WORD", index: i });
     if (cur.screen === "4a") {
       // Read the answers line by line; the line being read turns red.
       const lines = reviewLines(cur.answers);
@@ -73,13 +74,13 @@ export default function OnboardingPrototype() {
         if (sRef.current.screen !== "4a" || sRef.current.runId !== cur.runId) return;
         if (i >= lines.length) { d({ type: "REVIEW_LINE", index: -1 }); d({ type: "VOICE", state: "idle" }); return; }
         d({ type: "REVIEW_LINE", index: i });
-        tts.speak(`${lines[i].sub}: ${lines[i].v}.`, { onEnd: () => say(i + 1) });
+        void tts.speak([{ text: `${lines[i].sub}: ${lines[i].v}.` }], { onEnd: () => say(i + 1) });
       };
-      tts.speak(promptFor(cur), { onWord: (i) => d({ type: "READ_WORD", index: i }), onEnd: () => { d({ type: "READ_WORD", index: -1 }); say(0); } });
+      void tts.speak(promptSegments(cur), { onWord, onEnd: () => { d({ type: "READ_WORD", index: -1 }); say(0); } });
       return;
     }
-    tts.speak(promptFor(cur), {
-      onWord: (i) => d({ type: "READ_WORD", index: i }),
+    void tts.speak(promptSegments(cur), {
+      onWord,
       onEnd: () => {
         if (sRef.current.voiceState === "reading") d({ type: "VOICE", state: "idle" });
         d({ type: "READ_WORD", index: -1 });
@@ -206,9 +207,7 @@ export default function OnboardingPrototype() {
   const readMatches = useCallback(() => {
     tts.unlock();
     d({ type: "VOICE", state: "reading" });
-    tts.speak("Host at Corner Diner, Astoria, twelve minutes by bus, Tuesday and Thursday mornings, eighteen dollars an hour. Greeter at Home Depot, Long Island City, twenty five minutes by bus, Tuesday mornings, seventeen dollars an hour.", {
-      onEnd: () => d({ type: "VOICE", state: "idle" }),
-    });
+    void tts.speak([{ id: "matches", text: STATIC_SEGMENTS.matches }], { onEnd: () => d({ type: "VOICE", state: "idle" }) });
   }, [tts]);
 
   const ctx: Ctx = {
@@ -294,7 +293,7 @@ export default function OnboardingPrototype() {
         </p>
       </section>
       <p className="-mt-8 mb-12 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">
-        Interactive prototype: voice onboarding. Mic and camera are optional, nothing is saved. Voice uses your browser&apos;s speech service
+        Interactive prototype: voice onboarding. Mic and camera are optional, nothing is saved. Voice by ElevenLabs; listening uses your browser&apos;s speech service
       </p>
     </div>
   );
