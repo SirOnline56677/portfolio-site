@@ -177,6 +177,27 @@ export type CompareCardsProps = {
   }[];
 };
 
+/** One Wrist Check primary per interviewee, by role. */
+export type InterviewTone = "red" | "blue" | "yellow";
+
+export type Interview = {
+  name: string;
+  /** e.g. "Buyer", "Trader", "Seller". */
+  role: string;
+  tone: InterviewTone;
+  /** e.g. "Interview 1": the order the conversations happened in. */
+  label: string;
+  /** One-line stance, closed with a red period by the component — omit end punctuation. */
+  stance: string;
+  body: string[];
+  img: { src: string; w: number; h: number };
+};
+
+/** Sticky-portrait interview rail (Wrist Check user interviews). */
+export type InterviewRailProps = {
+  interviews: Interview[];
+};
+
 /** "Who does what" capability board (competitor analysis). */
 export type CapabilityBoardProps = {
   title: string;
