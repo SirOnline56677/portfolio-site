@@ -60,7 +60,7 @@ async function elVoices() {
 async function elVoiceId() {
   if (process.env.ELEVENLABS_VOICE_ID) return process.env.ELEVENLABS_VOICE_ID;
   const voices = await elVoices();
-  const pick = voices.find((v) => v.name === "Sarah") ?? voices.find((v) => v.labels?.gender === "female" && /american|english/i.test(v.labels?.accent ?? "")) ?? voices[0];
+  const pick = voices.find((v) => v.name.startsWith("Sarah")) ?? voices.find((v) => v.labels?.gender === "female" && /american|english/i.test(v.labels?.accent ?? "")) ?? voices[0];
   if (!pick) throw new Error("no premade voices returned; set ELEVENLABS_VOICE_ID");
   console.log(`voice: ${pick.name} (${pick.voice_id})`);
   return pick.voice_id;
