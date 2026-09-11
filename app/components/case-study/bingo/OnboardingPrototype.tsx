@@ -288,7 +288,9 @@ export default function OnboardingPrototype() {
           </div>
         </div>
         <p className="mt-6 text-center font-[family-name:var(--font-label)] text-label uppercase tracking-[0.05em]" style={{ color: "#666" }}>
-          {unsupported && s.screen === "01" ? "Voice isn't available in this browser. Tap and type instead" : HINTS[s.screen]}
+          {tts.stuck
+            ? "Read aloud isn't responding in this browser. Try Safari, or restart Chrome"
+            : unsupported && s.screen === "01" ? "Voice isn't available in this browser. Tap and type instead" : HINTS[s.screen]}
         </p>
       </section>
       <p className="-mt-8 mb-12 font-[family-name:var(--font-label)] text-label uppercase tracking-[0.03em] text-muted">

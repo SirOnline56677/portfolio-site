@@ -53,6 +53,9 @@ const WORD_MS = 250;
 /** Read a prompt aloud; `onWord(i)` walks the karaoke highlight, `onEnd` fires once. */
 export function useTts() {
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+  // Chrome's synthesis can wedge for the whole session (speaking=true, no
+  // onstart ever). When that happens we stop pretending to read.
+  const [stuck, setStuck] = useState(false);
   const timerRef = useRef<number | null>(null);
   const activeRef = useRef<SpeechSynthesisUtterance | null>(null);
   const unlockedRef = useRef(false);
@@ -93,6 +96,8 @@ export function useTts() {
   const speak = useCallback(
     (text: string, opts: { onWord?: (i: number) => void; onEnd?: () => void } = {}) => {
       if (!speechSupport().tts) { opts.onEnd?.(); return; }
+      const synth = window.speechSynthesis;
+      const busy = synth.speaking || synth.pending;
       cancel();
       const words = text.split(" ");
       const starts: number[] = [];
@@ -103,11 +108,14 @@ export function useTts() {
       u.lang = "en-US";
       u.rate = 0.95;
       let sawBoundary = false;
+      let started = false;
       let fallbackArmed: number | null = null;
+      let watchdog: number | null = null;
       const finish = () => {
         if (activeRef.current !== u) return;
         clearTimer();
         if (fallbackArmed != null) window.clearTimeout(fallbackArmed);
+        if (watchdog != null) window.clearTimeout(watchdog);
         activeRef.current = null;
         opts.onEnd?.();
       };
@@ -121,6 +129,8 @@ export function useTts() {
         opts.onWord?.(idx);
       };
       u.onstart = () => {
+        started = true;
+        setStuck(false);
         // Some voices never fire boundary events: walk the words on a clock instead.
         fallbackArmed = window.setTimeout(() => {
           if (sawBoundary || activeRef.current !== u) return;
@@ -137,12 +147,26 @@ export function useTts() {
       u.onerror = finish;
       activeRef.current = u;
       unlockedRef.current = true;
-      window.speechSynthesis.speak(u);
+      // Chrome drops an utterance queued in the same tick as cancel(), so when
+      // something is still speaking (the silent unlock, a previous prompt) let
+      // the engine settle before handing it the next one.
+      const go = () => {
+        if (activeRef.current !== u) return;
+        synth.speak(u);
+        watchdog = window.setTimeout(() => {
+          if (started || activeRef.current !== u) return;
+          synth.cancel();
+          setStuck(true);
+          finish();
+        }, 1500);
+      };
+      if (busy) window.setTimeout(go, 80);
+      else go();
     },
     [cancel],
   );
 
-  return { speak, cancel, unlock, supported: speechSupport().tts };
+  return { speak, cancel, unlock, stuck, supported: speechSupport().tts };
 }
 
 export type ListenOpts = {
