@@ -202,8 +202,3 @@ export type PriceRulerProps = {
   over: string;
   footnote: string;
 };
-
-/** The playable Bingo AI voice onboarding. `name` is the account name it greets. */
-export type OnboardingPrototypeProps = {
-  name?: string;
-};

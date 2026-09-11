@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import ScaledScreen from "../free-spins/ScaledScreen";
-import type { OnboardingPrototypeProps } from "../types";
 import { H, W } from "./tokens";
 import { initialState, promptFor, reducer, type ScreenId } from "./state";
 import { useCamera } from "./useCamera";
@@ -10,7 +9,7 @@ import { requestMic, speechSupport, useRecognition, useTts } from "./useSpeech";
 import { fetchSkills } from "./skills";
 import { HelpSheet, MissedSheet, PermissionAlert } from "./overlays";
 import {
-  reviewLines, Screen00, Screen01, Screen1a, Screen1b, Screen2a, Screen2b, Screen2c, Screen3a, Screen3b, Screen3c, Screen3d, Screen4a, Screen4b, Screen4c, type Ctx,
+  reviewLines, ScreenName, Screen00, Screen01, Screen1a, Screen1b, Screen2a, Screen2b, Screen2c, Screen3a, Screen3b, Screen3c, Screen3d, Screen4a, Screen4b, Screen4c, type Ctx,
 } from "./screens";
 
 // The Bingo AI voice onboarding, playable. The 19 Figma frames (section
@@ -27,6 +26,7 @@ import {
 // shell as LeaderboardPrototype.
 
 const HINTS: Record<ScreenId, string> = {
+  name: "Type your first name, or tap the mic and say it",
   "00": "Try it: tap Read aloud, then Let's go",
   "01": "Yes asks your browser for the microphone. Just text skips it",
   "1a": "Tap the mic and say a name, or tap Change to type",
@@ -43,8 +43,8 @@ const HINTS: Record<ScreenId, string> = {
   "4b": "That's the flow. Play again starts over from the top",
 };
 
-export default function OnboardingPrototype({ name = "Stephen" }: OnboardingPrototypeProps) {
-  const [s, d] = useReducer(reducer, name, initialState);
+export default function OnboardingPrototype() {
+  const [s, d] = useReducer(reducer, "", initialState);
   const tts = useTts();
   const rec = useRecognition();
   const cam = useCamera();
@@ -87,10 +87,11 @@ export default function OnboardingPrototype({ name = "Stephen" }: OnboardingProt
     });
   }, [tts, rec]);
 
-  // Each screen introduces itself, except 00 (iOS needs a tap first) and 01,
-  // and not for someone who chose "Just text" (Play back still reads on demand).
+  // Each screen introduces itself, except the first two (browsers refuse to
+  // speak before a tap) and 01, and not for someone who chose "Just text"
+  // (Play back still reads on demand).
   useEffect(() => {
-    if (s.screen === "00" || s.screen === "01" || s.voiceMode === "off") return;
+    if (s.screen === "name" || s.screen === "00" || s.screen === "01" || s.voiceMode === "off") return;
     const t = window.setTimeout(readPrompt, 350);
     return () => { window.clearTimeout(t); tts.cancel(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,6 +153,17 @@ export default function OnboardingPrototype({ name = "Stephen" }: OnboardingProt
     if (advance) d({ type: "NEXT" });
   }, []);
 
+  // The name screen's mic: permission and the first listen in one tap.
+  const askMicThenListen = useCallback(async () => {
+    tts.unlock();
+    if (sRef.current.voiceMode !== "on") {
+      const result = await requestMic();
+      d({ type: "SET_VOICE_MODE", mode: result === "granted" ? "on" : "off" });
+      if (result !== "granted") return;
+    }
+    listen();
+  }, [tts, listen]);
+
   const onChoose = useCallback((talk: boolean) => {
     tts.unlock();
     if (!talk) { d({ type: "SET_VOICE_MODE", mode: sRef.current.voiceMode === "unsupported" ? "unsupported" : "off" }); d({ type: "NEXT" }); return; }
@@ -178,8 +190,8 @@ export default function OnboardingPrototype({ name = "Stephen" }: OnboardingProt
     tts.cancel();
     rec.abort();
     cam.reset();
-    d({ type: "RESTART", name });
-  }, [tts, rec, cam, name]);
+    d({ type: "RESTART" });
+  }, [tts, rec, cam]);
 
   useEffect(() => {
     // Keep keyboard users oriented; preventScroll so the article stays put.
@@ -202,6 +214,7 @@ export default function OnboardingPrototype({ name = "Stephen" }: OnboardingProt
   const ctx: Ctx = {
     s, d, voiceOn, onMic,
     onTurnOnVoice: () => void askMic(false),
+    askMicThenListen: () => void askMicThenListen(),
     read: () => { tts.unlock(); readPrompt(); },
     next: () => {
       const cur = sRef.current;
@@ -217,6 +230,7 @@ export default function OnboardingPrototype({ name = "Stephen" }: OnboardingProt
 
   const screen = (() => {
     switch (s.screen) {
+      case "name": return <ScreenName ctx={ctx} />;
       case "00": return <Screen00 ctx={ctx} />;
       case "01": return <Screen01 ctx={ctx} onChoose={onChoose} />;
       case "1a": return <Screen1a ctx={ctx} />;

@@ -20,6 +20,8 @@ export type Ctx = {
   /** Toggle listening (or stop). */
   onMic: () => void;
   onTurnOnVoice: () => void;
+  /** Name screen only: ask for the mic (permission prompt) and start listening. */
+  askMicThenListen: () => void;
   /** Re-read the prompt aloud. */
   read: () => void;
   next: () => void;
@@ -106,6 +108,40 @@ function Voice({ ctx, idle, listening, onTap }: { ctx: Ctx; idle: string; listen
 
 function PlayBack({ ctx, label = "Play back" }: { ctx: Ctx; label?: string }) {
   return <Btn kind="tint" w={150} onClick={ctx.read}>▶&nbsp;&nbsp;{label}</Btn>;
+}
+
+/* ================= name ================= */
+export function ScreenName({ ctx }: { ctx: Ctx }) {
+  const { s, d } = ctx;
+  const name = s.answers.name;
+  const unsupported = s.voiceMode === "unsupported";
+  const st = s.voiceState;
+  const caption = st === "listening" ? "Listening… tap to stop" : st === "heard" ? "Got it. Tap to try again" : "Tap and say your name";
+  return (
+    <Shell ctx={ctx} title="Hello" back={false} step="">
+      <Prompt ctx={ctx} />
+      <Group label="Your name">
+        <Card>
+          <Row first>
+            <Field value={name} placeholder="Your first name" ariaLabel="Your first name" onChange={(v) => d({ type: "SET_ANSWER", patch: { name: v } })} onEnter={() => { if (name.trim()) ctx.next(); }} />
+            {st === "listening" ? <Wave /> : null}
+          </Row>
+        </Card>
+        <Help>{unsupported ? "Voice isn't available in this browser. Type your name to start." : "Type it, or tap the mic and say it."}</Help>
+      </Group>
+      {s.heard ? <Said text={s.heard} /> : s.interim ? <Said text={s.interim + "…"} /> : null}
+      <Spacer />
+      {unsupported ? (
+        <VoiceBlock state="off" caption="Voice isn't available in this browser" />
+      ) : (
+        <VoiceBlock state={st === "listening" ? "listening" : st === "heard" ? "heard" : "idle"} caption={caption} onTap={st === "listening" ? ctx.onMic : ctx.askMicThenListen} label="Tap and say your name" />
+      )}
+      <Buttons>
+        <Btn kind="tint" w={150} onClick={() => { ctx.unlock(); ctx.read(); }}>▶&nbsp;&nbsp;Read aloud</Btn>
+        <Btn onClick={() => { ctx.unlock(); ctx.next(); }} disabled={!name.trim()}>That&apos;s me</Btn>
+      </Buttons>
+    </Shell>
+  );
 }
 
 /* ================= 00 ================= */

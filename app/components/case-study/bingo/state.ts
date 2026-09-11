@@ -19,14 +19,14 @@ import { extractSkillsLocal, removeSkillFromSpeech, skillFromSpeech, type Skill,
 // nothing here touches storage: a refresh is a new person.
 
 export type ScreenId =
-  | "00" | "01" | "1a" | "1b" | "2a" | "2b" | "2c"
+  | "name" | "00" | "01" | "1a" | "1b" | "2a" | "2b" | "2c"
   | "3a" | "3b" | "3c" | "3d" | "4a" | "4c" | "4b";
 
-/** Play order. 4c (the optional hello) sits before the payoff on 4b. */
-export const SCREEN_ORDER: ScreenId[] = ["00", "01", "1a", "1b", "2a", "2b", "2c", "3a", "3b", "3c", "3d", "4a", "4c", "4b"];
+/** Play order. The visitor's name comes first; 4c (the optional hello) sits before the payoff on 4b. */
+export const SCREEN_ORDER: ScreenId[] = ["name", "00", "01", "1a", "1b", "2a", "2b", "2c", "3a", "3b", "3c", "3d", "4a", "4c", "4b"];
 
 export const STEP_OF: Record<ScreenId, 0 | 1 | 2 | 3 | 4> = {
-  "00": 0, "01": 0, "1a": 1, "1b": 1, "2a": 2, "2b": 2, "2c": 2, "3a": 3, "3b": 3, "3c": 3, "3d": 3, "4a": 4, "4c": 4, "4b": 4,
+  name: 0, "00": 0, "01": 0, "1a": 1, "1b": 1, "2a": 2, "2b": 2, "2c": 2, "3a": 3, "3b": 3, "3c": 3, "3d": 3, "4a": 4, "4c": 4, "4b": 4,
 };
 
 export type VoiceMode = "unset" | "on" | "off" | "unsupported";
@@ -81,7 +81,7 @@ export type Action =
   | { type: "TOGGLE_MUTE" }
   | { type: "REVIEW_LINE"; index: number }
   | { type: "LISTEN_AGAIN" }
-  | { type: "RESTART"; name: string };
+  | { type: "RESTART" };
 
 export const initialAnswers = (name: string): Answers => ({
   name,
@@ -101,8 +101,8 @@ export const initialAnswers = (name: string): Answers => ({
   videoUrl: null,
 });
 
-export const initialState = (name: string): State => ({
-  screen: "00",
+export const initialState = (name = ""): State => ({
+  screen: "name",
   voiceMode: "unset",
   voiceState: "idle",
   overlay: null,
@@ -118,9 +118,10 @@ export const initialState = (name: string): State => ({
 
 /** What Bingo says when a screen opens. `{name}` is the preferred name. */
 export const PROMPTS: Record<ScreenId, string> = {
+  name: "I'm Bingo. What's your name?",
   "00": "Hi {name}. Four quick things and you're set, about three minutes. You can talk or type at every step.",
   "01": "I can read things out loud and listen when you answer. You can always type instead.",
-  "1a": "We have you as {name}. What do you like to be called?",
+  "1a": "We'll call you {name}. Want something shorter?",
   "1b": "Why are you looking for work, {name}? Pick any that fit, or just say it.",
   "2a": "Is this still the best number? Then tell me where you live, so we find work nearby.",
   "2b": "I heard {address}. Is that right?",
@@ -149,11 +150,15 @@ const go = (s: State, screen: ScreenId): State => ({
   ...s, screen, voiceState: "idle", overlay: null, readWord: -1, interim: "", heard: null, reviewLine: -1,
 });
 
+// 01 only asks about the microphone; if it was already granted on the name
+// screen the question is moot, so 00 → 1a and 1a → 00 skip over it.
 function next(s: State): State {
+  if (s.screen === "00" && s.voiceMode === "on") return go(s, "1a");
   const i = SCREEN_ORDER.indexOf(s.screen);
   return i < SCREEN_ORDER.length - 1 ? go(s, SCREEN_ORDER[i + 1]) : s;
 }
 function back(s: State): State {
+  if (s.screen === "1a" && s.voiceMode === "on") return go(s, "00");
   const i = SCREEN_ORDER.indexOf(s.screen);
   return i > 0 ? go(s, SCREEN_ORDER[i - 1]) : s;
 }
@@ -165,6 +170,7 @@ function heard(s: State, text: string): State {
   const a = s.answers;
   const base: State = { ...s, heard: text, interim: "", voiceState: "heard" };
   switch (s.screen) {
+    case "name":
     case "1a": {
       const name = parseName(text);
       return name ? { ...base, answers: { ...a, name } } : base;
@@ -256,7 +262,7 @@ export function reducer(s: State, action: Action): State {
     case "LISTEN_AGAIN":
       return { ...s, overlay: null, listenNonce: s.listenNonce + 1 };
     case "RESTART":
-      // Back to the account name: a preferred name picked mid-run is forgotten too.
-      return { ...initialState(action.name), runId: s.runId + 1 };
+      // A new person: back to the name screen, empty.
+      return { ...initialState(), runId: s.runId + 1 };
   }
 }
