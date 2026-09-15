@@ -12,6 +12,7 @@ import LeaderboardPrototype from "./LeaderboardPrototype";
 import Persona from "./Persona";
 import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
+import SkillGrowth from "./bingo/SkillGrowth";
 import ScreenPair from "./ScreenPair";
 import SportsbookPrototype from "./SportsbookPrototype";
 import SectionNav from "./SectionNav";
@@ -309,5 +310,6 @@ export const caseStudyTemplate: Template = {
     PriceRuler,
     ProblemSpace,
     Roadmap,
+    SkillGrowth,
   },
 };
