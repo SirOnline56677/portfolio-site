@@ -9,6 +9,7 @@ import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/s
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import LeaderboardPrototype from "./LeaderboardPrototype";
+import OnboardingPrototype from "./bingo/OnboardingPrototype";
 import Persona from "./Persona";
 import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
@@ -306,6 +307,7 @@ export const caseStudyTemplate: Template = {
     SpinsPrototype,
     SpinSurfaces,
     Mindmap,
+    OnboardingPrototype,
     Persona,
     PriceRuler,
     ProblemSpace,

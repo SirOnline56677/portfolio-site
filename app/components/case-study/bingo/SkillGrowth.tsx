@@ -18,7 +18,7 @@ import ScaledScreen from "../free-spins/ScaledScreen";
 // Server HTML carries the final beat, so pre-JS paint and reduced motion show
 // the finished design; hydration rewinds to day one and plays while on screen
 // (elapsed pauses off screen, per ProblemSpace). The phone is a fixed-colour
-// framed object like DevicePair's shell; only the well follows the theme.
+// framed object like DevicePair's shell, on DevicePair's fixed white stage.
 
 const W = 393;
 const H = 852;
@@ -330,8 +330,13 @@ export default function SkillGrowth({ caption }: { caption?: string }) {
 
   return (
     <figure ref={rootRef} className="my-12">
-      <div className="rounded-[24px] bg-well p-5 sm:p-8" style={{ maxWidth: 480 }}>
-        <div className="mx-auto w-full max-w-[393px]">
+      {/* Fixed white stage in both themes, like DevicePair and the onboarding
+          prototype above it: the phone sits on the same clean ground whether
+          the page is light or dark. */}
+      <div className="rounded-[24px] p-5 sm:p-8" style={{ background: "#ffffff" }}>
+        {/* Same stage geometry as the onboarding prototype above: full column
+            width, phone centred at the prototype's size. */}
+        <div className="mx-auto w-2/3 max-w-[300px]">
           {/* DevicePair's iPhone shell, at the design's own width. */}
           <div
             className="overflow-clip rounded-[44px] border-[10px]"
