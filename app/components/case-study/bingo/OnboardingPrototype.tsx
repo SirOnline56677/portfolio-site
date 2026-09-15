@@ -53,6 +53,86 @@ export default function OnboardingPrototype() {
   const retriedRef = useRef(false);
   const [pendingSkills, setPendingSkills] = useState(false);
 
+  /* ---------- hint rings ----------
+     Free-spins treatment: every tappable control wears a soft red ring that
+     radiates out and fades, on repeat, until the visitor taps something on
+     that screen. A new screen or sheet brings the rings back; a tap that
+     lands on nothing brings them back too. Controls are measured in the DOM
+     (every one is a real button or input) and mapped into the 393x852 design
+     space through ScaledScreen's scale, so the rings stay glued at any size. */
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [spots, setSpots] = useState<{ x: number; y: number; w: number; h: number; r: string }[]>([]);
+  const [hinting, setHinting] = useState(false);
+  const seenRef = useRef(false);
+  const measure = useCallback(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const box = stage.getBoundingClientRect();
+    const scale = box.width / W || 1;
+    const next: { x: number; y: number; w: number; h: number; r: string }[] = [];
+    stage.querySelectorAll<HTMLElement>("button:not([disabled]), input, textarea").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.width < 4 || r.height < 4) return;
+      next.push({
+        x: (r.left - box.left) / scale,
+        y: (r.top - box.top) / scale,
+        w: r.width / scale,
+        h: r.height / scale,
+        r: getComputedStyle(el).borderRadius,
+      });
+    });
+    setSpots(next);
+  }, []);
+
+  // Rings start once the phone is mostly on screen, not on page load.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !seenRef.current) {
+          seenRef.current = true;
+          measure();
+          setHinting(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(stage);
+    return () => io.disconnect();
+  }, [measure]);
+
+  // Each new screen or sheet: rings come back once the new controls exist.
+  useEffect(() => {
+    if (!seenRef.current) return;
+    const t = window.setTimeout(() => { measure(); setHinting(true); }, 120);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [s.screen, s.overlay, s.runId]);
+
+  // Controls appear, move and enable within a screen ("That's me" wakes up
+  // once there is a name), so keep the rings honest while they show.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!hinting || !stage) return;
+    let raf = 0;
+    const mo = new MutationObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    });
+    mo.observe(stage, { subtree: true, childList: true, attributes: true, attributeFilter: ["disabled", "style", "class"] });
+    return () => { mo.disconnect(); cancelAnimationFrame(raf); };
+  }, [hinting, measure]);
+
+  // A real tap dismisses the rings for this screen; a tap on nothing asks
+  // "where can I tap?" and gets them back.
+  const onStageTap = useCallback((e: React.PointerEvent) => {
+    const t = e.target as HTMLElement;
+    if (t.closest("button, input, textarea, a, label")) setHinting(false);
+    else { measure(); setHinting(true); }
+  }, [measure]);
+
   const voiceOn = s.voiceMode === "on";
 
   // Feature detection is a client fact; the server renders "unset".
@@ -255,6 +335,9 @@ export default function OnboardingPrototype() {
         @keyframes bg-pulse { 0% { opacity: .9; transform: scale(.98); } 70% { opacity: 0; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.12); } }
         @keyframes bg-wave { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
         @keyframes bg-float { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+        @keyframes bg-ring { 0% { opacity: .9; transform: scale(.98); } 70% { opacity: 0; transform: scale(1.06); } 100% { opacity: 0; transform: scale(1.06); } }
+        .bg-ring { animation: bg-ring 2s ease-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .bg-ring { animation: none !important; opacity: .5; } }
         @media (prefers-reduced-motion: reduce) { .bg-proto * { animation: none !important; } }
       `}</style>
       <section aria-label="Bingo onboarding prototype" className="bg-proto my-12 rounded-[24px] p-5 sm:p-8" style={{ background: "#ffffff" }}>
@@ -269,7 +352,7 @@ export default function OnboardingPrototype() {
           >
             <div className="relative overflow-clip rounded-[34px]" style={{ background: "#F4F1EA" }}>
               <ScaledScreen designW={W} shownH={H}>
-                <div key={s.runId} className="relative overflow-clip" style={{ width: W, height: H }}>
+                <div ref={stageRef} key={s.runId} className="relative overflow-clip" style={{ width: W, height: H }} onPointerDown={onStageTap}>
                   {screen}
                   {s.overlay === "permission" ? <PermissionAlert /> : null}
                   {s.overlay === "help" ? <HelpSheet onClose={() => d({ type: "OVERLAY", overlay: null })} /> : null}
@@ -280,6 +363,24 @@ export default function OnboardingPrototype() {
                       onType={() => { rec.abort(); d({ type: "OVERLAY", overlay: null }); }}
                       onClose={() => { rec.abort(); d({ type: "OVERLAY", overlay: null }); }}
                     />
+                  ) : null}
+                  {hinting ? (
+                    <div aria-hidden className="pointer-events-none absolute inset-0 z-20">
+                      {spots.map((h, i) => (
+                        <span
+                          key={i}
+                          className="bg-ring absolute"
+                          style={{
+                            left: h.x - 4,
+                            top: h.y - 4,
+                            width: h.w + 8,
+                            height: h.h + 8,
+                            borderRadius: `calc(${h.r || "8px"} + 4px)`,
+                            boxShadow: "0 0 0 2.5px #E8472A, 0 0 14px rgba(232,71,42,0.45)",
+                          }}
+                        />
+                      ))}
+                    </div>
                   ) : null}
                 </div>
               </ScaledScreen>
