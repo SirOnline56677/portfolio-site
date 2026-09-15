@@ -120,8 +120,10 @@ export default function CapabilityBoard({ title, byline, groups, columns, rows, 
         </div>
         {/* column heads */}
         <div className="mb-2 mt-2 flex" style={{ marginLeft: NAME_W }}>
-          {columns.map((c) => (
-            <span key={c} style={{ width: PITCH, fontFamily: mono, fontSize: 8, letterSpacing: "0.08em", opacity: 0.6, lineHeight: 1.4, whiteSpace: "pre-line" }}>
+          {/* keyed by position: labels can repeat (Wrist Check has PEER TO
+              PEER under both SELL and TRADE) */}
+          {columns.map((c, i) => (
+            <span key={i} style={{ width: PITCH, fontFamily: mono, fontSize: 8, letterSpacing: "0.08em", opacity: 0.6, lineHeight: 1.4, whiteSpace: "pre-line" }}>
               {c}
             </span>
           ))}
