@@ -191,15 +191,45 @@ The conversations highlight that different selling platforms have varying rules 
 
 In a five-day research window, I actively bid on the watch while monitoring other bidders. I quickly identified that the wristband wasn't original and ruled it out. My search for 'Vintage Rolex Oyster Perpetual 1024' on Google was a bit challenging due to its vintage nature. I contacted the seller for more details but got limited information as they were just selling it through their store.
 
-I contacted the seller for more details but got limited information as they were just selling it through their store. Further online exploration led me to a few references. After comparing the information from these sources, I concluded that the watch was authentic and offered excellent value for the price.
+Further online exploration led me to a few references. After comparing the information from these sources, I concluded that the watch was authentic and offered excellent value for the price.
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-1.jpg" w={1461} h={888} alt="Infield research" />
+<ResearchTrack
+  windowLabel="Five-day window"
+  steps={[
+    { kind: "window", when: "Listing found", lead: "Bid placed,", text: "other bidders watched." },
+    { kind: "window", when: "Photos", lead: "Bracelet flagged", text: "as not original from the seller's shots." },
+    { kind: "window", when: "Search", lead: '"Vintage Rolex Oyster Perpetual 1024"', text: "turns up thin results." },
+    { kind: "window", when: "Seller", lead: "Messaged.", text: "Little to add, they were just selling it through their store." },
+    { kind: "window", when: "References", lead: "Compared,", text: "concluded authentic and good value." },
+    { kind: "event", when: "2 Jun 2017", lead: "Won", text: "$1,280.55 after 28 bids." },
+    { kind: "ok", when: "8 Jun 2017", lead: "Verified", text: "Watchmaker: original, c. 1969." },
+  ]}
+/>
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-2.jpg" w={500} h={500} alt="Infield research detail" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-3.jpg" w={500} h={500} alt="Infield research detail" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-4.jpg" w={500} h={589} alt="Infield research detail" />
+<LotCard
+  lot="1024"
+  title="Rolex Oyster Perpetual"
+  subtitle={'Ref. 1024, yellow gold plated, c. 1969. Listed on eBay as "Vintage ROLEX Oyster Perpetual 1024 Gold Automatic Mens Watch".'}
+  hammer={{ label: "Won for", amount: "$1,280.55", note: "28 bids · ended 2 Jun 2017" }}
+  specs={[
+    { k: "Reference", strong: "1024" },
+    { k: "Serial", v: "2741684" },
+    { k: "Circa", v: "1969" },
+    { k: "Case", v: "35 mm, gold plated · case back 1025" },
+    { k: "Movement", v: "Automatic, cal. 1570, 26 jewels" },
+    { k: "Bracelet", v: "Not original, replaced with leather", flag: { label: "Flagged", tone: "red" } },
+    { k: "Seller notes", v: '"In good used shape"' },
+    { k: "Seller", v: "67treasures (15,354) · Blairsville, Georgia · $9.95 economy shipping" },
+    { k: "Verified", v: "Watchmaker, 8 Jun 2017: original", flag: { label: "Authentic", tone: "green" } },
+  ]}
+  provenance="Found on eBay during a five-day window, bracelet ruled out from the listing photos, seller had little to add, references compared online, bought at auction, then confirmed original by a watchmaker six days later."
+  figs={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-3.jpg", w: 500, h: 500, alt: "The watch as photographed by the seller, on the bracelet that turned out not to be original", label: "Watch" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-1.jpg", w: 1461, h: 888, alt: "The eBay listing after the auction closed: you won this auction, $1,280.55, 28 bids", label: "Listing", fit: "contain", focus: "12% 40%" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-2.jpg", w: 500, h: 500, alt: "Dial close-up from the seller's listing", label: "Dial" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-4.jpg", w: 500, h: 589, alt: "The watchmaker's handwritten appraisal, 8 June 2017, with the watch on its new leather strap", label: "Appraisal", fit: "contain", focus: "65% 62%" },
+  ]}
+/>
 
 ## Technical Challenge
 

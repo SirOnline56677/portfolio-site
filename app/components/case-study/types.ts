@@ -212,6 +212,54 @@ export type CapabilityBoardProps = {
   punchline: string;
 };
 
+/** A step on the research track: inside the five-day window, or one of the dated events after it. */
+export type ResearchStepKind = "window" | "event" | "ok";
+
+export type ResearchStep = {
+  /** Small mono label above: a stage name inside the window, a date for events. */
+  when: string;
+  /** Bold lead-in (window) or the display-face verdict word (events). */
+  lead: string;
+  text: string;
+  kind: ResearchStepKind;
+};
+
+/** Research track: the five-day window then the dated events (Wrist Check infield research). */
+export type ResearchTrackProps = {
+  windowLabel: string;
+  steps: ResearchStep[];
+};
+
+export type LotFlag = { label: string; tone: "red" | "green" | "blue" };
+
+/** Auction-style lot card for the watch bought during infield research. */
+export type LotCardProps = {
+  lot: string;
+  title: string;
+  subtitle: string;
+  hammer: { label: string; amount: string; note: string };
+  /** Spec rows; `strong` renders medium weight before `v`. */
+  specs: { k: string; v?: string; strong?: string; flag?: LotFlag }[];
+  /** Sentence after the bold "Provenance." lead. */
+  provenance: string;
+  /**
+   * The documents. The first one opens in the big frame; the thumbnails
+   * swap it. `fit: "contain"` mats a screenshot or a page instead of
+   * cropping it; `focus` is the object-position for the 64px square thumb.
+   */
+  figs: LotFig[];
+};
+
+export type LotFig = {
+  src: string;
+  w: number;
+  h: number;
+  alt: string;
+  label: string;
+  fit?: "cover" | "contain";
+  focus?: string;
+};
+
 /** Approach shortlist on a budget axis. */
 export type PriceRulerProps = {
   caption: string;
