@@ -21,7 +21,6 @@ export const sections = [
   "Infield Research",
   "Technical Challenge",
   { label: "User Flow", id: "user-flow-new-user" },
-  "Wireframes",
   "Design Solution",
   "Results",
   "Next Steps / Learnings",
@@ -76,21 +75,50 @@ The brands of watches I'll be looking at are Breitling, Nomos, IWC, Longines, Om
 
 ## User Interviews
 
-### Christian
-
-Christian (Buyer): Prioritizes transparency in pricing and authenticity to avoid scams.
-
-Christian prices his watches transparently, ensuring that customers feel they are getting value for their money. He believes in educating buyers about the watch's pricing and components, striving to prevent customers from feeling overcharged.
-
-Christian is frustrated by the lack of research people do when making significant purchases and the prevalence of scams in the watch industry. He emphasizes the importance of informed decision-making and recalls a past experience at Barneys, where they displayed a fake watch for sale, advocating for higher standards in such stores.
-
-His core message is that buyers should thoroughly research watch purchases to avoid losing money and falling victim to scams, especially when shopping online. He advises asking sellers detailed questions about authenticity, parts replacement, and originality to make informed choices.
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/interview-1.png" w={371} h={419} alt="User interview 1" caption="Interview 1" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/interview-2.png" w={375} h={418} alt="User interview 2" caption="Interview 2" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/interview-3.png" w={424} h={478} alt="User interview 3" caption="Interview 3" />
+<InterviewRail
+  interviews={[
+  {
+    name: "Christian",
+    role: "Buyer",
+    tone: "red",
+    label: "Interview 1",
+    stance: "Prioritizes transparency in pricing and authenticity to avoid scams",
+    body: [
+      "Christian prices his watches transparently, ensuring that customers feel they are getting value for their money. He believes in educating buyers about the watch's pricing and components, striving to prevent customers from feeling overcharged.",
+      "Christian is frustrated by the lack of research people do when making significant purchases and the prevalence of scams in the watch industry. He emphasizes the importance of informed decision-making and recalls a past experience at Barneys, where they displayed a fake watch for sale, advocating for higher standards in such stores.",
+      "His core message is that buyers should thoroughly research watch purchases to avoid losing money and falling victim to scams, especially when shopping online. He advises asking sellers detailed questions about authenticity, parts replacement, and originality to make informed choices.",
+    ],
+    img: { src: "/work/wrist-check-a-peer-to-peer-market-place/interview-1.png", w: 371, h: 419 },
+  },
+  {
+    name: "Martin",
+    role: "Trader",
+    tone: "blue",
+    label: "Interview 2",
+    stance: "Values community reputation and background checks to ensure trustworthy transactions",
+    body: [
+      "Martin envisions a hassle-free platform for watch enthusiasts to trade, buy, and sell watches while building a trusted community.",
+      "He currently navigates watch forums to find his next trade, benefiting from insights into other users' history, including their forum activity and membership duration. This background information helps him gauge the credibility of potential trade partners and reduces the risk of scams within the community.",
+      "Martin emphasizes the importance of both researching the watch and assessing the person on the other side of the screen before making a deal. In the world of online watch transactions, establishing trust through community reputation and thorough research is key to successful and secure transactions.",
+    ],
+    img: { src: "/work/wrist-check-a-peer-to-peer-market-place/interview-2.png", w: 375, h: 418 },
+  },
+  {
+    name: "Freddy",
+    role: "Seller",
+    tone: "yellow",
+    label: "Interview 3",
+    stance: "Emphasizes realistic pricing, detailed listings, and the need for trust on platforms like eBay",
+    body: [
+      "Freddy's extensive experience in New York's diamond district led to a deep understanding of high-end watches. He advises being realistic about pricing when dealing with authorized retailers and suggests trading for better deals. Freddy also warns about the gray market, where authenticity may be questionable.",
+      "He mentions eBay as a selling platform, emphasizing the importance of detailed information and photos.",
+      "On watch forums, some require post counts before selling. Trust and reputation are crucial, as there's no buyer protection.",
+      "In summary, Freddy's insights stress realistic pricing, caution in the gray market, thorough online listings, and building trust in watch forums for successful transactions.",
+    ],
+    img: { src: "/work/wrist-check-a-peer-to-peer-market-place/interview-3.png", w: 424, h: 478 },
+  },
+  ]}
+/>
 
 ## Research & Insights
 
@@ -162,15 +190,45 @@ The conversations highlight that different selling platforms have varying rules 
 
 In a five-day research window, I actively bid on the watch while monitoring other bidders. I quickly identified that the wristband wasn't original and ruled it out. My search for 'Vintage Rolex Oyster Perpetual 1024' on Google was a bit challenging due to its vintage nature. I contacted the seller for more details but got limited information as they were just selling it through their store.
 
-I contacted the seller for more details but got limited information as they were just selling it through their store. Further online exploration led me to a few references. After comparing the information from these sources, I concluded that the watch was authentic and offered excellent value for the price.
+Further online exploration led me to a few references. After comparing the information from these sources, I concluded that the watch was authentic and offered excellent value for the price.
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-1.jpg" w={1461} h={888} alt="Infield research" />
+<ResearchTrack
+  windowLabel="Five-day window"
+  steps={[
+    { kind: "window", when: "Listing found", lead: "Bid placed,", text: "other bidders watched." },
+    { kind: "window", when: "Photos", lead: "Bracelet flagged", text: "as not original from the seller's shots." },
+    { kind: "window", when: "Search", lead: '"Vintage Rolex Oyster Perpetual 1024"', text: "turns up thin results." },
+    { kind: "window", when: "Seller", lead: "Messaged.", text: "Little to add, they were just selling it through their store." },
+    { kind: "window", when: "References", lead: "Compared,", text: "concluded authentic and good value." },
+    { kind: "event", when: "2 Jun 2017", lead: "Won", text: "$1,280.55 after 28 bids." },
+    { kind: "ok", when: "8 Jun 2017", lead: "Verified", text: "Watchmaker: original, c. 1969." },
+  ]}
+/>
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-2.jpg" w={500} h={500} alt="Infield research detail" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-3.jpg" w={500} h={500} alt="Infield research detail" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/research-4.jpg" w={500} h={589} alt="Infield research detail" />
+<LotCard
+  lot="1024"
+  title="Rolex Oyster Perpetual"
+  subtitle={'Ref. 1024, yellow gold plated, c. 1969. Listed on eBay as "Vintage ROLEX Oyster Perpetual 1024 Gold Automatic Mens Watch".'}
+  hammer={{ label: "Won for", amount: "$1,280.55", note: "28 bids · ended 2 Jun 2017" }}
+  specs={[
+    { k: "Reference", strong: "1024" },
+    { k: "Serial", v: "2741684" },
+    { k: "Circa", v: "1969" },
+    { k: "Case", v: "35 mm, gold plated · case back 1025" },
+    { k: "Movement", v: "Automatic, cal. 1570, 26 jewels" },
+    { k: "Bracelet", v: "Not original, replaced with leather", flag: { label: "Flagged", tone: "red" } },
+    { k: "Seller notes", v: '"In good used shape"' },
+    { k: "Seller", v: "67treasures (15,354) · Blairsville, Georgia · $9.95 economy shipping" },
+    { k: "Verified", v: "Watchmaker, 8 Jun 2017: original", flag: { label: "Authentic", tone: "green" } },
+  ]}
+  provenance="Found on eBay during a five-day window, bracelet ruled out from the listing photos, seller had little to add, references compared online, bought at auction, then confirmed original by a watchmaker six days later."
+  figs={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-3.jpg", w: 500, h: 500, alt: "The watch as photographed by the seller, on the bracelet that turned out not to be original", label: "Watch" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-1.jpg", w: 1461, h: 888, alt: "The eBay listing after the auction closed: you won this auction, $1,280.55, 28 bids", label: "Listing", fit: "contain", focus: "12% 40%" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-2.jpg", w: 500, h: 500, alt: "Dial close-up from the seller's listing", label: "Dial" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/research-4.jpg", w: 500, h: 589, alt: "The watchmaker's handwritten appraisal, 8 June 2017, with the watch on its new leather strap", label: "Appraisal", fit: "contain", focus: "65% 62%" },
+  ]}
+/>
 
 ## Technical Challenge
 
@@ -191,14 +249,6 @@ We also developed an educational guide to help users know what to look for in th
 What is the goal for the new user who's new to watches?
 
 The user flow is designed to guide new users through each stage of buying or selling a watch, emphasizing authenticity checks, reputation verification, and educational resources to empower users with knowledge.
-
-## Wireframes
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/wireframe-1.jpg" w={500} h={357} alt="Wireframes" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/wireframe-2.jpg" w={500} h={357} alt="Wireframes" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/wireframe-3.jpg" w={500} h={357} alt="Wireframes" />
 
 ## Design Solution
 

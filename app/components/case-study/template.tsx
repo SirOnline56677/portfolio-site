@@ -3,16 +3,19 @@ import Link from "next/link";
 import CapabilityBoard from "./CapabilityBoard";
 import CompareCards from "./CompareCards";
 import FreeSpinsMoment from "./free-spins/FreeSpinsMoment";
+import InterviewRail from "./InterviewRail";
 import BannerStates from "./free-spins/BannerStates";
 import SpinsPrototype from "./free-spins/SpinsPrototype";
 import { BrandBoard, CmsFlow, ProblemIssues, SpinSurfaces } from "./free-spins/studyGraphics";
 import Matrix from "./Matrix";
 import Mindmap from "./Mindmap";
 import LeaderboardPrototype from "./LeaderboardPrototype";
+import LotCard from "./LotCard";
 import OnboardingPrototype from "./bingo/OnboardingPrototype";
 import Persona from "./Persona";
 import PriceRuler from "./PriceRuler";
 import ProblemSpace from "./ProblemSpace";
+import ResearchTrack from "./ResearchTrack";
 import SkillGrowth from "./bingo/SkillGrowth";
 import ScreenPair from "./ScreenPair";
 import SportsbookPrototype from "./SportsbookPrototype";
@@ -297,11 +300,13 @@ export const caseStudyTemplate: Template = {
     Video,
     ScreenPair,
     LeaderboardPrototype,
+    LotCard,
     SportsbookPrototype,
     BannerStates,
     BrandBoard,
     CmsFlow,
     FreeSpinsMoment,
+    InterviewRail,
     Matrix,
     ProblemIssues,
     SpinsPrototype,
@@ -312,6 +317,7 @@ export const caseStudyTemplate: Template = {
     PriceRuler,
     ProblemSpace,
     Roadmap,
+    ResearchTrack,
     SkillGrowth,
   },
 };
