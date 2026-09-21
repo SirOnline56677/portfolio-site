@@ -43,7 +43,7 @@ export const projects: Project[] = [
     title: "wynnbet (sportsbook)",
     tag: "Mobile / Web",
     description:
-      "A modular sportsbook and casino platform serving 11 states, each with its own legal restrictions.",
+      "The launch of the redesigned sportsbook platform in 11 states, each with its own legal restrictions.",
     image: "/work/wb-sportsbook/sportsbook-evolution-poster.png",
     video: "/work/wb-sportsbook/sportsbook-evolution.mp4",
     mediaScale: 1,
