@@ -13,7 +13,7 @@ export type Project = {
   imagePosition?: string;
   href: string;
   /** Shown inside the cursor pill on hover — the kind of piece this is. */
-  kind: "CASE STUDY" | "WEBSITE";
+  kind: "CASE STUDY" | "HACKATHON" | "WEBSITE";
 };
 
 // The five real case studies, migrated from the Webflow site into
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     image: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident-poster.jpg",
     video: "/work/bingo-ai-job-matching-platform-for-seniors/bingo-ident.mp4",
     href: "/work/bingo-ai-job-matching-platform-for-seniors",
-    kind: "CASE STUDY",
+    kind: "HACKATHON",
   },
   {
     title: "wrist check",
