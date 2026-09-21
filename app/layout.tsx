@@ -6,6 +6,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import DitherBackground from "./components/DitherBackground";
 import Scanlines from "./components/Scanlines";
 import Cursor from "./components/Cursor";
+import Contentsquare from "./components/Contentsquare";
 
 // Display + section labels
 const koulen = Koulen({
@@ -86,6 +87,7 @@ export default function RootLayout({
         <SmoothScroll>{children}</SmoothScroll>
         <Scanlines />
         <Cursor />
+        <Contentsquare />
       </body>
     </html>
   );
