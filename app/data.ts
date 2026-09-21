@@ -33,7 +33,7 @@ export const projects: Project[] = [
     title: "wynnbet (leaderboards)",
     tag: "Mobile / Web",
     description:
-      "Brought leaderboards out of the promotions tab onto their own page, with direct opt-in and visible expiry.",
+      "The competition was there. Finding it wasn't. Rethinking how players discover, join and follow leaderboard matches.",
     image: "/work/wb-leaderboards/tile-shuffle.png",
     video: "/work/wb-leaderboards/tile-shuffle.mp4",
     href: "/work/wb-leaderboards",
