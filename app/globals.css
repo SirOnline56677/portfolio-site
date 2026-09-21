@@ -394,3 +394,29 @@ body {
     animation: none !important;
   }
 }
+
+/* Wrist Check flip-dot mark: eight minute-hand groups take turns being the
+   one that is lit. 8 x 0.37s per revolution, stepped like the tile render.
+   Negative delays on each group stagger the window (see wristCheckBoard.tsx). */
+.wc-tick {
+  opacity: 0;
+  animation: wc-tick 2.96s steps(1, end) infinite;
+}
+@keyframes wc-tick {
+  0%,
+  12.49% {
+    opacity: 1;
+  }
+  12.5%,
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wc-tick {
+    animation: none;
+  }
+  .wc-tick[data-i="0"] {
+    opacity: 1;
+  }
+}

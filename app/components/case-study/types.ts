@@ -166,6 +166,35 @@ export type ScreenPairProps = {
   caption?: string;
 };
 
+/** One phone screen for ScreenRow / FlowHero: the exported frame and a sentence saying what it shows. */
+export type Screen = {
+  src: string;
+  w: number;
+  h: number;
+  alt: string;
+  /** Short name shown as a mono tag above the phone, e.g. "Market". */
+  label?: string;
+};
+
+/**
+ * Phone screens in the iPhone shell, on the study's ground. `board` is the
+ * Wrist Check flip-dot board, `paper` its paper, `page` no card at all.
+ * `flow` draws an arrow between phones for a step-by-step strip.
+ */
+export type ScreenRowProps = {
+  screens: Screen[];
+  caption?: string;
+  stage?: "board" | "paper" | "page";
+  flow?: boolean;
+};
+
+/** The Wrist Check cover: five screens along the bottom of the flip-dot board. */
+export type FlowHeroProps = {
+  screens: Screen[];
+  /** Mono lines set top-right, one per entry. */
+  line?: string[];
+};
+
 export type CompareCardsProps = {
   books: CompareBook[];
   features: {
