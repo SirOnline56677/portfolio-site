@@ -3,6 +3,7 @@ import Link from "next/link";
 import { stack } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
+import CopyEmail from "./CopyEmail";
 import ExplorationFight from "./ExplorationFight";
 import SectionLabel from "./SectionLabel";
 import ThemeToggle from "./ThemeToggle";
@@ -194,11 +195,11 @@ export default function LeftColumn() {
         </div>
         <div className="rule-solid" />
         <p className="mt-4 font-[family-name:var(--font-body)] font-light text-body-lg text-ink">
-          You can reach me and say Hi on{" "}
-          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or on{" "}
-          <a href="https://github.com/SirOnline56677" className="u-line hover:text-muted">GitHub</a> or{" "}
-          <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a> if you want to talk.
+          You can reach me and say <em>Hi</em> on{" "}
+          <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or{" "}
+          <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a>.
         </p>
+        <CopyEmail address="saguila21@gmail.com" />
       </div>
     </div>
   );
