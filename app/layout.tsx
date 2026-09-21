@@ -66,9 +66,10 @@ export default function RootLayout({
       className={`${koulen.variable} ${paralucent.variable} ${ivyStyleSans.variable} h-full antialiased`}
     >
       <head>
-        {/* Blocking on purpose: this must run before first paint, or a PM
-            visitor shows a frame of light on every page load. The default is
-            the visitor's clock — AM light, PM negative — and a toggle made
+        {/* Blocking on purpose: this must run before first paint, or an
+            evening visitor shows a frame of light on every page load. The
+            default is the visitor's clock — light through the day, negative
+            from 7pm until 6am — and a toggle made
             during the visit rides on top from sessionStorage, whose lifetime
             IS the visit: it survives reloads and route changes in the tab,
             then dies with it, so the next visit answers to the clock again.
@@ -78,7 +79,7 @@ export default function RootLayout({
             key a pre-time-default build left behind on returning visitors. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `var t=null;try{t=sessionStorage.getItem("theme")}catch(e){}if(t!=="dark"&&t!=="light")t=new Date().getHours()>=12?"dark":"light";document.documentElement.dataset.theme=t;try{localStorage.removeItem("theme")}catch(e){}`,
+            __html: `var t=null;try{t=sessionStorage.getItem("theme")}catch(e){}if(t!=="dark"&&t!=="light"){var h=new Date().getHours();t=h>=19||h<6?"dark":"light"}document.documentElement.dataset.theme=t;try{localStorage.removeItem("theme")}catch(e){}`,
           }}
         />
       </head>
