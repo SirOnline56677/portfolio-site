@@ -26,7 +26,16 @@ export const sections = [
   "Next Steps / Learnings",
 ];
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/cover.jpg" w={1024} h={661} alt="Wrist Check" />
+<FlowHero
+  line={["Buy / Sell / Trade", "Every watch authenticated"]}
+  screens={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-01-onboarding.png", w: 1179, h: 2556, label: "Onboarding", alt: "Onboarding: the flip-dot mark, Buy. Sell. Trade., the 40,000,000 counterfeit line and Get Started" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-02-market.png", w: 1179, h: 2556, label: "Market", alt: "Market: Market, Trade and Forum tabs over new listings with prices" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-03-watch-detail.png", w: 1179, h: 2556, label: "Watch detail", alt: "Watch detail for a Rolex Oyster Perpetual 1024 with Authenticated and Verified Seller badges, spec rows, Buy Now and Offer" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-04-collection.png", w: 1179, h: 2556, label: "Collection", alt: "Collection: estimated value, a watchlist with price trends and brand cards" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-05-request.png", w: 1179, h: 2556, label: "Request", alt: "Request: Wrist Check Service, Member's Service, Authentication and Add to the Library" },
+  ]}
+/>
 
 ## Overview
 
@@ -258,11 +267,26 @@ Together, these features foster a transparent, trustworthy environment that enco
 
 Verified sellers are not only recognized but also receive discounts on seller and buyer fees, incentivizing them to maintain high standards and transparency in their transactions.
 
+<ScreenRow
+  screens={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-03-watch-detail.png", w: 1179, h: 2556, label: "Watch detail", alt: "Watch detail for a Rolex Oyster Perpetual 1024 with Authenticated and Verified Seller badges, spec rows, Buy Now and Offer" },
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-06-profile.png", w: 1179, h: 2556, label: "Profile", alt: "Profile with the Verified badge, the rating, trade count and fees card, and the menu" },
+  ]}
+  caption="The badges on a listing and on the seller's profile, with the fee discount they earn"
+/>
+
 #### Mandatory rating system
 
 Wrist Check employs a mandatory rating system to ensure accountability for every transaction. After each purchase, both the buyer and seller must provide feedback on the transaction. This system is designed to enhance credibility by allowing future users to review ratings and make informed decisions based on past interactions.
 
 By making ratings compulsory, Wrist Check reinforces transparency and discourages dishonest behavior, fostering a safer marketplace.
+
+<ScreenRow
+  screens={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-06-profile.png", w: 1179, h: 2556, label: "Profile", alt: "Profile with the Verified badge, the rating, trade count and fees card, and the menu" },
+  ]}
+  caption="The rating and trade count every seller carries on their profile"
+/>
 
 #### Educational course for watch buyers
 
@@ -270,9 +294,12 @@ To support users, particularly newcomers, Wrist Check offers an educational cour
 
 The course also promotes a more educated community, reducing the risks associated with counterfeit or 'Frankenstein' watches.
 
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/screens-1.jpg" w={414} h={896} alt="Wrist Check screens" />
-
-<Figure src="/work/wrist-check-a-peer-to-peer-market-place/screens-2.jpg" w={414} h={896} alt="Wrist Check screens" />
+<ScreenRow
+  screens={[
+    { src: "/work/wrist-check-a-peer-to-peer-market-place/screen-07-course.png", w: 1179, h: 2556, label: "Course", alt: "Course: five tracks, anatomy, movement, complications, maintenance and real or fake, each with a progress bar" },
+  ]}
+  caption="The course home: tracks on anatomy, movement, complications, maintenance and real-or-fake"
+/>
 
 ## Results
 

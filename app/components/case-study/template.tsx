@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CapabilityBoard from "./CapabilityBoard";
 import CompareCards from "./CompareCards";
+import FlowHero from "./FlowHero";
 import FreeSpinsMoment from "./free-spins/FreeSpinsMoment";
 import InterviewRail from "./InterviewRail";
 import BannerStates from "./free-spins/BannerStates";
@@ -18,6 +19,7 @@ import ProblemSpace from "./ProblemSpace";
 import ResearchTrack from "./ResearchTrack";
 import SkillGrowth from "./bingo/SkillGrowth";
 import ScreenPair from "./ScreenPair";
+import ScreenRow from "./ScreenRow";
 import SportsbookPrototype from "./SportsbookPrototype";
 import SectionNav from "./SectionNav";
 import { slugify } from "../../work/caseStudies";
@@ -297,8 +299,10 @@ export const caseStudyTemplate: Template = {
     CapabilityBoard,
     CompareCards,
     Figure,
+    FlowHero,
     Video,
     ScreenPair,
+    ScreenRow,
     LeaderboardPrototype,
     LotCard,
     SportsbookPrototype,
