@@ -1,4 +1,5 @@
 import type { Contributions } from "../lib/github";
+import DragScroll from "./DragScroll";
 
 // Intensity scale (levels 0–4), as CSS variables so the ramp follows
 // [data-theme] — see globals.css. React passes var(…) through to the style
@@ -41,8 +42,9 @@ export default function ContributionsHeatmap({
         {cal.total.toLocaleString()} contributions in the last year
       </div>
 
-      {/* Scrollable on narrow screens */}
-      <div className="overflow-x-auto">
+      {/* Scrolls sideways on narrow screens, and can be grabbed and dragged
+          there too, so nobody has to hunt for the scrollbar. */}
+      <DragScroll>
         <div className="inline-flex flex-col gap-1">
           {/* Month labels.
               These two 9px labels stay in px while the rest of the site moved
@@ -88,7 +90,7 @@ export default function ContributionsHeatmap({
             <span className="ml-1">More</span>
           </div>
         </div>
-      </div>
+      </DragScroll>
     </div>
   );
 }
