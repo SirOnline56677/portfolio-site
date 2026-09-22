@@ -264,7 +264,7 @@ export type WorkingOn = {
   description: string;
   /** Freeform range, e.g. "2026 — Now". */
   dates: string;
-  /** active = green dot, simmering = amber dot. */
+  /** active = green dot ("Incubation"), simmering = amber dot ("Seeding"). */
   status: "active" | "simmering";
   /** Thumbnail that floats beside the cursor on hover. */
   thumb?: string;
@@ -283,11 +283,11 @@ export const currentlyWorkingOn: WorkingOn[] = [
     url: "https://www.aguiladistributor.com/",
   },
   {
-    name: "Grocery Market",
+    name: "Grocery Market (temporary name)",
     description:
       "A grocery spending tracker that reads receipts with AI — snap a photo and every line item gets named, categorized, and priced over time.",
     dates: "2026 — Now",
-    status: "active",
+    status: "simmering",
     thumb: "/assets/grocery-market.png",
   },
 ];
