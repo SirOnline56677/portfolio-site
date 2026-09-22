@@ -124,8 +124,8 @@ export default function LeftColumn() {
               <div className="flex items-center gap-6">
                 {(
                   [
-                    ["Working", "#34a06f"],
-                    ["Unfinished", "#e8a33d"],
+                    ["Incubation", "#34a06f"],
+                    ["Seeding", "#e8a33d"],
                   ] as const
                 ).map(([label, color]) => (
                   <span key={label} className="flex items-center gap-[8px]">

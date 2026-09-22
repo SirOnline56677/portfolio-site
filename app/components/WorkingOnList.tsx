@@ -88,7 +88,7 @@ export default function WorkingOnList() {
               }`}
             />
             <span className="sr-only">
-              {item.status === "active" ? "working" : "unfinished"}
+              {item.status === "active" ? "incubation" : "seeding"}
             </span>
           </span>
           {(() => {

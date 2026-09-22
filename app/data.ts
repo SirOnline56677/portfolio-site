@@ -264,7 +264,7 @@ export type WorkingOn = {
   description: string;
   /** Freeform range, e.g. "2026 — Now". */
   dates: string;
-  /** active = green dot, simmering = amber dot. */
+  /** active = green dot ("Incubation"), simmering = amber dot ("Seeding"). */
   status: "active" | "simmering";
   /** Thumbnail that floats beside the cursor on hover. */
   thumb?: string;
