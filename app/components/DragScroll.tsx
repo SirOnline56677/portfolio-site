@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "
 
 // A horizontal scroll box you can also grab and drag with a mouse or pen.
 // Touch keeps the browser's own panning, which already works and does
-// momentum better than we would. The custom cursor reads DRAG while there is
-// something to pan, and nothing when the content already fits.
+// momentum better than we would. No cursor pill: the box should read as
+// content, not as a control.
 export default function DragScroll({ children, className = "" }: { children: ReactNode; className?: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [canPan, setCanPan] = useState(false);
@@ -51,7 +51,6 @@ export default function DragScroll({ children, className = "" }: { children: Rea
       onPointerMove={onPointerMove}
       onPointerUp={end}
       onPointerCancel={end}
-      data-cursor-label={canPan ? "DRAG" : undefined}
       className={
         "overflow-x-auto [scrollbar-width:thin] " +
         (canPan ? "cursor-grab select-none active:cursor-grabbing " : "") +
