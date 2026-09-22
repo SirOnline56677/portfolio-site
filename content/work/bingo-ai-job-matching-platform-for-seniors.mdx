@@ -1,5 +1,5 @@
 export const meta = {
-  title: "Flexible Job Opportunities for Flexible Older Adults",
+  title: "Flexible Job Opportunities for Retirees 65+",
   client: "Bingo AI",
   role: "Product Design, Researcher",
   duration: "4 Weeks",
@@ -14,13 +14,13 @@ export const sections = [
   "Overview",
   { label: "Challenge / Solution", id: "challenge" },
   "Project Roadmap",
+  "Design Solution",
   "Research & Insights",
   "Competitor Analysis",
   "Problem Space",
   "Persona",
   "Technical Challenge",
   "Business Challenge",
-  "Design Solution",
   { label: "Impact / Results", id: "impact" },
   "Next Steps / Learnings",
 ];
@@ -29,19 +29,19 @@ export const sections = [
 
 ## Overview
 
-Bingo AI is designed to connect older adults with flexible, accessible work opportunities, empowering them to maintain independence, improve mental and physical well-being, and secure supplemental income.
+Bingo AI is designed to connect retirees 65+ with flexible, accessible work opportunities, empowering them to maintain independence, improve mental and physical well-being, and secure supplemental income.
 
-By addressing the unique challenges older adults face, Bingo AI aims to create a welcoming job platform that aligns with the needs of a growing aging population.
+By addressing the unique challenges retirees 65+ face, Bingo AI aims to create a welcoming job platform that aligns with the needs of a growing aging population.
 
 **Project criteria:** Use of Emerging Technology, Forward-Thinking, Innovation Alignment with Challenge(s), Impact, Presentation & Pitch.
 
 ## Challenge
 
-How can we help older adults stay in their homes longer while maintaining their independence in a safer, healthier, and more cost-effective way?
+How can retirees 65+ stay in their homes longer while maintaining their independence in a safer, healthier, and more cost-effective way?
 
 ## Solution
 
-Our solution included implementing a user-friendly, voice-supported onboarding process, simple application steps, and accessible job matching tailored to older adults' needs.
+I designed a user-friendly, voice-supported onboarding process, simple application steps, and accessible job matching tailored to the needs of retirees 65+.
 
 ## Project Roadmap
 
@@ -107,18 +107,34 @@ Our solution included implementing a user-friendly, voice-supported onboarding p
   ]}
 />
 
+## Design Solution
+
+#### Stress free onboarding
+
+I designed a user-friendly visual UI alongside a voice UI, with voice transcription for users who are hard of hearing.
+
+I chose colors with enough contrast and large text to support users with impaired vision. Seniors with impaired hearing or arthritis can have what's on the screen read aloud to them and respond through voice transcription at the click of a button.
+
+<OnboardingPrototype />
+
+#### No fill out for opening job applications
+
+With the AI algorithm, the list of skills that is displayed on the user's profile updates each time after completing their job and reviewed by their employer. Propping the users profile for better matching jobs for future jobs and never needing the user to update their profile. The user will be able to view their skills and profile rating.
+
+<SkillGrowth caption="Skills grow with every reviewed job. Hollow rings are the ones still growing." />
+
 ## Research & Insights
 
 #### Brainstorming
 
-Our research for Bingo AI was based on a mix of government data, industry reports, and insights gathered from blog sites focused on aging and employment trends.
+My research for Bingo AI was based on a mix of government data, industry reports, and insights gathered from blog sites focused on aging and employment trends.
 
-We aimed to understand the job market and specific needs of older adults seeking flexible work. Additionally, we conducted phone interviews with a few individuals in our target demographic to gather firsthand insights.
+I aimed to understand the job market and specific needs of retirees 65+ seeking flexible work. Additionally, I conducted phone interviews with a few individuals in the target demographic to gather firsthand insights.
 
-These conversations helped validate our ideas, highlighting concerns like the need for simplified applications and user-friendly onboarding, which influenced our decision to implement voice interaction and visual aids.
+These conversations helped validate my ideas, highlighting concerns like the need for simplified applications and user-friendly onboarding, which influenced my decision to implement voice interaction and visual aids.
 
 <Mindmap
-  sub="Brainstorm · services for older adults"
+  sub="Brainstorm · services for retirees 65+"
   nodes={[
     { id: "concierge", label: "Concierge service", x: 400, y: 205, kind: "root" },
     { id: "financial", label: "Financial", x: 215, y: 130 },
@@ -175,7 +191,7 @@ These conversations helped validate our ideas, highlighting concerns like the ne
 Bingo stands between short to mid-term jobs. Letting seniors have the option to have a retirement lifestyle without the pressure of working a full-time job. Where jobs come to the users.
 
 <Matrix
-  axes={{ top: "Short term", bottom: "Long term", left: "General", right: "For older adults" }}
+  axes={{ top: "Short term", bottom: "Long term", left: "General", right: "For retirees 65+" }}
   items={[
     { id: "snagajob", label: "Snagajob", x: 252, y: 146, img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/snagajob.png", w: 127, h: 35 } },
     { id: "bingo", label: "Bingo", x: 657, y: 106, kind: "spark", img: { src: "/work/bingo-ai-job-matching-platform-for-seniors/logos/bingo-wordmark.svg", w: 420, h: 173, em: 1.9 } },
@@ -190,7 +206,7 @@ Bingo stands between short to mid-term jobs. Letting seniors have the option to 
   ]}
 />
 
-While most competitors focus on short-term or general job placements, Bingo AI fills a unique gap by targeting older adults seeking flexible, part-time roles. Our platform emphasizes simplicity and accessibility, distinguishing us from more complex or generic job platforms.
+While most competitors focus on short-term or general job placements, Bingo AI fills a unique gap by targeting retirees 65+ seeking flexible, part-time roles. The platform emphasizes simplicity and accessibility, setting it apart from more complex or generic job platforms.
 
 ## Problem Space
 
@@ -200,7 +216,7 @@ While most competitors focus on short-term or general job placements, Bingo AI f
       title: "Financial",
       art: "savings",
       copy:
-        "Research says over 15 million older adults aged 65+ are economically insecure. They also stated that 30% of workers over 65 say they have nothing saved in a retirement plan in the US.",
+        "Research says over 15 million adults 65+ are economically insecure. They also stated that 30% of workers over 65 say they have nothing saved in a retirement plan in the US.",
     },
     {
       title: "Mental health",
@@ -212,7 +228,7 @@ While most competitors focus on short-term or general job placements, Bingo AI f
       title: "Missing social connection",
       art: "drift",
       copy:
-        "A study found that 43% of older adults reported feeling lonely. A lack of social connection among older adults has been linked to declines in physical health.",
+        "A study found that 43% of adults 65+ reported feeling lonely. A lack of social connection among adults 65+ has been linked to declines in physical health.",
     },
   ]}
 />
@@ -243,45 +259,29 @@ While most competitors focus on short-term or general job placements, Bingo AI f
 
 #### Challenge
 
-Developing a voice and visual onboarding process for older adults presented unique technical challenges, especially as we needed to ensure compatibility with various devices and accessibility standards.
+Developing a voice and visual onboarding process for retirees 65+ presented unique technical challenges, especially as I needed to ensure compatibility with various devices and accessibility standards.
 
-Integrating voice recognition required accurate speech processing that could handle diverse accents and speech patterns among older users.
+Integrating voice recognition required accurate speech processing that could handle diverse accents and speech patterns among users 65+.
 
 #### Approach
 
-To address this, we planned to incorporate a reliable voice API and designed a user interface with large, easy-to-read text and intuitive navigation.
+To address this, I planned to incorporate a reliable voice API and designed a user interface with large, easy-to-read text and intuitive navigation.
 
-We would need to test across multiple devices to ensure a seamless experience for all users, prioritizing accessibility and ease of use.
+I would need to test across multiple devices to ensure a seamless experience for all users, prioritizing accessibility and ease of use.
 
 ## Business Challenge
 
 #### Challenge
 
-Bingo AI aimed to connect older adults with part-time and contract roles, tapping into a growing demographic seeking flexible work opportunities. Our business challenge was to make the platform attractive for companies offering these roles while planning for growth in line with an aging population.
+Bingo AI aimed to connect retirees 65+ with part-time and contract roles, tapping into a growing demographic seeking flexible work opportunities. The business challenge I faced was to make the platform attractive for companies offering these roles while planning for growth in line with an aging population.
 
 As more people live longer and healthier lives, the demand for such opportunities is expected to rise, creating a sustained market for part-time labor.
 
 #### Approach
 
-Our approach was to create a scalable, appealing platform for partner companies while addressing the growing need for flexible work options among an aging population.
+My approach was to create a scalable, appealing platform for partner companies while addressing the growing need for flexible work options among an aging population.
 
-The goal was to create sustainable revenue streams while aligning with the mission of empowering older adults.
-
-## Design Solution
-
-#### Stress free onboarding
-
-We designed a user-friendly visual UI alongside a voice UI, with voice transcription for users who are hard of hearing.
-
-We chose colors with enough contrast and large text to support users with impaired vision. Seniors with impaired hearing or arthritis can have what's on the screen read aloud to them and respond through voice transcription at the click of a button.
-
-<OnboardingPrototype />
-
-#### No fill out for opening job applications
-
-With our AI algorithm, the list of skills that is displayed on our users profiles updates each time after completing their job and reviewed by their employer. Propping the users profile for better matching jobs for future jobs and never needing the user to update their profile. The user will be able to view their skills and profile rating.
-
-<SkillGrowth caption="Skills grow with every reviewed job. Hollow rings are the ones still growing." />
+The goal was to create sustainable revenue streams while aligning with the mission of empowering retirees 65+.
 
 ## Impact
 
@@ -293,11 +293,11 @@ Bingo AI won Go Studio × InComm Payments' first-ever Innovation Jam Hackathon, 
 
 Working, proactive seniors are healthier. A study shows that people who worked past age 65 were about three times more likely to report being healthy and less likely to have serious physical health problems, such as cancer or heart disease.
 
-Older adults with frequent social contact have 70% less cognitive decline than those with lower social activities. Having seniors work is great for their mental health.
+Adults 65+ with frequent social contact have 70% less cognitive decline than those with lower social activities. Having seniors work is great for their mental health.
 
 #### Revenue growth
 
-Helps to fill open positions, and could help achieve revenue growth by hiring these older adults. A study estimates that a 5% engagement increase would lead to about a 3% revenue growth for companies.
+Helps to fill open positions, and could help achieve revenue growth by hiring retirees 65+. A study estimates that a 5% engagement increase would lead to about a 3% revenue growth for companies.
 
 #### Productive drive
 
@@ -309,14 +309,14 @@ It has a potential to help more than 50 million seniors in the US.
 
 ## Next Steps / Learnings
 
-We plan to refine the voice interaction further, adding personalized job suggestions based on user feedback and past applications.
+I plan to refine the voice interaction further, adding personalized job suggestions based on user feedback and past applications.
 
-Additionally, we aim to integrate wellness check-ins, helping users stay motivated and connected with the platform.
+Additionally, I aim to integrate wellness check-ins, helping users stay motivated and connected with the platform.
 
 #### Work from anywhere
 
-Some seniors may not be able to leave their home. We may want to add Mechanical Turk-style options so they can work from home.
+Some seniors may not be able to leave their home. I may want to add Mechanical Turk-style options so they can work from home.
 
 #### Expanding to large corporations
 
-We may consider expanding from small businesses to large corporations, giving seniors more options to find work.
+I may consider expanding from small businesses to large corporations, giving seniors more options to find work.
