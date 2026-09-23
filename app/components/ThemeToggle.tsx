@@ -115,16 +115,16 @@ export default function ThemeToggle() {
         aria-label="Obsidian"
         className="group flex w-fit items-center gap-3 outline-offset-4 focus-visible:outline focus-visible:outline-1 focus-visible:outline-current"
       >
-        {/* 32px circle — the same motif as the custom cursor. */}
+        {/* 32px circle — the same motif as the custom cursor. The 16px dot
+            inside is always filled: bg-ink is near-black in Radiance and
+            near-white in Obsidian, so it inverts along with the rest of the
+            chrome. It used to scale to nothing in light mode as an off state;
+            the word beside it and aria-checked on the button carry that now. */}
         <span
           aria-hidden
           className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-divider transition-colors duration-150 group-hover:border-ink motion-reduce:transition-none"
         >
-          <span
-            className={`h-4 w-4 rounded-full bg-ink transition-transform duration-200 ease-out motion-reduce:transition-none ${
-              dark ? "scale-100" : "scale-0"
-            }`}
-          />
+          <span className="h-4 w-4 rounded-full bg-ink" />
         </span>
         {/* Reads the current mode; on hover (or keyboard focus) it swaps to the
             mode you'd switch to. Both words are stacked in one grid cell so the
