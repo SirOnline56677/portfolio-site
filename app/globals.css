@@ -263,7 +263,7 @@ body {
 }
 
 /* Desktop-only Exploration easter egg. In light mode, every Yusuke state is
-   revealed only through the custom pointer's 32px circle. Negative mode
+   revealed only through the custom pointer's 32px circle. Obsidian mode
    reveals the full canvas. */
 .exploration-fight-stage {
   --fight-reveal-x: 50%;
