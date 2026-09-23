@@ -32,7 +32,7 @@ theme. Tinting it would break that in both directions.
 
 **Dark mode** — the photographic negative of light mode: every chrome colour is the exact
 inverse (255 − c), swapped under `data-theme` on `<html>`. Images stay true, so the work
-still reads as the work. Toggled by the "Negative" control above the name. It deliberately
+still reads as the work. Toggled by the "Obsidian" control above the name. It deliberately
 does **not** follow `prefers-color-scheme` and is **not** persisted — the page always opens
 light, which is what removes any need for a blocking inline script and any theme flash.
 

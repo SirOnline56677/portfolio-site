@@ -112,7 +112,7 @@ export default function ThemeToggle() {
         // The accessible name stays constant — a name that changed with state
         // would announce a moving target. role="switch" + aria-checked already
         // carries the on/off, and the visible label is aria-hidden.
-        aria-label="Negative"
+        aria-label="Obsidian"
         className="group flex w-fit items-center gap-3 outline-offset-4 focus-visible:outline focus-visible:outline-1 focus-visible:outline-current"
       >
         {/* 32px circle — the same motif as the custom cursor. */}
@@ -129,7 +129,7 @@ export default function ThemeToggle() {
         {/* Reads the current mode; on hover (or keyboard focus) it swaps to the
             mode you'd switch to. Both words are stacked in one grid cell so the
             box is always as wide as the longer of the two — otherwise the label
-            would resize under the pointer as LIGHT became NEGATIVE. The cursor
+            would resize under the pointer as RADIANCE became OBSIDIAN. The cursor
             pill deliberately does NOT follow that box; see the fit target
             below.
 
@@ -145,7 +145,7 @@ export default function ThemeToggle() {
           className="grid justify-items-start font-[family-name:var(--font-display)] text-section uppercase text-ink"
         >
           <span className="col-start-1 row-start-1 transition-opacity duration-150 group-hover:opacity-0 group-focus-visible:opacity-0 motion-reduce:transition-none">
-            {dark ? "Negative" : "Light"}
+            {dark ? "Obsidian" : "Radiance"}
           </span>
           {/* data-cursor-fit-target: this is the word the pill actually sits
               over, so it's the one the pill is sized and centred on. Without it
@@ -155,7 +155,7 @@ export default function ThemeToggle() {
             data-cursor-fit-target=""
             className="col-start-1 row-start-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
           >
-            {dark ? "Light" : "Negative"}
+            {dark ? "Radiance" : "Obsidian"}
           </span>
         </span>
       </button>
