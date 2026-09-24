@@ -113,6 +113,21 @@ export default function LeftColumn() {
               </div>
             </div>
             <div className="rule-dashed" />
+            {/* The word on the right carries the same type as the stack items
+                above it, so the right edge of this column stays one column.
+                `download` rather than a new tab because the label says so. */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <SectionLabel>Resume</SectionLabel>
+              <a
+                href="/resume.pdf"
+                download
+                aria-label="Download resume, PDF"
+                className="u-line font-[family-name:var(--font-body)] font-medium text-stack text-muted hover:text-ink focus-visible:text-ink"
+              >
+                DOWNLOAD
+              </a>
+            </div>
+            <div className="rule-dashed" />
           </div>
         </div>
 
