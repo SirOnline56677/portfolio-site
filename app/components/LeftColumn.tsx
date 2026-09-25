@@ -86,8 +86,8 @@ export default function LeftColumn() {
               Stephen Aguila
             </h1>
             <p className="max-w-[653px] font-[family-name:var(--font-body)] font-medium text-lede text-muted sm:text-lede-lg">
-              A product designer who designs, ships and breaks things in the
-              process. Working on building products for others and for myself.
+              I’m known for shipping the design, not just drawing it, so
+              decisions get proven in production.
             </p>
           </div>
 
