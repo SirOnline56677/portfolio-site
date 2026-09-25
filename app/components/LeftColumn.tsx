@@ -3,7 +3,6 @@ import Link from "next/link";
 import { stack } from "../data";
 import Clock from "./Clock";
 import ContributionsGraph from "./ContributionsGraph";
-import CopyEmail from "./CopyEmail";
 import ExplorationFight from "./ExplorationFight";
 import SectionLabel from "./SectionLabel";
 import ThemeToggle from "./ThemeToggle";
@@ -199,7 +198,6 @@ export default function LeftColumn() {
           <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or{" "}
           <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a>.
         </p>
-        <CopyEmail address="saguila21@gmail.com" />
       </div>
     </div>
   );
