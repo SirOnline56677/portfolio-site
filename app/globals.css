@@ -302,12 +302,51 @@ body {
 }
 .u-line:hover,
 .u-line:focus-visible,
-.group:hover .u-line {
+.group:hover .u-line,
+.group:focus-visible .u-line {
   background-size: 100% 1px;
 }
 @media (prefers-reduced-motion: reduce) {
   .u-line {
     transition: none;
+  }
+}
+
+/* Resume row download mark: an 8-bit arrow that marches downward while the
+   link is hovered or focused. The SVG holds two copies of the glyph stacked 24
+   user units apart inside a 22px window, and the strip travels exactly one
+   copy per cycle, so the loop is seamless and never shows a gap.
+
+   steps(8) rather than a smooth curve: 24 units over 8 steps is 3 per step,
+   which is the cell size the arrow is drawn on. Interpolating would land the
+   cells on fractional pixels and the glyph would stop reading as 8-bit —
+   the same reason .wc-tick is stepped. */
+.dl-arrow {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  overflow: hidden;
+}
+.dl-arrow-strip {
+  transform-box: view-box;
+  transform-origin: center;
+}
+@keyframes dl-march {
+  from {
+    transform: translateY(-24px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.dl-link:hover .dl-arrow-strip,
+.dl-link:focus-visible .dl-arrow-strip {
+  animation: dl-march 720ms steps(8, end) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dl-link:hover .dl-arrow-strip,
+  .dl-link:focus-visible .dl-arrow-strip {
+    animation: none;
   }
 }
 

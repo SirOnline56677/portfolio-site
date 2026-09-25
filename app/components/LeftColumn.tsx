@@ -42,6 +42,44 @@ function StackItem({
   );
 }
 
+/* The download mark: an 8-bit arrow on a 3px grid, three shaft rows then the
+   head stepping out. Rendered twice, the second copy a full 24 units below the
+   first, so .dl-march can slide the strip down by exactly one glyph and loop
+   without a seam. Motion lives in globals.css. */
+const DL_ROWS: [number, number, number][] = [
+  [9, 3, 6],
+  [9, 6, 6],
+  [9, 9, 6],
+  [3, 12, 18],
+  [6, 15, 12],
+  [9, 18, 6],
+];
+
+function DownloadArrow() {
+  const glyph = (offset: number) =>
+    DL_ROWS.map(([x, y, w]) => (
+      <rect
+        key={`${x}-${y}-${offset}`}
+        x={x}
+        y={y + offset}
+        width={w}
+        height={3}
+        fill="currentColor"
+      />
+    ));
+
+  return (
+    <span className="dl-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-[22px] w-[22px]" focusable="false">
+        <g className="dl-arrow-strip">
+          {glyph(0)}
+          {glyph(24)}
+        </g>
+      </svg>
+    </span>
+  );
+}
+
 function ExplorationArrow() {
   return (
     <span
@@ -122,9 +160,10 @@ export default function LeftColumn() {
                 href="/resume.pdf"
                 download
                 aria-label="Download resume, PDF"
-                className="u-line font-[family-name:var(--font-body)] font-medium text-stack text-muted hover:text-ink focus-visible:text-ink"
+                className="dl-link group flex items-center gap-[10px] font-[family-name:var(--font-body)] font-medium text-stack text-muted hover:text-ink focus-visible:text-ink"
               >
-                DOWNLOAD
+                <DownloadArrow />
+                <span className="u-line">DOWNLOAD</span>
               </a>
             </div>
             <div className="rule-dashed" />
