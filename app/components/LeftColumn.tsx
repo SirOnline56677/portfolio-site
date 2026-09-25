@@ -86,8 +86,8 @@ export default function LeftColumn() {
               Stephen Aguila
             </h1>
             <p className="max-w-[653px] font-[family-name:var(--font-body)] font-medium text-lede text-muted sm:text-lede-lg">
-              I’m known for shipping the design, not just drawing it, so
-              decisions get proven in production.
+              I design and ship, so decisions get answered in production, not
+              in review.
             </p>
           </div>
 
