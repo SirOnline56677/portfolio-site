@@ -1,0 +1,35 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-site",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-25",
+  // nodejs_compat: the Bingo TTS route declares `runtime = "nodejs"` and the
+  // Next server itself needs Node built-ins. global_fetch_strictly_public is
+  // what the adapter expects so fetches leave the Worker rather than looping
+  // back into it.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    // Self-reference, required by the adapter's cache. Name must equal `name`.
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "portfolio-site"
+    }
+  ],
+  "r2_buckets": [
+    // Incremental cache. The homepage revalidates hourly, so this is what keeps
+    // that consistent across isolates. Bucket is created once, before deploy.
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "portfolio-site-opennext-cache"
+    }
+  ],
+  // Image optimization through Cloudflare's transformation binding, so next/image
+  // keeps resizing. ~500 unique transformations a month against a 5,000 free tier.
+  "images": {
+    "binding": "IMAGES"
+  }
+}
