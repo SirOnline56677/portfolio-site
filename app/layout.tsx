@@ -38,7 +38,7 @@ const ivyStyleSans = localFont({
 export const metadata: Metadata = {
   title: "Stephen Aguila — Product Designer",
   description:
-    "I’m known for shipping the design, not just drawing it, so decisions get proven in production.",
+    "I design and ship, so decisions get answered in production, not in review.",
 };
 
 // Single static value: the page always opens light and the theme isn't persisted,
