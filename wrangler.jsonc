@@ -8,6 +8,17 @@
   // what the adapter expects so fetches leave the Worker rather than looping
   // back into it.
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Served on a subdomain of the real zone rather than workers.dev. Cloudflare
+  // owns the DNS record and the certificate for this, because the zone is on the
+  // same account. The apex and www are untouched, so Webflow keeps serving the
+  // live site while this is compared against it.
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "preview.stephenaguila.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -17,14 +28,6 @@
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "portfolio-site"
-    }
-  ],
-  "r2_buckets": [
-    // Incremental cache. The homepage revalidates hourly, so this is what keeps
-    // that consistent across isolates. Bucket is created once, before deploy.
-    {
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "portfolio-site-opennext-cache"
     }
   ],
   // Image optimization through Cloudflare's transformation binding, so next/image
