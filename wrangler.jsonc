@@ -14,10 +14,9 @@
   // live site while this is compared against it.
   "workers_dev": false,
   "routes": [
-    {
-      "pattern": "preview.stephenaguila.com",
-      "custom_domain": true
-    }
+    { "pattern": "stephenaguila.com", "custom_domain": true },
+    { "pattern": "www.stephenaguila.com", "custom_domain": true },
+    { "pattern": "preview.stephenaguila.com", "custom_domain": true }
   ],
   "assets": {
     "directory": ".open-next/assets",
