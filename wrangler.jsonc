@@ -8,15 +8,22 @@
   // what the adapter expects so fetches leave the Worker rather than looping
   // back into it.
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  // Served on a subdomain of the real zone rather than workers.dev. Cloudflare
-  // owns the DNS record and the certificate for this, because the zone is on the
-  // same account. The apex and www are untouched, so Webflow keeps serving the
-  // live site while this is compared against it.
+  // Served on the real zone rather than workers.dev; the account has no
+  // workers.dev subdomain. Cloudflare owns these DNS records and their
+  // certificates because the zone is on the same account.
+  //
+  // Production carries the apex and www only. preview.stephenaguila.com belongs
+  // to the `preview` environment at the bottom of this file, which is a separate
+  // Worker. That separation is the whole point: while all three hostnames shared
+  // one Worker, deploying updated the live site and the preview together and
+  // there was nothing to review.
+  //
+  //   npm run cf:preview   -> deploys staging only
+  //   npm run cf:deploy    -> deploys production only
   "workers_dev": false,
   "routes": [
     { "pattern": "stephenaguila.com", "custom_domain": true },
-    { "pattern": "www.stephenaguila.com", "custom_domain": true },
-    { "pattern": "preview.stephenaguila.com", "custom_domain": true }
+    { "pattern": "www.stephenaguila.com", "custom_domain": true }
   ],
   "assets": {
     "directory": ".open-next/assets",
@@ -33,5 +40,29 @@
   // keeps resizing. ~500 unique transformations a month against a 5,000 free tier.
   "images": {
     "binding": "IMAGES"
+  },
+  "env": {
+    // Staging. Same build, separate Worker, separate hostname, so a change can
+    // be looked at on a real URL before the live site moves.
+    "preview": {
+      "name": "portfolio-site-preview",
+      "workers_dev": false,
+      "routes": [
+        { "pattern": "preview.stephenaguila.com", "custom_domain": true }
+      ],
+      "assets": {
+        "directory": ".open-next/assets",
+        "binding": "ASSETS"
+      },
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "portfolio-site-preview"
+        }
+      ],
+      "images": {
+        "binding": "IMAGES"
+      }
+    }
   }
 }
