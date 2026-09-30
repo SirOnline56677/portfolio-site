@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { SITE_URL } from "./lib/siteUrl";
+import { buildMetadata } from "./lib/seo";
 import { Koulen } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -41,11 +42,12 @@ export const metadata: Metadata = {
   // reachable on www and on preview.stephenaguila.com as well, all serving the
   // same Worker, so without this a search engine could index three copies of
   // the same page and split them between three hostnames.
+  //
+  // metadataBase stays here rather than in buildMetadata: it is the one field
+  // that applies to the current segment and below, and it is what lets the
+  // relative Open Graph image paths resolve.
   metadataBase: new URL(SITE_URL),
-  alternates: { canonical: "/" },
-  title: "Stephen Aguila — Product Designer",
-  description:
-    "I design and ship, so decisions get answered in production, not in review.",
+  ...buildMetadata("/"),
 };
 
 // Single static value: the page always opens light and the theme isn't persisted,
