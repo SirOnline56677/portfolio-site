@@ -15,6 +15,11 @@
  * dominant colour like a poster on a mount. Sportsbook is there because the
  * full-bleed version ran the odds board off both edges and read as too big.
  *
+ * A slug in CROP_Y takes a fixed vertical position instead of a chosen one.
+ * Free Spins is there because saliency landed low on the phone and Stephen
+ * wanted its top in frame. The value is a fraction of the travel available to
+ * the crop band, so it survives the source being re-exported at another size.
+ *
  * Run after changing a card image. Output is committed.
  */
 import sharp from "sharp";
@@ -42,17 +47,35 @@ const INSET = {
   "wb-sportsbook": 0.82,
 };
 
+/** Where the crop band sits: 0 is the top of the source, 1 the bottom. */
+const CROP_Y = {
+  "wb-free-spins": 0.12,
+};
+
 for (const [slug, src] of Object.entries(SOURCES)) {
   const input = path.join(root, src);
   const out = path.join(root, `public/og/${slug}.jpg`);
   const scale = INSET[slug];
 
   if (!scale) {
-    await sharp(input)
-      .resize(W, H, { fit: "cover", position: sharp.strategy.attention })
-      .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
-      .toFile(out);
-    console.log(`og: ${slug} filled`);
+    const y = CROP_Y[slug];
+    if (y === undefined) {
+      await sharp(input)
+        .resize(W, H, { fit: "cover", position: sharp.strategy.attention })
+        .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
+        .toFile(out);
+      console.log(`og: ${slug} filled`);
+    } else {
+      const meta = await sharp(input).metadata();
+      const bandH = Math.round((meta.width * H) / W);
+      const top = Math.round((meta.height - bandH) * y);
+      await sharp(input)
+        .extract({ left: 0, top, width: meta.width, height: bandH })
+        .resize(W, H)
+        .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
+        .toFile(out);
+      console.log(`og: ${slug} filled from ${Math.round(y * 100)}% down`);
+    }
     continue;
   }
 
