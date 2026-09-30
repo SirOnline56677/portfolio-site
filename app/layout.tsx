@@ -9,6 +9,7 @@ import DitherBackground from "./components/DitherBackground";
 import Scanlines from "./components/Scanlines";
 import Cursor from "./components/Cursor";
 import Contentsquare from "./components/Contentsquare";
+import Analytics from "./components/Analytics";
 
 // Display + section labels
 const koulen = Koulen({
@@ -98,6 +99,7 @@ export default function RootLayout({
         <Scanlines />
         <Cursor />
         <Contentsquare />
+        <Analytics />
       </body>
     </html>
   );
