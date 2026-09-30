@@ -11,6 +11,10 @@
  * the bottom edge, while the saliency crop keeps the wordmark, the tagline and
  * the watch. Centred would also have pushed the Bingo logo against the edge.
  *
+ * A slug in INSET is scaled down inside the frame instead, sitting on its own
+ * dominant colour like a poster on a mount. Sportsbook is there because the
+ * full-bleed version ran the odds board off both edges and read as too big.
+ *
  * Run after changing a card image. Output is committed.
  */
 import sharp from "sharp";
@@ -30,11 +34,42 @@ const SOURCES = {
 
 mkdirSync(path.join(root, "public/og"), { recursive: true });
 
+const W = 1200;
+const H = 630;
+
+/** Fraction of the frame the image occupies. Absent means full bleed. */
+const INSET = {
+  "wb-sportsbook": 0.82,
+};
+
 for (const [slug, src] of Object.entries(SOURCES)) {
   const input = path.join(root, src);
-  await sharp(input)
-    .resize(1200, 630, { fit: "cover", position: sharp.strategy.attention })
+  const out = path.join(root, `public/og/${slug}.jpg`);
+  const scale = INSET[slug];
+
+  if (!scale) {
+    await sharp(input)
+      .resize(W, H, { fit: "cover", position: sharp.strategy.attention })
+      .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
+      .toFile(out);
+    console.log(`og: ${slug} filled`);
+    continue;
+  }
+
+  const { dominant } = await sharp(input).stats();
+  const iw = Math.round(W * scale);
+  const ih = Math.round(H * scale);
+  const inner = await sharp(input)
+    .resize(iw, ih, { fit: "contain", background: dominant })
+    .toBuffer();
+
+  await sharp({
+    create: { width: W, height: H, channels: 3, background: dominant },
+  })
+    .composite([
+      { input: inner, top: Math.round((H - ih) / 2), left: Math.round((W - iw) / 2) },
+    ])
     .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
-    .toFile(path.join(root, `public/og/${slug}.jpg`));
-  console.log(`og: ${slug} filled`);
+    .toFile(out);
+  console.log(`og: ${slug} inset to ${Math.round(scale * 100)}%`);
 }
