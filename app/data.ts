@@ -24,7 +24,7 @@ export const projects: Project[] = [
     tag: "Mobile / Web",
     description:
       "Free spins players were given, then lost without knowing. Making them visible before they expire.",
-    image: "/work/wb-free-spins/wynnbet-free-spins-home-img-lite.png",
+    image: "/work/wb-free-spins/wynnbet-free-spins-home-img-lite.webp",
     imagePosition: "50% 51%",
     href: "/work/wb-free-spins",
     kind: "CASE STUDY",
