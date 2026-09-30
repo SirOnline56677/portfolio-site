@@ -15,7 +15,7 @@ import AnalyticsEvents from "./AnalyticsEvents";
 // "Personal Site (StephenAguila.com)" account, the same one the Webflow site
 // reported into. Reusing it rather than making a new property keeps the
 // history from before the Cloudflare move in one place.
-const MEASUREMENT_ID = "G-MYJ82WREWE";
+export const MEASUREMENT_ID = "G-MYJ82WREWE";
 
 export default function Analytics() {
   if (process.env.NODE_ENV !== "production") return null;

@@ -10,6 +10,7 @@ import Scanlines from "./components/Scanlines";
 import Cursor from "./components/Cursor";
 import Contentsquare from "./components/Contentsquare";
 import Analytics from "./components/Analytics";
+import AnalyticsOptOut from "./components/AnalyticsOptOut";
 
 // Display + section labels
 const koulen = Koulen({
@@ -92,6 +93,7 @@ export default function RootLayout({
             __html: `var t=null;try{t=sessionStorage.getItem("theme")}catch(e){}if(t!=="dark"&&t!=="light"){var h=new Date().getHours();t=h>=19||h<6?"dark":"light"}document.documentElement.dataset.theme=t;try{localStorage.removeItem("theme")}catch(e){}`,
           }}
         />
+        <AnalyticsOptOut />
       </head>
       <body className="min-h-full">
         <DitherBackground />
