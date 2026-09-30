@@ -49,7 +49,10 @@ const INSET = {
 
 /** Where the crop band sits: 0 is the top of the source, 1 the bottom. */
 const CROP_Y = {
-  "wb-free-spins": 0.24,
+  // Positioned so the phone's top edge lands about a quarter down the card,
+  // which is where Stephen marked it. Higher values slide the crop band down
+  // the source, which moves the phone up in frame.
+  "wb-free-spins": 0.38,
 };
 
 for (const [slug, src] of Object.entries(SOURCES)) {
