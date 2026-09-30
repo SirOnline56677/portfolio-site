@@ -44,3 +44,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude/skills/run-portfolio-site/.run/
+
+# Cloudflare Workers build output (opennextjs-cloudflare)
+.open-next/
+.wrangler/

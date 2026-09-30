@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { SITE_URL } from "./lib/siteUrl";
 import { Koulen } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -36,6 +37,12 @@ const ivyStyleSans = localFont({
 });
 
 export const metadata: Metadata = {
+  // Every page declares the bare domain as its canonical address. The site is
+  // reachable on www and on preview.stephenaguila.com as well, all serving the
+  // same Worker, so without this a search engine could index three copies of
+  // the same page and split them between three hostnames.
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: "Stephen Aguila — Product Designer",
   description:
     "I design and ship, so decisions get answered in production, not in review.",
