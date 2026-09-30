@@ -1,4 +1,5 @@
 import { GoogleAnalytics as GA } from "@next/third-parties/google";
+import AnalyticsEvents from "./AnalyticsEvents";
 
 // Google Analytics 4, alongside the Contentsquare tag. The two answer
 // different questions and do not replace each other: GA4 counts visits and
@@ -15,5 +16,10 @@ const MEASUREMENT_ID = "";
 export default function Analytics() {
   if (process.env.NODE_ENV !== "production") return null;
   if (!MEASUREMENT_ID) return null;
-  return <GA gaId={MEASUREMENT_ID} />;
+  return (
+    <>
+      <GA gaId={MEASUREMENT_ID} />
+      <AnalyticsEvents />
+    </>
+  );
 }
