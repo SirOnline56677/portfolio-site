@@ -8,10 +8,14 @@ import AnalyticsEvents from "./AnalyticsEvents";
 // Like the Contentsquare tag id, the measurement ID is public — it is visible
 // in every gtag request the browser makes — so it lives here as a constant
 // rather than in an env var that would have to be set on Cloudflare, on
-// preview, and on any future host. Empty means "not configured yet": the
-// component renders nothing, so main is safe to deploy before the GA4
-// property exists.
-const MEASUREMENT_ID = "";
+// preview, and on any future host. Empty would mean "not configured yet",
+// and the component would render nothing.
+//
+// This is the existing "Potential Clients or Employers" property under the
+// "Personal Site (StephenAguila.com)" account, the same one the Webflow site
+// reported into. Reusing it rather than making a new property keeps the
+// history from before the Cloudflare move in one place.
+const MEASUREMENT_ID = "G-MYJ82WREWE";
 
 export default function Analytics() {
   if (process.env.NODE_ENV !== "production") return null;
