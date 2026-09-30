@@ -10,7 +10,8 @@
     "cf:build": "node scripts/content-dates.mjs && opennextjs-cloudflare build",
     "cf:preview": "npm run cf:build && wrangler deploy --env preview",
     "cf:deploy": "npm run cf:build && wrangler deploy",
-    "content-dates": "node scripts/content-dates.mjs"
+    "content-dates": "node scripts/content-dates.mjs",
+    "og-images": "node scripts/og-images.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",

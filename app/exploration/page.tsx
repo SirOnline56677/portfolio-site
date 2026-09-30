@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import CanvasGallery from "./CanvasGallery";
+import { buildMetadata } from "../lib/seo";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/exploration" },
-  title: "Exploration — Stephen Aguila",
-  description:
-    "A floating gallery of side projects and personal exploration — photography, Midjourney imagery, branding studies and experiments across mediums.",
-};
+export const metadata: Metadata = buildMetadata("/exploration");
 
 export default function Exploration() {
   return (
