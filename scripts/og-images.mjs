@@ -49,7 +49,7 @@ const INSET = {
 
 /** Where the crop band sits: 0 is the top of the source, 1 the bottom. */
 const CROP_Y = {
-  "wb-free-spins": 0.12,
+  "wb-free-spins": 0.24,
 };
 
 for (const [slug, src] of Object.entries(SOURCES)) {
