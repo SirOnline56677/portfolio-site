@@ -158,6 +158,7 @@ export default function LeftColumn() {
               <a
                 href="/resume.pdf"
                 download
+                data-track="resume-download"
                 aria-label="Download resume, PDF"
                 className="dl-link group flex items-center gap-[10px] font-[family-name:var(--font-body)] font-medium text-stack text-muted hover:text-ink focus-visible:text-ink"
               >
@@ -250,7 +251,7 @@ export default function LeftColumn() {
         <p className="mt-4 font-[family-name:var(--font-body)] font-light text-body-lg text-ink">
           You can reach me and say <em>Hi</em> on{" "}
           <a href="https://www.linkedin.com/in/stephen-aguila-7b466967/" className="u-line hover:text-muted">LinkedIn</a> or{" "}
-          <a href="mailto:saguila21@gmail.com" className="u-line hover:text-muted">email</a>.
+          <a href="mailto:saguila21@gmail.com" data-track="email" className="u-line hover:text-muted">email</a>.
         </p>
       </div>
     </div>
