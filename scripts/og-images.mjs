@@ -3,11 +3,13 @@
  * Generates the 1200x630 Open Graph cards in public/og/ from the homepage card
  * images in app/data.ts.
  *
- * Social cards crop to 1.91:1 and none of the source images are that shape: the
- * Free Spins phone is portrait, so a raw crop would keep about a third of it and
- * lose the phone. Each image is instead fitted whole and padded, using its own
- * dominant colour so the fill harmonizes with the photo rather than framing a
- * dark image in white.
+ * Social cards crop to 1.91:1 and none of the source images are that shape, so
+ * each one is cropped to fill the frame edge to edge.
+ *
+ * The crop is saliency-based, not centred. That distinction is the whole thing:
+ * a centred crop cut the Wrist Check wordmark in half, slicing "CHECK" across
+ * the bottom edge, while the saliency crop keeps the wordmark, the tagline and
+ * the watch. Centred would also have pushed the Bingo logo against the edge.
  *
  * Run after changing a card image. Output is committed.
  */
@@ -30,11 +32,9 @@ mkdirSync(path.join(root, "public/og"), { recursive: true });
 
 for (const [slug, src] of Object.entries(SOURCES)) {
   const input = path.join(root, src);
-  const { dominant } = await sharp(input).stats();
   await sharp(input)
-    .resize(1200, 630, { fit: "contain", background: dominant })
-    .flatten({ background: dominant })
+    .resize(1200, 630, { fit: "cover", position: sharp.strategy.attention })
     .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
     .toFile(path.join(root, `public/og/${slug}.jpg`));
-  console.log(`og: ${slug} padded rgb(${dominant.r},${dominant.g},${dominant.b})`);
+  console.log(`og: ${slug} filled`);
 }
