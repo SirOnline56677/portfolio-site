@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import CanvasGallery from "./CanvasGallery";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/exploration" },
   title: "Exploration — Stephen Aguila",
   description:
     "A floating gallery of side projects and personal exploration — photography, Midjourney imagery, branding studies and experiments across mediums.",
