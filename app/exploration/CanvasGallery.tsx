@@ -286,6 +286,7 @@ function InteractivePanel({
 }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -300,26 +301,48 @@ function InteractivePanel({
     return () => ro.disconnect();
   }, [demo.w]);
 
+  // The demo calls `scrollIntoView` on its own rows, and that scrolls every
+  // scrollable ancestor — this panel included — so it opened part-way down
+  // with the app's top bar cut off. Any panel scroll the visitor didn't start
+  // is undone. Wheel and touch inside the iframe never reach this document,
+  // so they can't be mistaken for the visitor scrolling the panel.
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    let userScrolled = false;
+    const mark = () => {
+      userScrolled = true;
+    };
+    const onScroll = () => {
+      if (!userScrolled) panel.scrollTop = 0;
+    };
+    const intents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+    for (const t of intents) panel.addEventListener(t, mark, { passive: true });
+    panel.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      for (const t of intents) panel.removeEventListener(t, mark);
+      panel.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
     <div
+      ref={panelRef}
       data-lenis-prevent
-      className="relative z-10 flex max-h-full w-full max-w-[1280px] flex-col overflow-y-auto rounded-[24px] bg-paper"
+      className="relative z-10 flex max-h-full w-full flex-col overflow-y-auto rounded-[24px] bg-paper"
+      // The panel, not the frame, takes the height cap. Capping the frame
+      // letterboxed it inside a wider panel; capping the panel keeps the frame
+      // full bleed while leaving the writing in view beneath it. Without the
+      // cap a short screen is filled entirely by the iframe, which swallows the
+      // wheel, and the writing can't be scrolled to.
+      style={{ maxWidth: `min(1280px, calc(62vh * ${demo.w / demo.h}))` }}
     >
-      <CloseButton
-        onClose={onClose}
-        className="absolute right-4 top-4 z-20 grid h-9 w-9 place-items-center rounded-full bg-paper/70 backdrop-blur-sm"
-      />
-
-      {/* Width is capped by the viewport height too, so the whole frame and
-          the start of the writing fit on a laptop screen without scrolling. */}
-      <div className="w-full shrink-0 bg-well">
+      {/* Full bleed: the frame spans the panel edge to edge. */}
+      <div className="w-full shrink-0">
         <div
           ref={stageRef}
-          className="relative mx-auto w-full overflow-hidden"
-          style={{
-            aspectRatio: `${demo.w} / ${demo.h}`,
-            maxWidth: `calc(62vh * ${demo.w / demo.h})`,
-          }}
+          className="relative w-full overflow-hidden"
+          style={{ aspectRatio: `${demo.w} / ${demo.h}` }}
         >
           <iframe
             ref={frameRef}
@@ -347,9 +370,15 @@ function InteractivePanel({
             Open full screen ↗
           </a>
         </div>
-        <h2 className="font-[family-name:var(--font-display)] text-[36px] leading-[1.05] capitalize text-ink">
-          {piece.title}
-        </h2>
+        {/* Close sits with the title, not over the frame's corner as in
+            `photo`: that corner is the demo's own toolbar, and the button
+            covered one of its controls. */}
+        <div className="flex items-start justify-between gap-4">
+          <h2 className="font-[family-name:var(--font-display)] text-[36px] leading-[1.05] capitalize text-ink">
+            {piece.title}
+          </h2>
+          <CloseButton onClose={onClose} className="-mr-1 self-start" />
+        </div>
         <div className="flex items-baseline gap-4">
           <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink u-line">
             {piece.medium}
