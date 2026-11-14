@@ -102,22 +102,21 @@ export type ExplorationPhoto = {
  *   and the writing alongside. The switcher only appears at two or more images.
  * - `photo` — photography. One frame full-bleed, the writing beneath it, the
  *   rest of the set as thumbnails alongside.
- * - `interactive` — a working build. The popup runs it live in a frame, scaled
- *   down from the window size it was designed for, with the writing beneath.
+ * - `interactive` — a working build. The popup shows a screenshot full bleed
+ *   with the writing beneath; the live demo opens full screen from a link.
  */
 export type ExplorationLayout = "generative" | "photo" | "interactive";
 
 /**
- * A self-contained static build in `public/`, run inside an `interactive`
- * piece's popup. `w`/`h` are the window size the build was designed for: it is
- * rendered at exactly that size and scaled to fit, so its own layout never
- * reflows into something it wasn't built for.
+ * A self-contained static build in `public/`, opened full screen from an
+ * `interactive` piece's popup. `w`/`h` are the window size it was designed for
+ * — the size the piece's screenshot (`image`) was captured at.
  */
 export type ExplorationDemo = {
   src: string;
   w: number;
   h: number;
-  /** Shown under the frame — what the visitor is looking at. */
+  /** Shown beside the "Open full screen" link — what the demo is. */
   note?: string;
 };
 
@@ -285,13 +284,14 @@ export const explorationPieces: ExplorationPiece[] = [
       + "the real account for a full trading week, logging every market minute.",
     ].join("\n\n"),
     // A screenshot of the demo at its designed 1600×940, captured at 2× and
-    // downsized. The canvas tile is a still; the popup runs the real thing.
+    // downsized. Used for both the canvas tile and the popup; the live demo
+    // only runs full screen.
     image: "/exploration/strikeline/cover.webp",
     demo: {
       src: "/exploration/strikeline/demo/index.html",
       w: 1600,
       h: 940,
-      note: "The real interface on simulated market data · no real orders are placed",
+      note: "Live demo on simulated market data · no real orders are placed",
     },
     x: -120, y: 240, w: 480, h: 282,
   },

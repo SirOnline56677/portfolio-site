@@ -265,15 +265,10 @@ function PhotoPanel({
 }
 
 /**
- * A working build: the demo runs live in a frame across the top, the writing
- * beneath it — like `photo`, because a 1600-wide app squeezed into a side
- * column would be too small to use.
- *
- * The iframe is rendered at the exact window size the build was designed for
- * and scaled down to fit, rather than resized: resizing would reflow it into a
- * narrow layout it was never built for. The scale is written straight to the
- * style from a ResizeObserver — it's pure presentation and changes on every
- * resize, so it never goes through React state.
+ * A working build, shown as a still: a screenshot of the app full bleed across
+ * the top, the writing beneath it — like `photo`, because a 1600-wide app
+ * squeezed into a side column would be unreadable. The live demo opens on its
+ * own from "Open full screen".
  */
 function InteractivePanel({
   piece,
@@ -284,75 +279,24 @@ function InteractivePanel({
   demo: ExplorationDemo;
   onClose: () => void;
 }) {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLIFrameElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const stage = stageRef.current;
-    const frame = frameRef.current;
-    if (!stage || !frame) return;
-    const fit = () => {
-      frame.style.transform = `scale(${stage.clientWidth / demo.w})`;
-    };
-    fit();
-    const ro = new ResizeObserver(fit);
-    ro.observe(stage);
-    return () => ro.disconnect();
-  }, [demo.w]);
-
-  // The demo calls `scrollIntoView` on its own rows, and that scrolls every
-  // scrollable ancestor — this panel included — so it opened part-way down
-  // with the app's top bar cut off. Any panel scroll the visitor didn't start
-  // is undone. Wheel and touch inside the iframe never reach this document,
-  // so they can't be mistaken for the visitor scrolling the panel.
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) return;
-    let userScrolled = false;
-    const mark = () => {
-      userScrolled = true;
-    };
-    const onScroll = () => {
-      if (!userScrolled) panel.scrollTop = 0;
-    };
-    const intents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
-    for (const t of intents) panel.addEventListener(t, mark, { passive: true });
-    panel.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      for (const t of intents) panel.removeEventListener(t, mark);
-      panel.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
   return (
     <div
-      ref={panelRef}
       data-lenis-prevent
       className="relative z-10 flex max-h-full w-full flex-col overflow-y-auto rounded-[24px] bg-paper"
-      // The panel, not the frame, takes the height cap. Capping the frame
-      // letterboxed it inside a wider panel; capping the panel keeps the frame
-      // full bleed while leaving the writing in view beneath it. Without the
-      // cap a short screen is filled entirely by the iframe, which swallows the
-      // wheel, and the writing can't be scrolled to.
+      // The panel, not the image, takes the height cap: capping the image
+      // would letterbox it inside a wider panel. This keeps it full bleed and
+      // leaves the start of the writing in view beneath it.
       style={{ maxWidth: `min(1280px, calc(62vh * ${demo.w / demo.h}))` }}
     >
-      {/* Full bleed: the frame spans the panel edge to edge. */}
-      <div className="w-full shrink-0">
-        <div
-          ref={stageRef}
-          className="relative w-full overflow-hidden"
-          style={{ aspectRatio: `${demo.w} / ${demo.h}` }}
-        >
-          <iframe
-            ref={frameRef}
-            src={demo.src}
-            title={`${piece.title} — interactive demo`}
-            className="absolute left-0 top-0 origin-top-left border-0"
-            style={{ width: demo.w, height: demo.h }}
-          />
-        </div>
-      </div>
+      <Image
+        src={piece.image}
+        alt={`${piece.title} — screenshot`}
+        width={demo.w}
+        height={demo.h}
+        sizes="(max-width: 1280px) 100vw, 1280px"
+        className="h-auto w-full shrink-0"
+        priority
+      />
 
       <div className="flex shrink-0 flex-col gap-4 px-6 py-7">
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
@@ -370,9 +314,9 @@ function InteractivePanel({
             Open full screen ↗
           </a>
         </div>
-        {/* Close sits with the title, not over the frame's corner as in
-            `photo`: that corner is the demo's own toolbar, and the button
-            covered one of its controls. */}
+        {/* Close sits with the title, not over the image's corner as in
+            `photo`: that corner is the app's own toolbar, and a button there
+            reads as one of its controls. */}
         <div className="flex items-start justify-between gap-4">
           <h2 className="font-[family-name:var(--font-display)] text-[36px] leading-[1.05] capitalize text-ink">
             {piece.title}

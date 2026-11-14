@@ -50,8 +50,6 @@ export default function Cursor() {
     // inside it. Only `fit` targets snap — snapping to a project card's centre
     // would drag the cursor halfway across the screen.
     let fitEl: HTMLElement | null = null;
-    // True while the pointer is inside an iframe — see `onOut`.
-    let inFrame = false;
 
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, MAX_DT);
@@ -103,9 +101,6 @@ export default function Cursor() {
         x = tx;
         y = ty; // start under the pointer, don't fly in from 0,0
         dot.style.opacity = "1";
-      } else if (inFrame) {
-        inFrame = false;
-        dot.style.opacity = "1";
       }
       const el = e.target instanceof Element ? e.target : null;
 
@@ -147,15 +142,6 @@ export default function Cursor() {
     const onEnter = () => {
       if (seen) dot.style.opacity = "1";
     };
-    // An iframe (the /exploration live demos) swallows pointer events, so the
-    // dot would freeze at its edge while the frame shows its own native
-    // cursor. Hide it on the way in; the next move out here brings it back.
-    const onOut = (e: PointerEvent) => {
-      if (e.relatedTarget instanceof HTMLIFrameElement) {
-        inFrame = true;
-        onLeave();
-      }
-    };
 
     const sync = () => {
       const on = fine.matches;
@@ -168,13 +154,11 @@ export default function Cursor() {
         window.addEventListener("pointermove", onMove, { passive: true });
         document.addEventListener("pointerleave", onLeave);
         document.addEventListener("pointerenter", onEnter);
-        document.addEventListener("pointerout", onOut);
       } else {
         cancelAnimationFrame(raf);
         window.removeEventListener("pointermove", onMove);
         document.removeEventListener("pointerleave", onLeave);
         document.removeEventListener("pointerenter", onEnter);
-        document.removeEventListener("pointerout", onOut);
         dot.style.opacity = "0";
         seen = false;
       }
@@ -189,7 +173,6 @@ export default function Cursor() {
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerleave", onLeave);
       document.removeEventListener("pointerenter", onEnter);
-      document.removeEventListener("pointerout", onOut);
       document.documentElement.classList.remove("has-custom-cursor");
     };
   }, []);
