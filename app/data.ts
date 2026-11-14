@@ -100,10 +100,26 @@ export type ExplorationPhoto = {
  *
  * - `generative` — AI imagery. Square image with the take-switcher beneath it
  *   and the writing alongside. The switcher only appears at two or more images.
- * - `photo` — photography. Its own layout, not designed yet; until it exists
- *   these fall through to `generative`.
+ * - `photo` — photography. One frame full-bleed, the writing beneath it, the
+ *   rest of the set as thumbnails alongside.
+ * - `interactive` — a working build. The popup runs it live in a frame, scaled
+ *   down from the window size it was designed for, with the writing beneath.
  */
-export type ExplorationLayout = "generative" | "photo";
+export type ExplorationLayout = "generative" | "photo" | "interactive";
+
+/**
+ * A self-contained static build in `public/`, run inside an `interactive`
+ * piece's popup. `w`/`h` are the window size the build was designed for: it is
+ * rendered at exactly that size and scaled to fit, so its own layout never
+ * reflows into something it wasn't built for.
+ */
+export type ExplorationDemo = {
+  src: string;
+  w: number;
+  h: number;
+  /** Shown under the frame — what the visitor is looking at. */
+  note?: string;
+};
 
 export type ExplorationPiece = {
   id: string;
@@ -126,6 +142,8 @@ export type ExplorationPiece = {
   versions?: ExplorationVersion[];
   /** The frames of a photo essay, in order. `photo` layout only. */
   photos?: ExplorationPhoto[];
+  /** The live build. `interactive` layout only. */
+  demo?: ExplorationDemo;
   /** World-space placement on the floating canvas (px at scale 1). */
   x: number;
   y: number;
@@ -138,10 +156,10 @@ export type ExplorationPiece = {
 // Adding a group: drop the files in `public/exploration/<group>/` and add one
 // entry below. Where a group is several takes on one idea it stays ONE piece —
 // the cover goes in `image`, the rest in `versions`, and the popup switches
-// between them. Entries still carrying "Placeholder —" copy are unfilled.
+// between them.
 //
-// Set `layout` to match the medium. Only `generative` is built; photography is
-// getting its own and should not be filled in against this one.
+// Set `layout` to match the medium. Each one was designed for its own kind of
+// work — don't put a piece in a layout built for something else.
 export const explorationPieces: ExplorationPiece[] = [
   {
     id: "mj-footballer",
@@ -245,6 +263,37 @@ export const explorationPieces: ExplorationPiece[] = [
       },
     ],
     x: 180, y: -140, w: 420, h: 280,
+  },
+  {
+    id: "strikeline",
+    title: "strikeline",
+    layout: "interactive",
+    medium: "React · Python",
+    // DRAFT — written from the demo page's own copy, for Stephen to edit.
+    description: [
+      "Strikeline is a day-trading desk I built for myself, for buying calls "
+      + "and puts on one account through the Schwab Trader API. It streams the "
+      + "option chain and one-minute candles, and gets me into a contract with "
+      + "one click, or by dragging an order straight onto the chart.",
+
+      "Speed was the point, but so was restraint. I set the rules: a max daily "
+      + "loss, contracts per order, open contracts. The app refuses any order "
+      + "that breaks them. Hit the daily loss and new entries lock for the rest "
+      + "of the day; closing out still works.",
+
+      "Before it was allowed to place a single order, it ran read-only against "
+      + "the real account for a full trading week, logging every market minute.",
+    ].join("\n\n"),
+    // A screenshot of the demo at its designed 1600×940, captured at 2× and
+    // downsized. The canvas tile is a still; the popup runs the real thing.
+    image: "/exploration/strikeline/cover.webp",
+    demo: {
+      src: "/exploration/strikeline/demo/index.html",
+      w: 1600,
+      h: 940,
+      note: "The real interface on simulated market data · no real orders are placed",
+    },
+    x: -120, y: 240, w: 480, h: 282,
   },
 ];
 
