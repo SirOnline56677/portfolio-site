@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Prebuilt, minified demo bundles served as-is from /exploration — built
+    // and linted in their own projects, not this one.
+    "public/exploration/*/demo/**",
   ]),
 ]);
 

@@ -4,7 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeToggle from "../components/ThemeToggle";
-import { explorationPieces, type ExplorationPiece } from "../data";
+import {
+  explorationPieces,
+  type ExplorationDemo,
+  type ExplorationPiece,
+} from "../data";
 
 const MIN_SCALE = 0.25;
 const MAX_SCALE = 2.5;
@@ -144,6 +148,8 @@ function PieceModal({
 
       {piece.layout === "photo" ? (
         <PhotoPanel piece={piece} onClose={onClose} />
+      ) : piece.layout === "interactive" && piece.demo ? (
+        <InteractivePanel piece={piece} demo={piece.demo} onClose={onClose} />
       ) : (
         <GenerativePanel piece={piece} onClose={onClose} />
       )}
@@ -253,6 +259,83 @@ function PhotoPanel({
             ))}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * A working build, shown as a still: a screenshot of the app full bleed across
+ * the top, the writing beneath it — like `photo`, because a 1600-wide app
+ * squeezed into a side column would be unreadable. The live demo opens on its
+ * own from "Open full screen".
+ */
+function InteractivePanel({
+  piece,
+  demo,
+  onClose,
+}: {
+  piece: ExplorationPiece;
+  demo: ExplorationDemo;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      data-lenis-prevent
+      className="relative z-10 flex max-h-full w-full flex-col overflow-y-auto rounded-[24px] bg-paper"
+      // The panel, not the image, takes the height cap: capping the image
+      // would letterbox it inside a wider panel. This keeps it full bleed and
+      // leaves the start of the writing in view beneath it.
+      style={{ maxWidth: `min(1280px, calc(62vh * ${demo.w / demo.h}))` }}
+    >
+      <Image
+        src={piece.image}
+        alt={`${piece.title} — screenshot`}
+        width={demo.w}
+        height={demo.h}
+        sizes="(max-width: 1280px) 100vw, 1280px"
+        className="h-auto w-full shrink-0"
+        priority
+      />
+
+      <div className="flex shrink-0 flex-col gap-4 px-6 py-7">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+          {demo.note && (
+            <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-muted">
+              {demo.note}
+            </span>
+          )}
+          <a
+            href={demo.src}
+            target="_blank"
+            rel="noopener"
+            className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink u-line hover:text-muted"
+          >
+            Open full screen ↗
+          </a>
+        </div>
+        {/* Close sits with the title, not over the image's corner as in
+            `photo`: that corner is the app's own toolbar, and a button there
+            reads as one of its controls. */}
+        <div className="flex items-start justify-between gap-4">
+          <h2 className="font-[family-name:var(--font-display)] text-[36px] leading-[1.05] capitalize text-ink">
+            {piece.title}
+          </h2>
+          <CloseButton onClose={onClose} className="-mr-1 self-start" />
+        </div>
+        <div className="flex items-baseline gap-4">
+          <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-ink u-line">
+            {piece.medium}
+          </span>
+          {piece.date && (
+            <span className="font-[family-name:var(--font-label)] text-[12px] leading-[16px] uppercase text-muted">
+              {piece.date}
+            </span>
+          )}
+        </div>
+        <div className="max-w-[72ch]">
+          <Prose text={piece.description} />
+        </div>
       </div>
     </div>
   );
